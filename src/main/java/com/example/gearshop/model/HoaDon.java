@@ -1,0 +1,32 @@
+package com.example.gearshop.model;
+
+import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+public class HoaDon {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    private String maHoaDon;
+
+    @ManyToOne
+    @JoinColumn(name = "khachHangID")
+    private KhachHang khachHang;
+
+    private LocalDateTime ngayTao;
+
+    private BigDecimal tongGia;
+
+    private String trangThaiDonHang;
+
+    // Getters và Setters
+}
