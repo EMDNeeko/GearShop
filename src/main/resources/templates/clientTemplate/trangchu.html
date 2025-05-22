@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PGearShop - Trang Chủ</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="script" href="/src/main/resources/static/js/trangchu.js">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="bg-dark text-white py-2">
+        <div class="container d-flex align-items-center justify-content-between">
+            <div class="fs-3 fw-bold">PGearShop</div>
+            <form class="flex-grow-1 mx-3" role="search" action="/search" method="get">
+                <input class="form-control" type="search" name="q" placeholder="Tìm kiếm sản phẩm..."
+                    aria-label="Search" />
+            </form>
+            <div>
+                <a href="/cart" class="btn btn-warning me-2">Giỏ hàng</a>
+                <a href="/login" class="btn btn-outline-warning">Đăng nhập</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navbar Navigator -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav flex-row flex-wrap justify-content-center w-100">
+                    <li class="nav-item"><a class="nav-link" href="/products/cpu">Mainboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products/cpu">CPU</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products/ram">RAM</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products/gpu">GPU</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products/oor-cung">Ổ cứng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products/tan">Tản nhiệt</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products/nguon">Nguồn</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products/case">Case</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products/man-hinh">Màn hình</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Banner -->
+    <div class="banner">
+        <div class="banner-text">
+            <h1>Chào mừng đến với PGearShop</h1>
+            <p>Nơi cung cấp linh kiện máy tính chất lượng và giá tốt nhất!</p>
+        </div>
+    </div>
+
+    <!-- Sản phẩm bán chạy -->
+    <div>
+        <h2 class="mb-4 border-bottom border-warning pb-2">Sản Phẩm bán chạy</h2>
+        <div class="product-carousel">
+            <div class="product-card" th:each="sp : ${sanPhamBanChay}">
+                <img th:src="@{/images/product/{img}(img=${sp.hinhAnh})}" alt="Ảnh sản phẩm" class="product-image">
+                <div class="product-name" th:text="${sp.tenSanPham}">Tên SP</div>
+                <div class="product-info" th:text="'Đã bán: ' + ${sp.daBan}">Đã bán</div>
+                <div class="product-price" th:text="${#numbers.formatDecimal(sp.gia, 0, 'COMMA', 0, 'POINT')} + '₫'">Giá
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Danh mục sản phẩm khuyến mãi -->
+    <h2 class="mb-4 border-bottom border-warning pb-2">Danh mục sản phẩm khuyến mãi</h2>
+    <!-- Danh mục sản phẩm theo loại -->
+    <h2 class="mb-4 border-bottom border-warning pb-2">Linh kiện ngon bổ rẻ</h2>
+    <section th:each="entry : ${sanPhamTheoLoai}">
+        <h3 th:text="${entry.key}">Mainboard</h3>
+        <div class="product-carousel">
+            <div th:each="sp : ${entry.value}" class="product-card">
+                <img th:src="@{/images/product/{img}(img=${sp.hinhAnh})}" th:alt="${sp.tenSanPham}"
+                    class="product-image" />
+                <p th:text="${sp.tenSanPham}">Tên SP</p>
+                <p th:text="${sp.gia}">Giá</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JS Bundle CDN (Popper + Bootstrap JS) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+
+</html>

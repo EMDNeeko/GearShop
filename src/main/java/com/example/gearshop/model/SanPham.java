@@ -22,6 +22,7 @@ public class SanPham {
     private LocalDateTime ngayThem;
     private BigDecimal gia;
     private Integer tonKho;
+    private Integer daBan;
 
     @ManyToOne
     @JoinColumn(name = "khachHangID")
@@ -29,7 +30,7 @@ public class SanPham {
 
     @ManyToOne
     @JoinColumn(name = "loaiSPID")
-    private LoaiSanPham loaiSP;
+    private LoaiSanPham loaiSanPham;
 
     @ManyToOne
     @JoinColumn(name = "thuongHieuID")
