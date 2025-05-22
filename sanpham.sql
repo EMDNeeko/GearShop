@@ -273,3 +273,5 @@ alter table sanphamcase modify column mota nvarchar(500);
 alter table sanphammanhinh modify column mota nvarchar(500);
 alter table sanphamvga modify column chipGPU nvarchar(50);
 alter table sanphamocung modify column dungluong nvarchar(10);
+
+alter table sanpham add column daBan int default 0;
