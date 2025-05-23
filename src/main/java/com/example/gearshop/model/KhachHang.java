@@ -20,6 +20,6 @@ public class KhachHang {
     private String ghiChu;
 
     @ManyToOne
-    @JoinColumn(name = "nguoiDungID", referencedColumnName = "id")
+    @JoinColumn(name = "nguoiDungID")
     private NguoiDung nguoiDung;
 }

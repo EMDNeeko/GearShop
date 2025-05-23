@@ -11,7 +11,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <link rel="script" href="/src/main/resources/static/js/trangchu.js">
+    <link rel="script" th:href="@{/js/trangchu.js}" />
 </head>
 
 <body>
@@ -20,13 +20,16 @@
     <header class="bg-dark text-white py-2">
         <div class="container d-flex align-items-center justify-content-between">
             <div class="fs-3 fw-bold">PGearShop</div>
-            <form class="flex-grow-1 mx-3" role="search" action="/search" method="get">
+            <form class="flex-grow-1 mx-3" role="search" action="/timkiem" method="get">
                 <input class="form-control" type="search" name="q" placeholder="Tìm kiếm sản phẩm..."
-                    aria-label="Search" />
+                    aria-label="Search">
             </form>
             <div>
                 <a href="/cart" class="btn btn-warning me-2">Giỏ hàng</a>
-                <a href="/login" class="btn btn-outline-warning">Đăng nhập</a>
+                <span class="text-white" th:if="${nguoiDung != null}"
+                    th:text="'Xin chào, ' + ${nguoiDung.tenNguoiDung}">Xin chào, Tên</span>
+
+                <a href="/dangnhap" th:if="${nguoiDung == null}" class="btn btn-outline-light">Đăng nhập</a>
             </div>
         </div>
     </header>
@@ -40,15 +43,15 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav flex-row flex-wrap justify-content-center w-100">
-                    <li class="nav-item"><a class="nav-link" href="/products/cpu">Mainboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/products/cpu">CPU</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/products/ram">RAM</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/products/gpu">GPU</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/products/oor-cung">Ổ cứng</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/products/tan">Tản nhiệt</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/products/nguon">Nguồn</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/products/case">Case</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/products/man-hinh">Màn hình</a></li>
+                    <li class="nav-item me-3"><a class="nav-link" href="/products/cpu">Mainboard</a></li>
+                    <li class="nav-item me-3"><a class="nav-link" href="/products/cpu">CPU</a></li>
+                    <li class="nav-item me-3"><a class="nav-link" href="/products/ram">RAM</a></li>
+                    <li class="nav-item me-3"><a class="nav-link" href="/products/gpu">GPU</a></li>
+                    <li class="nav-item me-3"><a class="nav-link" href="/products/oor-cung">Ổ cứng</a></li>
+                    <li class="nav-item me-3"><a class="nav-link" href="/products/tan">Tản nhiệt</a></li>
+                    <li class="nav-item me-3"><a class="nav-link" href="/products/nguon">Nguồn</a></li>
+                    <li class="nav-item me-3"><a class="nav-link" href="/products/case">Case</a></li>
+                    <li class="nav-item me-3"><a class="nav-link" href="/products/man-hinh">Màn hình</a></li>
                 </ul>
             </div>
         </div>
@@ -86,8 +89,9 @@
             <div th:each="sp : ${entry.value}" class="product-card">
                 <img th:src="@{/images/product/{img}(img=${sp.hinhAnh})}" th:alt="${sp.tenSanPham}"
                     class="product-image" />
-                <p th:text="${sp.tenSanPham}">Tên SP</p>
-                <p th:text="${sp.gia}">Giá</p>
+                <div class="product-name" th:text="${sp.tenSanPham}">Tên SP</div>
+                <div class="product-price" th:text="${#numbers.formatDecimal(sp.gia, 0, 'COMMA', 0, 'POINT')} + '₫'">Giá
+                </div>
             </div>
         </div>
     </section>

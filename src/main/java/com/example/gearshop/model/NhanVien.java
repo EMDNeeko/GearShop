@@ -11,7 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 public class NhanVien {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -21,6 +21,6 @@ public class NhanVien {
     private String ghiChu;
 
     @ManyToOne
-    @JoinColumn(name = "nguoiDungID", referencedColumnName = "id")
+    @JoinColumn(name = "nguoiDungID")
     private NguoiDung nguoiDung;
 }

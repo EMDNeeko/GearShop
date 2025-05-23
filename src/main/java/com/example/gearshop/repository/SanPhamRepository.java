@@ -14,4 +14,11 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Long> {
     List<SanPham> findTop10ByOrderByDaBanDesc(); // top sản phẩm bán chạy
 
     List<SanPham> findTop10ByLoaiSanPhamOrderByDaBanDesc(LoaiSanPham loaiSanPham); // theo loại
+
+    List<SanPham> findByTenSanPhamContainingIgnoreCase(String keyword);
+
+    List<SanPham> findByTenSanPhamContainingIgnoreCaseOrderByGiaAsc(String keyword);
+
+    List<SanPham> findByTenSanPhamContainingIgnoreCaseOrderByGiaDesc(String keyword);
+
 }
