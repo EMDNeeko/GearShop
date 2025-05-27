@@ -1,0 +1,110 @@
+.body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: #f4f4f4;
+}
+
+.container {
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.filter-sidebar {
+    width: 250px;
+    float: left;
+    padding: 15px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+.filter-group {
+    margin-bottom: 20px;
+}
+
+.filter-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.filter-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+
+/* Khu vực hiển thị sản phẩm */
+.product-list {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.product-price {
+    color: #d0021b;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.product-card {
+    flex: 1 1 20%;
+    max-width: 200px;
+    min-width: 180px;
+    margin-right: 16px;
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    scroll-snap-align: start;
+    justify-content: space-between;
+}
+
+.card:hover {
+    box-shadow: 0 6px 15px rgb(0 0 0 / 0.2);
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 200px;
+}
+
+.card-body {
+    padding: 12px;
+}
+
+.card-body h5 {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+}
+
+.card-body p {
+    margin: 4px 0;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.price {
+    font-weight: bold;
+    color: #e53935;
+}
+
+/* Sắp xếp */
+.sort-select {
+    margin-bottom: 15px;
+}

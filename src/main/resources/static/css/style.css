@@ -52,7 +52,7 @@
             min-width: 180px;
             margin-right: 16px;
             background: white;
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 10px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             scroll-snap-align: start;
@@ -63,6 +63,11 @@
             height: 150px;
             object-fit: cover;
             border-radius: 4px;
+        }
+
+        .card-img-top {
+            object-fit: cover;
+            height: 200px;
         }
 
         .product-name {
