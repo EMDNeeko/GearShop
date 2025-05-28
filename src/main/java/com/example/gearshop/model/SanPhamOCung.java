@@ -18,7 +18,7 @@ public class SanPhamOCung {
     @Column(length = 6)
     private String loaiOCung;
 
-    private Integer dungLuong;
+    private String dungLuong;
 
     @Column(length = 500)
     private String mota;
@@ -48,11 +48,11 @@ public class SanPhamOCung {
         this.loaiOCung = loaiOCung;
     }
 
-    public Integer getDungLuong() {
+    public String getDungLuong() {
         return dungLuong;
     }
 
-    public void setDungLuong(Integer dungLuong) {
+    public void setDungLuong(String dungLuong) {
         this.dungLuong = dungLuong;
     }
 

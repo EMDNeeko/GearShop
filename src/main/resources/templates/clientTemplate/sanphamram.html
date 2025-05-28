@@ -69,24 +69,24 @@
                 </div>
 
 
-                <button type="submit" class="btn btn-success px-4">Lọc</button>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-success px-4">Lọc</button>
+                </div>
             </form>
 
         </div>
     </nav>
-    <div class="container mt-4">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-            <div class="col" th:each="mb : ${dsSanPhamRAM}">
-                <div class="product-card">
-                    <img th:src="@{/images/product/{img}(img=${mb.sanPham.hinhAnh})}" class="card-img-top"
-                        alt="Hình ảnh CPU">
-                    <div class="card-body flex-column d-flex">
-                        <h5 class="card-title" th:text="${mb.sanPham.tenSanPham}">Tên RAM</h5>
-                        <p class="card-text">
-                            Giá: <span
-                                th:text="${#numbers.formatDecimal(mb.sanPham.gia, 0, 'COMMA', 0, 'POINT')} + '₫'"></span>
-                        </p>
-                    </div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <div class="col" th:each="mb : ${dsSanPhamRAM}">
+            <div class="product-card">
+                <img th:src="@{/images/product/{img}(img=${mb.sanPham.hinhAnh})}" class="card-img-top"
+                    alt="Hình ảnh RAM">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${mb.sanPham.tenSanPham}">Tên RAM<br th:remove="tag" /></h5>
+                    <p class="card-text">
+                        Giá: <span
+                            th:text="${#numbers.formatDecimal(mb.sanPham.gia, 0, 'COMMA', 0, 'POINT')} + '₫'"></span>
+                    </p>
                 </div>
             </div>
         </div>

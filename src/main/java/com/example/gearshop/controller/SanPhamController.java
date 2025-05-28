@@ -4,13 +4,18 @@ import com.example.gearshop.model.NguoiDung;
 import com.example.gearshop.model.SanPham;
 import com.example.gearshop.model.SanPhamCPU;
 import com.example.gearshop.model.SanPhamMainBoard;
+import com.example.gearshop.model.SanPhamOCung;
 import com.example.gearshop.model.SanPhamRAM;
+import com.example.gearshop.model.SanPhamVGA;
 import com.example.gearshop.repository.NguoiDungRepository;
 import com.example.gearshop.repository.SanPhamMainBoardRepository;
 import com.example.gearshop.service.MainboardService;
 import com.example.gearshop.service.SanPhamCPUService;
+import com.example.gearshop.service.SanPhamOCungService;
 import com.example.gearshop.service.SanPhamRAMService;
 import com.example.gearshop.service.SanPhamService;
+import com.example.gearshop.service.SanPhamVGAService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +47,10 @@ public class SanPhamController {
     private SanPhamCPUService cpuService;
     @Autowired
     private SanPhamRAMService RService;
+    @Autowired
+    private SanPhamVGAService vgaService;
+    @Autowired
+    private SanPhamOCungService ocungService;
 
     @GetMapping("/sanpham")
     public String danhSachSanPham(Model model) {
@@ -145,4 +154,61 @@ public class SanPhamController {
 
         return "clientTemplate/sanphamram";
     }
+
+    @GetMapping("/sanphamvga")
+    public String hienThiVGA(Model model,
+            @RequestParam(required = false) String kieuBoNho,
+            @RequestParam(required = false) String dungLuongBoNho,
+            @RequestParam(required = false) String chipGPU,
+            @RequestParam(required = false) Long giaMin,
+            @RequestParam(required = false) Long giaMax,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String thuongHieu) {
+
+        List<SanPhamVGA> danhSachVGA = vgaService.filterVGAs(kieuBoNho, dungLuongBoNho, chipGPU, giaMin, giaMax, sort,
+                thuongHieu);
+
+        model.addAttribute("dsVGA", danhSachVGA);
+        model.addAttribute("dsKieuBoNho", vgaService.getAllKieuBoNho());
+        model.addAttribute("dsDungLuongBoNho", vgaService.getAllDungLuongBoNho());
+        model.addAttribute("dsChipGPU", vgaService.getAllChipGPU());
+        model.addAttribute("dsThuongHieu", vgaService.getAllThuongHieu());
+
+        model.addAttribute("kieuBoNho", kieuBoNho);
+        model.addAttribute("dungLuongBoNho", dungLuongBoNho);
+        model.addAttribute("chipGPU", chipGPU);
+        model.addAttribute("giaMin", giaMin);
+        model.addAttribute("giaMax", giaMax);
+        model.addAttribute("sort", sort);
+        model.addAttribute("thuongHieu", thuongHieu);
+
+        return "clientTemplate/sanphamvga";
+    }
+
+    @GetMapping("/sanphamocung")
+    public String hienThiOCung(Model model,
+            @RequestParam(required = false) String loaiOCung,
+            @RequestParam(required = false) String dungLuong,
+            @RequestParam(required = false) Long giaMin,
+            @RequestParam(required = false) Long giaMax,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String thuongHieu) {
+
+        List<SanPhamOCung> dsOCung = ocungService.filterOCung(loaiOCung, dungLuong, giaMin, giaMax, sort, thuongHieu);
+
+        model.addAttribute("dsOCung", dsOCung);
+        model.addAttribute("dsLoaiOCung", ocungService.getAllLoaiOCung());
+        model.addAttribute("dsDungLuong", ocungService.getAllDungLuong());
+        model.addAttribute("dsThuongHieu", ocungService.getAllThuongHieu());
+
+        model.addAttribute("loaiOCung", loaiOCung);
+        model.addAttribute("dungLuong", dungLuong);
+        model.addAttribute("giaMin", giaMin);
+        model.addAttribute("giaMax", giaMax);
+        model.addAttribute("sort", sort);
+        model.addAttribute("thuongHieu", thuongHieu);
+
+        return "clientTemplate/sanphamocung";
+    }
+
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CPU</title>
+    <title>VGA</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/sanpham.css}">
 </head>
@@ -27,62 +27,67 @@
     </header>
     <nav class="bg-light py-4 border-bottom">
         <div class="container">
-            <form method="get" action="/sanphamcpu" class="row g-3 justify-content-center">
-                <div class="col-md-3"><label class="form-label">Thương hiệu</label>
+
+            <form method="get" action="/sanphamvga" class="row g-3 justify-content-center">
+                <div class="col-md-3">
+                    <label class="form-label">Thương hiệu</label>
                     <select name="thuongHieu" class="form-select">
-                        <option value="">Tất cả thương hiệu</option>
-                        <option th:each="th : ${dsThuongHieu}" th:value="${th}" th:text="${th}"
-                            th:selected="${th == thuongHieu}">
-                        </option>
-                    </select>
-                </div>
-
-                <div class="col-md-3"><label class="form-label">Loại CPU</label>
-                    <select name="loaiCPU" class="form-select">
-                        <option value="">Tất cả loại</option>
-                        <option th:each="loai : ${dsLoaiCPU}" th:value="${loai}" th:text="${loai}"
-                            th:selected="${loai == loaiCPU}">
-                        </option>
-                    </select>
-                </div>
-
-                <div class="col-md-3"><label class="form-label">Số nhân số luồng</label>
-                    <select name="soNhanSoLuong" class="form-select">
                         <option value="">Tất cả</option>
-                        <option th:each="soNhan : ${dsSoNhanSoLuong}" th:value="${soNhan}" th:text="${soNhan}"
-                            th:selected="${soNhan == soNhanSoLuong}">
+                        <option th:each="th : ${dsThuongHieu}" th:value="${th}" th:text="${th}"
+                            th:selected="${th == thuongHieu}"></option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Kiểu bộ nhớ</label>
+                    <select name="kieuBoNho" class="form-select">
+                        <option value="">Tất cả</option>
+                        <option th:each="k : ${dsKieuBoNho}" th:value="${k}" th:text="${k}"
+                            th:selected="${k == kieuBoNho}">
                         </option>
                     </select>
                 </div>
-
-                <div class="col-md-3"><label class="form-label">Khoảng giá</label>
-                    <input class="form-control" type="number" name="giaMin" placeholder="Giá từ" th:value="${giaMin}">
-                    <input class="form-control" type="number" name="giaMax" placeholder="Đến" th:value="${giaMax}">
+                <div class="col-md-3">
+                    <label class="form-label">Dung lượng bộ nhớ</label>
+                    <select name="dungLuongBoNho" class="form-select">
+                        <option value="">Tất cả</option>
+                        <option th:each="d : ${dsDungLuongBoNho}" th:value="${d}" th:text="${d}"
+                            th:selected="${d == dungLuongBoNho}"></option>
+                    </select>
                 </div>
-
-                <div class="col-md-3"><label class="form-label">Sắp xếp theo</label>
+                <div class="col-md-3">
+                    <label class="form-label">Chip GPU</label>
+                    <select name="chipGPU" class="form-select">
+                        <option value="">Tất cả</option>
+                        <option th:each="c : ${dsChipGPU}" th:value="${c}" th:text="${c}" th:selected="${c == chipGPU}">
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Khoảng giá</label>
+                    <input type="number" name="giaMin" class="form-control" th:value="${giaMin}">
+                    <input type="number" name="giaMax" class="form-control" th:value="${giaMax}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Sắp xếp</label>
                     <select name="sort" class="form-select">
                         <option value="">Mặc định</option>
                         <option value="giaAsc" th:selected="${sort == 'giaAsc'}">Giá tăng dần</option>
                         <option value="giaDesc" th:selected="${sort == 'giaDesc'}">Giá giảm dần</option>
                     </select>
                 </div>
-
-
                 <div class="col-12 text-center">
                     <button type="submit" class="btn btn-success px-4">Lọc</button>
                 </div>
             </form>
-
         </div>
     </nav>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-        <div class="col" th:each="mb : ${dsCPU}">
-            <div class="product-card card h-100">
+        <div class="col" th:each="mb : ${dsVGA}">
+            <div class="product-card">
                 <img th:src="@{/images/product/{img}(img=${mb.sanPham.hinhAnh})}" class="card-img-top"
-                    alt="Hình ảnh CPU">
+                    alt="Hình ảnh VGA">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${mb.sanPham.tenSanPham}">Tên CPU<br th:remove="tag" /></h5>
+                    <h5 class="card-title" th:text="${mb.sanPham.tenSanPham}">Tên VGA<br th:remove="tag" /></h5>
                     <p class="card-text">
                         Giá: <span
                             th:text="${#numbers.formatDecimal(mb.sanPham.gia, 0, 'COMMA', 0, 'POINT')} + '₫'"></span>
