@@ -25,7 +25,7 @@ public class SanPham {
     private Integer daBan;
 
     @ManyToOne
-    @JoinColumn(name = "khachHangID")
+    @JoinColumn(name = "nguoiThemID")
     private NhanVien nguoiThem;
 
     @ManyToOne

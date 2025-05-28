@@ -1,6 +1,6 @@
 <header class="bg-dark text-white py-2">
         <div class="container d-flex align-items-center justify-content-between">
-            <div class="fs-3 fw-bold">PGearShop</div>
+            <div class="fs-3 fw-bold"><a href="/" class="text-white" style="text-decoration: none;">PGearShop</a></div>
             <form class="flex-grow-1 mx-3" role="search" action="/timkiem" method="get">
                 <input class="form-control" type="search" name="q" placeholder="Tìm kiếm sản phẩm..."
                     aria-label="Search">

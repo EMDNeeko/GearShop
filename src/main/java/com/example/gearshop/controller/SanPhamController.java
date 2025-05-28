@@ -2,16 +2,21 @@ package com.example.gearshop.controller;
 
 import com.example.gearshop.model.NguoiDung;
 import com.example.gearshop.model.SanPham;
+import com.example.gearshop.model.SanPhamCPU;
 import com.example.gearshop.model.SanPhamMainBoard;
+import com.example.gearshop.model.SanPhamRAM;
 import com.example.gearshop.repository.NguoiDungRepository;
 import com.example.gearshop.repository.SanPhamMainBoardRepository;
 import com.example.gearshop.service.MainboardService;
+import com.example.gearshop.service.SanPhamCPUService;
+import com.example.gearshop.service.SanPhamRAMService;
 import com.example.gearshop.service.SanPhamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
@@ -33,17 +38,10 @@ public class SanPhamController {
     private SanPhamMainBoardRepository sanPhamMainBoardRepo;
     @Autowired
     private MainboardService mainboardService;
-
     @Autowired
-    private NguoiDungRepository nguoiDungRepository;
-
-    @ModelAttribute("nguoiDung")
-    public NguoiDung addNguoiDungToModel(Principal principal) {
-        if (principal != null) {
-            return nguoiDungRepository.findByTenDangNhap(principal.getName());
-        }
-        return null;
-    }
+    private SanPhamCPUService cpuService;
+    @Autowired
+    private SanPhamRAMService RService;
 
     @GetMapping("/sanpham")
     public String danhSachSanPham(Model model) {
@@ -93,5 +91,58 @@ public class SanPhamController {
 
     private Set<String> extractSet(List<SanPhamMainBoard> list, Function<SanPhamMainBoard, String> getter) {
         return list.stream().map(getter).filter(Objects::nonNull).collect(Collectors.toCollection(TreeSet::new));
+    }
+
+    @GetMapping("/sanphamcpu")
+    public String hienThiCPU(Model model,
+            @RequestParam(required = false) String loaiCPU,
+            @RequestParam(required = false) String soNhanSoLuong,
+            @RequestParam(required = false) Long giaMin,
+            @RequestParam(required = false) Long giaMax,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String thuongHieu) {
+
+        List<SanPhamCPU> danhSachCPU = cpuService.filterCPUs(loaiCPU, soNhanSoLuong, giaMin, giaMax, sort, thuongHieu);
+        System.out.println("Tìm thấy " + danhSachCPU.size() + " mainboard");
+        model.addAttribute("dsCPU", danhSachCPU);
+        model.addAttribute("dsLoaiCPU", cpuService.getAllLoaiCPU());
+        model.addAttribute("dsSoNhanSoLuong", cpuService.getAllSoNhanSoLuong());
+        model.addAttribute("dsThuongHieu", cpuService.getAllThuongHieu());
+
+        model.addAttribute("dsCPU", danhSachCPU);
+        model.addAttribute("loaiCPU", loaiCPU);
+        model.addAttribute("soNhanSoLuong", soNhanSoLuong);
+        model.addAttribute("giaMin", giaMin);
+        model.addAttribute("giaMax", giaMax);
+        model.addAttribute("sort", sort);
+
+        return "clientTemplate/sanphamcpu";
+    }
+
+    @GetMapping("/sanphamram")
+    public String hienThiSanPhamRAM(Model model,
+            @RequestParam(required = false) String thuongHieu,
+            @RequestParam(required = false) String chuanRAM,
+            @RequestParam(required = false) String dungLuong,
+            @RequestParam(required = false) Long giaMin,
+            @RequestParam(required = false) Long giaMax,
+            @RequestParam(required = false) String sort) {
+
+        List<SanPhamRAM> danhSach = RService.locSanPham(thuongHieu, chuanRAM, dungLuong, giaMin, giaMax, sort);
+        model.addAttribute("dsSanPhamRAM", danhSach);
+
+        model.addAttribute("dsThuongHieu", RService.getTatCaThuongHieu());
+        model.addAttribute("dsChuanRAM", RService.getTatCaChuanRAM());
+        model.addAttribute("dsDungLuong", RService.getTatCaDungLuong());
+
+        model.addAttribute("dsSanPhamRAM", danhSach);
+        model.addAttribute("thuongHieu", thuongHieu);
+        model.addAttribute("chuanRAM", chuanRAM);
+        model.addAttribute("dungLuong", dungLuong);
+        model.addAttribute("giaMin", giaMin);
+        model.addAttribute("giaMax", giaMax);
+        model.addAttribute("sort", sort);
+
+        return "clientTemplate/sanphamram";
     }
 }

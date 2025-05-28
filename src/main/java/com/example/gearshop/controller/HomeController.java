@@ -15,6 +15,7 @@ import com.example.gearshop.model.LoaiSanPham;
 import com.example.gearshop.model.NguoiDung;
 import com.example.gearshop.model.ThuongHieu;
 
+import java.security.Principal;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,7 +112,7 @@ public class HomeController {
     @GetMapping("/timkiem")
     public String timKiemSanPham(@RequestParam("q") String keyword,
             @RequestParam(value = "sort", required = false) String sort,
-            Model model) {
+            Model model, Principal principal) {
 
         List<SanPham> ketQua;
 
