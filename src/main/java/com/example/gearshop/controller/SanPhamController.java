@@ -3,15 +3,23 @@ package com.example.gearshop.controller;
 import com.example.gearshop.model.NguoiDung;
 import com.example.gearshop.model.SanPham;
 import com.example.gearshop.model.SanPhamCPU;
+import com.example.gearshop.model.SanPhamCase;
+import com.example.gearshop.model.SanPhamCooler;
 import com.example.gearshop.model.SanPhamMainBoard;
+import com.example.gearshop.model.SanPhamManHinh;
 import com.example.gearshop.model.SanPhamOCung;
+import com.example.gearshop.model.SanPhamPSU;
 import com.example.gearshop.model.SanPhamRAM;
 import com.example.gearshop.model.SanPhamVGA;
 import com.example.gearshop.repository.NguoiDungRepository;
 import com.example.gearshop.repository.SanPhamMainBoardRepository;
 import com.example.gearshop.service.MainboardService;
 import com.example.gearshop.service.SanPhamCPUService;
+import com.example.gearshop.service.SanPhamCaseService;
+import com.example.gearshop.service.SanPhamCoolerService;
+import com.example.gearshop.service.SanPhamManHinhService;
 import com.example.gearshop.service.SanPhamOCungService;
+import com.example.gearshop.service.SanPhamPSUService;
 import com.example.gearshop.service.SanPhamRAMService;
 import com.example.gearshop.service.SanPhamService;
 import com.example.gearshop.service.SanPhamVGAService;
@@ -51,6 +59,14 @@ public class SanPhamController {
     private SanPhamVGAService vgaService;
     @Autowired
     private SanPhamOCungService ocungService;
+    @Autowired
+    private SanPhamCoolerService coolerService;
+    @Autowired
+    private SanPhamPSUService psuService;
+    @Autowired
+    private SanPhamCaseService caseService;
+    @Autowired
+    private SanPhamManHinhService manHinhService;
 
     @GetMapping("/sanpham")
     public String danhSachSanPham(Model model) {
@@ -211,4 +227,119 @@ public class SanPhamController {
         return "clientTemplate/sanphamocung";
     }
 
+    @GetMapping("/sanphamcooler")
+    public String hienThiCooler(Model model,
+            @RequestParam(required = false) String loaiTan,
+            @RequestParam(required = false) Boolean coLED,
+            @RequestParam(required = false) Long giaMin,
+            @RequestParam(required = false) Long giaMax,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String thuongHieu) {
+
+        List<SanPhamCooler> danhSachCooler = coolerService.filterCooler(loaiTan, coLED, giaMin, giaMax, sort,
+                thuongHieu);
+
+        model.addAttribute("dsCooler", danhSachCooler);
+        model.addAttribute("dsLoaiTan", coolerService.getAllLoaiTan());
+        model.addAttribute("dsCoLED", coolerService.getAllCoLED());
+        model.addAttribute("dsThuongHieu", coolerService.getAllThuongHieu());
+
+        model.addAttribute("loaiTan", loaiTan);
+        model.addAttribute("coLED", coLED);
+        model.addAttribute("giaMin", giaMin);
+        model.addAttribute("giaMax", giaMax);
+        model.addAttribute("sort", sort);
+        model.addAttribute("thuongHieu", thuongHieu);
+
+        return "clientTemplate/sanphamcooler";
+    }
+
+    @GetMapping("/sanphampsu")
+    public String hienThiPSU(Model model,
+            @RequestParam(required = false) Integer dienApVao,
+            @RequestParam(required = false) Integer congSuat,
+            @RequestParam(required = false) Long giaMin,
+            @RequestParam(required = false) Long giaMax,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String thuongHieu) {
+
+        List<SanPhamPSU> danhSachPSU = psuService.filterPSUs(dienApVao, congSuat, giaMin, giaMax, sort, thuongHieu);
+
+        model.addAttribute("dsPSU", danhSachPSU);
+        model.addAttribute("dsDienApVao", psuService.getAllDienApVao());
+        model.addAttribute("dsCongSuat", psuService.getAllCongSuat());
+        model.addAttribute("dsThuongHieu", psuService.getAllThuongHieu());
+
+        model.addAttribute("dienApVao", dienApVao);
+        model.addAttribute("congSuat", congSuat);
+        model.addAttribute("giaMin", giaMin);
+        model.addAttribute("giaMax", giaMax);
+        model.addAttribute("sort", sort);
+        model.addAttribute("thuongHieu", thuongHieu);
+
+        return "clientTemplate/sanphampsu";
+    }
+
+    @GetMapping("/sanphamcase")
+    public String hienThiCase(Model model,
+            @RequestParam(required = false) String hoTroMain,
+            @RequestParam(required = false) String mauCase,
+            @RequestParam(required = false) Long giaMin,
+            @RequestParam(required = false) Long giaMax,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String thuongHieu) {
+
+        List<SanPhamCase> danhSachCase = caseService.filterCases(hoTroMain, mauCase, giaMin, giaMax, sort, thuongHieu);
+
+        model.addAttribute("dsCase", danhSachCase);
+        model.addAttribute("dsHoTroMain", caseService.getAllHoTroMain());
+        model.addAttribute("dsMauCase", caseService.getAllMauCase());
+        model.addAttribute("dsThuongHieu", caseService.getAllThuongHieu());
+
+        // Trả lại giá trị lọc cho giao diện
+        model.addAttribute("hoTroMain", hoTroMain);
+        model.addAttribute("mauCase", mauCase);
+        model.addAttribute("giaMin", giaMin);
+        model.addAttribute("giaMax", giaMax);
+        model.addAttribute("sort", sort);
+        model.addAttribute("thuongHieu", thuongHieu);
+
+        return "clientTemplate/sanphamcase";
+    }
+
+    @GetMapping("/sanphammanhinh")
+    public String hienThiManHinh(Model model,
+            @RequestParam(required = false) String thuongHieu,
+            @RequestParam(required = false) Integer kichThuoc,
+            @RequestParam(required = false) String beMat,
+            @RequestParam(required = false) Integer tanSoQuet,
+            @RequestParam(required = false) String tamNen,
+            @RequestParam(required = false) String doPhanGiai,
+            @RequestParam(required = false) Long giaMin,
+            @RequestParam(required = false) Long giaMax,
+            @RequestParam(required = false) String sort) {
+
+        List<SanPhamManHinh> danhSachManHinh = manHinhService.filterManHinh(
+                thuongHieu, kichThuoc, beMat, tanSoQuet, tamNen, doPhanGiai, giaMin, giaMax, sort);
+
+        model.addAttribute("dsManHinh", danhSachManHinh);
+        model.addAttribute("dsThuongHieu", manHinhService.getAllThuongHieu());
+        model.addAttribute("dsKichThuoc", manHinhService.getAllKichThuoc());
+        model.addAttribute("dsBeMat", manHinhService.getAllBeMat());
+        model.addAttribute("dsTanSoQuet", manHinhService.getAllTanSoQuet());
+        model.addAttribute("dsTamNen", manHinhService.getAllTamNen());
+        model.addAttribute("dsDoPhanGiai", manHinhService.getAllDoPhanGiai());
+
+        model.addAttribute("thuongHieu", thuongHieu);
+        model.addAttribute("kichThuoc", kichThuoc);
+        model.addAttribute("beMat", beMat);
+        model.addAttribute("tanSoQuet", tanSoQuet);
+        model.addAttribute("tamNen", tamNen);
+        model.addAttribute("doPhanGiai", doPhanGiai);
+        model.addAttribute("giaMin", giaMin);
+        model.addAttribute("giaMax", giaMax);
+        model.addAttribute("sort", sort);
+
+        return "clientTemplate/sanphammanhinh";
+    }
 }
