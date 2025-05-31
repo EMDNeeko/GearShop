@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface SanPhamMainBoardRepository
-        extends JpaRepository<SanPhamMainBoard, Long>, JpaSpecificationExecutor<SanPhamMainBoard> {
+        extends JpaRepository<SanPhamMainBoard, Integer>, JpaSpecificationExecutor<SanPhamMainBoard> {
     // Custom query methods can be defined here if needed
     // For example, you can add methods to find MainBoards by specific criteria
     @Query("SELECT m FROM SanPhamMainBoard m " +

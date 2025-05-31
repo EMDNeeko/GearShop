@@ -67,15 +67,24 @@
 
     <!-- Sản phẩm bán chạy -->
     <div>
-        <h2 class="mb-4 border-bottom border-warning pb-2">Sản Phẩm bán chạy</h2>
+        <h2 class="mb-4 border-bottom border-warning pb-2">Sản phẩm bán chạy</h2>
         <div class="product-carousel">
-            <div class="product-card" th:each="sp : ${sanPhamBanChay}">
+            <a th:each="sp : ${sanPhamBanChay}"
+            th:href="${sp.loaiSanPham.id == 1 ? '/sanphammainboard/' + sp.id :
+                        sp.loaiSanPham.id == 2 ? '/sanphamcpu/' + sp.id :
+                        sp.loaiSanPham.id == 3 ? '/sanphamram/' + sp.id :
+                        sp.loaiSanPham.id == 4 ? '/sanphamvga/' + sp.id :
+                        sp.loaiSanPham.id == 5 ? '/sanphamocung/' + sp.id :
+                        sp.loaiSanPham.id == 6 ? '/sanphampsu/' + sp.id :
+                        sp.loaiSanPham.id == 7 ? '/sanphamcooler/' + sp.id :
+                        sp.loaiSanPham.id == 8 ? '/sanphamcase/' + sp.id :
+                        sp.loaiSanPham.id == 9 ? '/sanphammanhinh/' + sp.id : ''}"
+            class="product-card">
                 <img th:src="@{/images/product/{img}(img=${sp.hinhAnh})}" alt="Ảnh sản phẩm" class="product-image">
                 <div class="product-name" th:text="${sp.tenSanPham}">Tên SP</div>
                 <div class="product-info" th:text="'Đã bán: ' + ${sp.daBan}">Đã bán</div>
-                <div class="product-price" th:text="${#numbers.formatDecimal(sp.gia, 0, 'COMMA', 0, 'POINT')} + '₫'">Giá
-                </div>
-            </div>
+                <div class="product-price" th:text="${#numbers.formatDecimal(sp.gia, 0, 'COMMA', 0, 'POINT')} + '₫'">Giá</div>
+            </a>
         </div>
     </div>
 
@@ -86,13 +95,21 @@
     <section th:each="entry : ${sanPhamTheoLoai}">
         <h3 th:text="${entry.key}">Mainboard</h3>
         <div class="product-carousel">
-            <div th:each="sp : ${entry.value}" class="product-card">
-                <img th:src="@{/images/product/{img}(img=${sp.hinhAnh})}" th:alt="${sp.tenSanPham}"
-                    class="product-image" />
+            <a th:each="sp : ${entry.value}"
+            th:href="${sp.loaiSanPham.id == 1 ? '/sanphammainboard/' + sp.id :
+                        sp.loaiSanPham.id == 2 ? '/sanphamcpu/' + sp.id :
+                        sp.loaiSanPham.id == 3 ? '/sanphamram/' + sp.id :
+                        sp.loaiSanPham.id == 4 ? '/sanphamvga/' + sp.id :
+                        sp.loaiSanPham.id == 5 ? '/sanphamocung/' + sp.id :
+                        sp.loaiSanPham.id == 6 ? '/sanphampsu/' + sp.id :
+                        sp.loaiSanPham.id == 7 ? '/sanphamcooler/' + sp.id :
+                        sp.loaiSanPham.id == 8 ? '/sanphamcase/' + sp.id :
+                        sp.loaiSanPham.id == 9 ? '/sanphammanhinh/' + sp.id : ''}"
+            class="product-card">
+                <img th:src="@{/images/product/{img}(img=${sp.hinhAnh})}" th:alt="${sp.tenSanPham}" class="product-image" />
                 <div class="product-name" th:text="${sp.tenSanPham}">Tên SP</div>
-                <div class="product-price" th:text="${#numbers.formatDecimal(sp.gia, 0, 'COMMA', 0, 'POINT')} + '₫'">Giá
-                </div>
-            </div>
+                <div class="product-price" th:text="${#numbers.formatDecimal(sp.gia, 0, 'COMMA', 0, 'POINT')} + '₫'">Giá</div>
+            </a>
         </div>
     </section>
 

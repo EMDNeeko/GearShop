@@ -1,16 +1,15 @@
 package com.example.gearshop.service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.example.gearshop.model.SanPhamMainBoard;
+import com.example.gearshop.repository.SanPhamMainBoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.example.gearshop.model.SanPhamMainBoard;
-import com.example.gearshop.repository.SanPhamMainBoardRepository;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MainboardServiceImpl implements MainboardService {
@@ -20,9 +19,9 @@ public class MainboardServiceImpl implements MainboardService {
 
     @Override
     public List<SanPhamMainBoard> findFiltered(String[] thuongHieu, String[] modelMain,
-            String[] chipset, String[] socketMain,
-            String[] kichThuoc, String[] soKheRAM,
-            Integer minPrice, Integer maxPrice, String sort) {
+                                               String[] chipset, String[] socketMain,
+                                               String[] kichThuoc, String[] soKheRAM,
+                                               Integer minPrice, Integer maxPrice, String sort) {
         // Gọi xuống repository với Specification (lọc động)
         Specification<SanPhamMainBoard> spec = Specification.where(null);
 
@@ -71,5 +70,11 @@ public class MainboardServiceImpl implements MainboardService {
         }
 
         return mainboardRepository.findAll(spec, sortObj);
+    }
+
+    @Override
+    public SanPhamMainBoard findById(Integer id) {
+        // Tìm sản phẩm Mainboard theo ID
+        return mainboardRepository.findById(id).orElse(null);
     }
 }

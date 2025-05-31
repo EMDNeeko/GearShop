@@ -51,4 +51,8 @@ public class SanPhamCPUService {
     public List<String> getAllSoNhanSoLuong() {
         return cpuRepository.findAllSoNhanSoLuong();
     }
+
+    public SanPhamCPU findById(Integer id) {
+        return cpuRepository.findById(id).orElse(null);
+    }
 }
