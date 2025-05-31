@@ -18,6 +18,7 @@ public class KhachHang {
 
     private String maKhachHang;
     private String ghiChu;
+    private Long doanhThu;
 
     @ManyToOne
     @JoinColumn(name = "nguoiDungID")
