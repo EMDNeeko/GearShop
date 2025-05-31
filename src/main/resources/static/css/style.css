@@ -126,3 +126,39 @@
             font-size: 14px;
             line-height: 1.6;
         }
+
+        .custom-dropdown {
+            background-color: transparent;
+            border: none;
+            color: white;
+            padding: 0;
+            margin: 0;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .custom-dropdown:focus,
+        .custom-dropdown:hover {
+            color: #ffc107;
+            /* Màu khi hover (vàng nhạt) */
+            text-decoration: none;
+        }
+
+        .custom-dropdown::after {
+            margin-left: 5px;
+        }
+
+        .dropdown-item {
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+        }
+
+        .dropdown-item:hover {
+            background-color: #ffc107;
+
+        }
+
+        .list-group-item.active {
+            background-color: #242424;
+        }

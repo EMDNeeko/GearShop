@@ -9,19 +9,31 @@
 </head>
 
 <body>
-    <header class="bg-dark text-white py-2">
+    <header class="bg-dark text-white py-3">
         <div class="container d-flex align-items-center justify-content-between">
-            <div class="fs-3 fw-bold"><a href="/" class="text-white" style="text-decoration: none;">PGearShop</a></div>
+            <div class="fs-3 fw-bold">PGearShop</div>
+
             <form class="flex-grow-1 mx-3" role="search" action="/timkiem" method="get">
-                <input class="form-control" type="search" name="q" th:value="${keyword}"
-                    placeholder="Tìm kiếm sản phẩm..." aria-label="Search" />
-
+                <input class="form-control" type="search" name="q" placeholder="Tìm kiếm sản phẩm..."
+                    aria-label="Search">
             </form>
-            <div>
-                <a href="/cart" class="btn btn-warning me-2">Giỏ hàng</a>
-                <span class="text-white" th:if="${nguoiDung != null}"
-                    th:text="'Xin chào, ' + ${nguoiDung.tenNguoiDung}">Xin chào, Tên</span>
 
+            <div class="d-flex align-items-center">
+                <a href="/cart" class="btn btn-warning me-3">Giỏ hàng</a>
+
+                <!-- Nếu đã đăng nhập -->
+                <div class="dropdown" th:if="${nguoiDung != null}">
+                    <a class="custom-dropdown dropdown-toggle" href="#" role="button" id="userDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <span th:text="'Xin chào, ' + ${nguoiDung.tenNguoiDung}">Xin chào, Tên</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" th:href="@{/thongtincanhan}">Thông tin cá nhân</a></li>
+                        <li><a class="dropdown-item" th:href="@{/dangxuat}">Đăng xuất</a></li>
+                    </ul>
+                </div>
+
+                <!-- Nếu chưa đăng nhập -->
                 <a href="/dangnhap" th:if="${nguoiDung == null}" class="btn btn-outline-light">Đăng nhập</a>
             </div>
         </div>

@@ -1,8 +1,11 @@
 package com.example.gearshop.controller;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.gearshop.repository.SanPhamRepository;
+import com.example.gearshop.service.DangKyService;
+import com.example.gearshop.service.NguoiDungService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -11,6 +14,7 @@ import com.example.gearshop.repository.LoaiSanPhamRepository;
 import com.example.gearshop.repository.NguoiDungRepository;
 import com.example.gearshop.repository.NhanVienRepository;
 import com.example.gearshop.model.SanPham;
+import com.example.gearshop.model.KhachHang;
 import com.example.gearshop.model.LoaiSanPham;
 import com.example.gearshop.model.NguoiDung;
 import com.example.gearshop.model.ThuongHieu;
@@ -130,4 +134,113 @@ public class HomeController {
 
         return "clientTemplate/timkiem";
     }
+
+    @GetMapping("/dangxuat")
+    public String logout(HttpSession session) {
+        session.invalidate(); // Xóa toàn bộ session
+        return "redirect:/dangnhap"; // hoặc "redirect:/" nếu bạn muốn về trang chủ
+    }
+
+    @Controller
+    @RequestMapping("/thongtincanhan")
+    public class ThongTinCaNhanController {
+
+        @Autowired
+        private NguoiDungRepository nguoiDungRepo;
+
+        @Autowired
+        private KhachHangRepository khachHangRepo;
+
+        @Autowired
+        private NguoiDungService nguoiDungService;
+
+        @GetMapping
+        public String thongTinCaNhan(HttpSession session, Model model) {
+            NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
+            if (nguoiDung == null)
+                return "redirect:/dangnhap";
+
+            model.addAttribute("nguoiDung", nguoiDung);
+            boolean isKhachHang = khachHangRepo.findByNguoiDung_Id(nguoiDung.getId()).isPresent();
+            model.addAttribute("isKhachHang", isKhachHang);
+            return "/thongtincanhan";
+        }
+
+        @PostMapping("/capnhat")
+        public String capNhatThongTin(HttpSession session,
+                @RequestParam String sdt,
+                @RequestParam String diaChi,
+                RedirectAttributes redirectAttributes) {
+            NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
+            if (nguoiDung == null)
+                return "redirect:/dangnhap";
+
+            nguoiDungService.capNhatThongTin(nguoiDung.getTenDangNhap(), sdt, diaChi);
+
+            // Cập nhật session
+            nguoiDung.setSdt(sdt);
+            nguoiDung.setDiaChi(diaChi);
+            session.setAttribute("nguoiDung", nguoiDung);
+
+            // Gửi thông báo thành công
+            redirectAttributes.addFlashAttribute("thongBaoCapNhat", "Cập nhật thông tin thành công!");
+
+            return "redirect:/thongtincanhan";
+        }
+
+        @PostMapping("/doimatkhau")
+        public String doiMatKhau(HttpSession session,
+                @RequestParam String matKhauCu,
+                @RequestParam String matKhauMoi,
+                @RequestParam String xacNhanMatKhauMoi,
+                RedirectAttributes redirectAttributes) {
+            NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
+            if (nguoiDung == null)
+                return "redirect:/dangnhap";
+
+            String thongBao = nguoiDungService.doiMatKhau(
+                    nguoiDung.getTenDangNhap(), matKhauCu, matKhauMoi, xacNhanMatKhauMoi);
+
+            redirectAttributes.addFlashAttribute("thongBaoDoiMatKhau", thongBao);
+            return "redirect:/thongtincanhan";
+        }
+    }
+
+    @Controller
+    @RequestMapping("/dangky")
+    public class DangKyController {
+
+        @Autowired
+        private DangKyService dangKyService;
+
+        @GetMapping
+        public String hienFormDangKy() {
+            return "dangky"; // trang giao diện Thymeleaf
+        }
+
+        @PostMapping
+        public String xuLyDangKy(@RequestParam String tenDangNhap,
+                @RequestParam String matKhau,
+                @RequestParam String nhapLaiMatKhau,
+                @RequestParam String email,
+                @RequestParam String sdt,
+                @RequestParam String diaChi,
+                @RequestParam String tenNguoiDung,
+                RedirectAttributes redirectAttributes,
+                Model model) {
+            StringBuilder thongBao = new StringBuilder();
+            boolean thanhCong = dangKyService.dangKyTaiKhoan(
+                    tenDangNhap, matKhau, nhapLaiMatKhau,
+                    email, sdt, diaChi, tenNguoiDung, thongBao);
+
+            if (thanhCong) {
+                redirectAttributes.addFlashAttribute("success", thongBao.toString());
+                return "redirect:/dangnhap";
+            } else {
+                redirectAttributes.addFlashAttribute("error", thongBao.toString());
+                return "clientTemplate/dangnhap";
+            }
+        }
+    }
+
 }
