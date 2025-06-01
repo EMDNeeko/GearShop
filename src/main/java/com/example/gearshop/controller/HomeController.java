@@ -101,7 +101,7 @@ public class HomeController {
                 return "redirect:/";
             } else if (isNhanVien) {
 
-                return "redirect:/trangchuadmin";
+                return "redirect:/admin/trangchu";
             } else {
                 model.addAttribute("error", "Tài khoản không thuộc vai trò hợp lệ.");
                 return "clientTemplate/dangnhap";
@@ -162,7 +162,9 @@ public class HomeController {
 
             model.addAttribute("nguoiDung", nguoiDung);
             boolean isKhachHang = khachHangRepo.findByNguoiDung_Id(nguoiDung.getId()).isPresent();
+            boolean isNhanVien = nhanVienRepo.findByNguoiDung_Id(nguoiDung.getId()).isPresent();
             model.addAttribute("isKhachHang", isKhachHang);
+            model.addAttribute("isNhanVien", isNhanVien);
             return "/thongtincanhan";
         }
 

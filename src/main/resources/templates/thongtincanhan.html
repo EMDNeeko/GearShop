@@ -15,7 +15,7 @@
             <div class="d-flex align-items-center justify-content-between">
 
                 <!-- Nút quay về trang chủ -->
-                <a href="/" class="btn btn-outline-light">← Trang chủ</a>
+                <a th:href="${isNhanVien} ? '/admin/trangchu' : '/'" class="btn btn-outline-light">← Trang chủ</a>
 
                 <!-- Tiêu đề chính giữa -->
                 <div class="fs-3 fw-bold text-center flex-grow-1">Thông tin người dùng</div>

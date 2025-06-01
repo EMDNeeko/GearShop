@@ -11,7 +11,7 @@
 <body>
     <header class="bg-dark text-white py-3">
         <div class="container d-flex align-items-center justify-content-between">
-            <div class="fs-3 fw-bold">PGearShop</div>
+            <div class="fs-3 fw-bold"><a class="no-underline" href="/">PGearShop</a></div>
 
             <form class="flex-grow-1 mx-3" role="search" action="/timkiem" method="get">
                 <input class="form-control" type="search" name="q" placeholder="Tìm kiếm sản phẩm..."
@@ -91,12 +91,15 @@
     </nav>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
         <div class="col" th:each="psu : ${dsPSU}">
-            <a th:href="@{/sanphampsu/{sanPhamID}(sanPhamID=${psu.sanPham.id})}" class="card product-card h-100 text-decoration-none">
-                <img th:src="@{/images/product/{img}(img=${psu.sanPham.hinhAnh})}" class="card-img-top" alt="Hình ảnh PSU">
+            <a th:href="@{/sanphampsu/{sanPhamID}(sanPhamID=${psu.sanPham.id})}"
+                class="card product-card h-100 text-decoration-none">
+                <img th:src="@{/images/product/{img}(img=${psu.sanPham.hinhAnh})}" class="card-img-top"
+                    alt="Hình ảnh PSU">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${psu.sanPham.tenSanPham}">Tên PSU</h5>
                     <p class="card-text">
-                        Giá: <span th:text="${#numbers.formatDecimal(psu.sanPham.gia, 0, 'COMMA', 0, 'POINT')} + '₫'"></span>
+                        Giá: <span
+                            th:text="${#numbers.formatDecimal(psu.sanPham.gia, 0, 'COMMA', 0, 'POINT')} + '₫'"></span>
                     </p>
                 </div>
             </a>

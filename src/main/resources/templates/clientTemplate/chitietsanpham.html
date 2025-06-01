@@ -15,15 +15,31 @@
 
 <body>
     <!-- Header -->
-    <header class="bg-dark text-white py-2">
+    <header class="bg-dark text-white py-3">
         <div class="container d-flex align-items-center justify-content-between">
-            <div class="fs-3 fw-bold">PGearShop</div>
+            <div class="fs-3 fw-bold"><a class="no-underline" href="/">PGearShop</a></div>
+
             <form class="flex-grow-1 mx-3" role="search" action="/timkiem" method="get">
-                <input class="form-control" type="search" name="q" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
+                <input class="form-control" type="search" name="q" placeholder="Tìm kiếm sản phẩm..."
+                    aria-label="Search">
             </form>
-            <div>
-                <a href="/cart" class="btn btn-warning me-2">Giỏ hàng</a>
-                <span class="text-white" th:if="${nguoiDung != null}" th:text="'Xin chào, ' + ${nguoiDung.tenNguoiDung}">Xin chào, Tên</span>
+
+            <div class="d-flex align-items-center">
+                <a href="/cart" class="btn btn-warning me-3">Giỏ hàng</a>
+
+                <!-- Nếu đã đăng nhập -->
+                <div class="dropdown" th:if="${nguoiDung != null}">
+                    <a class="custom-dropdown dropdown-toggle" href="#" role="button" id="userDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <span th:text="'Xin chào, ' + ${nguoiDung.tenNguoiDung}">Xin chào, Tên</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" th:href="@{/thongtincanhan}">Thông tin cá nhân</a></li>
+                        <li><a class="dropdown-item" th:href="@{/dangxuat}">Đăng xuất</a></li>
+                    </ul>
+                </div>
+
+                <!-- Nếu chưa đăng nhập -->
                 <a href="/dangnhap" th:if="${nguoiDung == null}" class="btn btn-outline-light">Đăng nhập</a>
             </div>
         </div>
@@ -56,12 +72,14 @@
     <div class="container my-5">
         <div class="row">
             <div class="col-md-6 d-flex justify-content-center align-items-center">
-                <img th:src="@{/images/product/{img}(img=${sanPham.hinhAnh})}" alt="Ảnh sản phẩm" class="product-detail-image">
+                <img th:src="@{/images/product/{img}(img=${sanPham.hinhAnh})}" alt="Ảnh sản phẩm"
+                    class="product-detail-image">
             </div>
             <div class="col-md-6">
                 <h1 th:text="${sanPham.tenSanPham}">Tên sản phẩm</h1>
                 <p class="text-muted" th:text="'Mã sản phẩm: ' + ${sanPham.maSanPham}">Mã sản phẩm</p>
-                <p class="text-danger fs-4 fw-bold" th:text="${#numbers.formatDecimal(sanPham.gia, 0, 'COMMA', 0, 'POINT')} + '₫'">Giá</p>
+                <p class="text-danger fs-4 fw-bold"
+                    th:text="${#numbers.formatDecimal(sanPham.gia, 0, 'COMMA', 0, 'POINT')} + '₫'">Giá</p>
                 <p th:text="'Thương hiệu: ' + ${sanPham.thuongHieu.tenThuongHieu}">Thương hiệu</p>
                 <p th:text="'Đã bán: ' + ${sanPham.daBan}">Đã bán</p>
                 <p th:text="'Tồn kho: ' + ${sanPham.tonKho}">Tồn kho</p>
@@ -274,7 +292,8 @@
         <div class="row mt-3 d-none" id="quantitySection">
             <div class="col-md-6 offset-md-3">
                 <div class="input-group">
-                    <input type="number" id="quantityInput" class="form-control" placeholder="Nhập số lượng" min="1" value="1">
+                    <input type="number" id="quantityInput" class="form-control" placeholder="Nhập số lượng" min="1"
+                        value="1">
                     <button id="btnConfirm" class="btn btn-success">Xác nhận</button>
                 </div>
             </div>
@@ -316,14 +335,16 @@
                 <!-- Chính sách đổi trả -->
                 <div class="col-md-4 mb-3">
                     <h5>Chính sách đổi trả</h5>
-                    <p>Hỗ trợ đổi trả trong vòng <strong>7 ngày</strong> nếu sản phẩm bị lỗi kỹ thuật hoặc không đúng mô tả.
+                    <p>Hỗ trợ đổi trả trong vòng <strong>7 ngày</strong> nếu sản phẩm bị lỗi kỹ thuật hoặc không đúng mô
+                        tả.
                     </p>
                 </div>
 
                 <!-- Chính sách bảo hành -->
                 <div class="col-md-4 mb-3">
                     <h5>Bảo hành chính hãng</h5>
-                    <p>Tất cả sản phẩm đều được bảo hành chính hãng từ <strong>6 đến 36 tháng</strong> tùy loại. Hỗ trợ bảo
+                    <p>Tất cả sản phẩm đều được bảo hành chính hãng từ <strong>6 đến 36 tháng</strong> tùy loại. Hỗ trợ
+                        bảo
                         hành nhanh tại cửa hàng.</p>
                 </div>
             </div>

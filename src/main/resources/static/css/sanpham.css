@@ -111,3 +111,8 @@
 .sort-select {
     margin-bottom: 15px;
 }
+
+.no-underline {
+    text-decoration: none;
+    color: #ffffff;
+}

@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
+    margin-left: 20px;
     /* padding: 20px; */
     background: #f4f4f4;
 }
@@ -71,11 +71,16 @@ body {
 }
 
 .product-detail-image {
-    width: 100%; /* Đảm bảo ảnh chiếm toàn bộ chiều rộng của container */
-    max-width: 300px; /* Đặt kích thước tối đa */
-    height: auto; /* Giữ tỷ lệ ảnh */
-    border-radius: 8px; /* Bo góc ảnh */
-    margin-bottom: 20px; /* Khoảng cách dưới ảnh */
+    width: 100%;
+    /* Đảm bảo ảnh chiếm toàn bộ chiều rộng của container */
+    max-width: 300px;
+    /* Đặt kích thước tối đa */
+    height: auto;
+    /* Giữ tỷ lệ ảnh */
+    border-radius: 8px;
+    /* Bo góc ảnh */
+    margin-bottom: 20px;
+    /* Khoảng cách dưới ảnh */
 }
 
 .product-name {
@@ -145,17 +150,25 @@ a {
 }
 
 .form-control#quantityInput {
-    width: 60px; /* Giảm chiều rộng */
-    height: 30px; /* Giảm chiều cao */
-    font-size: 12px; /* Giảm kích thước chữ */
-    text-align: center; /* Căn giữa nội dung */
-    padding: 5px; /* Giảm padding */
-    margin-right: 10px; /* Khoảng cách bên phải */
+    width: 60px;
+    /* Giảm chiều rộng */
+    height: 30px;
+    /* Giảm chiều cao */
+    font-size: 12px;
+    /* Giảm kích thước chữ */
+    text-align: center;
+    /* Căn giữa nội dung */
+    padding: 5px;
+    /* Giảm padding */
+    margin-right: 10px;
+    /* Khoảng cách bên phải */
 }
 
 #btnConfirm {
-    height: 30px; /* Đảm bảo nút có cùng chiều cao với trường nhập */
-    font-size: 12px; /* Giảm kích thước chữ */
+    height: 30px;
+    /* Đảm bảo nút có cùng chiều cao với trường nhập */
+    font-size: 12px;
+    /* Giảm kích thước chữ */
 }
 
 footer h5 {
@@ -202,4 +215,9 @@ footer p {
 
 .list-group-item.active {
     background-color: #242424;
+}
+
+.no-underline {
+    text-decoration: none;
+    color: white;
 }
