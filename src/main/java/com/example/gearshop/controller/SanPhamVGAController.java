@@ -1,7 +1,7 @@
 package com.example.gearshop.controller;
 
-import com.example.gearshop.model.SanPhamCPU;
-import com.example.gearshop.service.SanPhamCPUService;
+import com.example.gearshop.model.SanPhamVGA;
+import com.example.gearshop.service.SanPhamVGAService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,32 +13,32 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-@RequestMapping("/sanphamcpu")
-public class SanPhamCPUController {
+@RequestMapping("/sanphamvga")
+public class SanPhamVGAController {
 
     @Autowired
-    private SanPhamCPUService cpuService;
+    private SanPhamVGAService vgaService;
 
     @GetMapping("/{sanPhamID}")
-    public String getCPUBySanPhamID(@PathVariable Integer sanPhamID, Model model) {
-        // Lấy chi tiết sản phẩm CPU theo sanPhamID
-        SanPhamCPU cpu = cpuService.findBySanPhamID(sanPhamID);
+    public String getVGABySanPhamID(@PathVariable Integer sanPhamID, Model model) {
+        // Lấy chi tiết sản phẩm VGA theo sanPhamID
+        SanPhamVGA vga = vgaService.findBySanPhamID(sanPhamID);
 
-        // Kiểm tra nếu sản phẩm không tồn tại hoặc không phải CPU
-        if (cpu == null || cpu.getSanPham().getLoaiSanPham().getId() != 2) {
+        // Kiểm tra nếu sản phẩm không tồn tại hoặc không phải VGA
+        if (vga == null || vga.getSanPham().getLoaiSanPham().getId() != 4) {
             return "redirect:/error"; // Chuyển hướng đến trang lỗi nếu không tìm thấy sản phẩm
         }
 
         // Tách chuỗi mô tả thành danh sách
-        List<String> motaList = cpu.getMota() != null
-                ? Arrays.asList(cpu.getMota().split("\\|"))
+        List<String> motaList = vga.getMota() != null
+                ? Arrays.asList(vga.getMota().split("\\|"))
                 : null;
 
         // Thêm dữ liệu vào model
-        model.addAttribute("sanPham", cpu.getSanPham());
-        model.addAttribute("sanPhamCPU", cpu);
+        model.addAttribute("sanPham", vga.getSanPham());
+        model.addAttribute("sanPhamVGA", vga);
         model.addAttribute("motaList", motaList);
-        model.addAttribute("loaiSanPham", "CPU");
+        model.addAttribute("loaiSanPham", "VGA");
 
         // Trả về giao diện chung
         return "clientTemplate/chitietsanpham";

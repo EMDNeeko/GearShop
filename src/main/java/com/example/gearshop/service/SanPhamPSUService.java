@@ -50,4 +50,8 @@ public class SanPhamPSUService {
     public List<String> getAllThuongHieu() {
         return psuRepository.findAllThuongHieu();
     }
+
+    public SanPhamPSU findBySanPhamID(Integer sanPhamID) {
+        return psuRepository.findBySanPhamID(sanPhamID);
+    }
 }

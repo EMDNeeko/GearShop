@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.gearshop.model.SanPhamCase;
@@ -31,4 +32,7 @@ public interface SanPhamCaseRepository extends JpaRepository<SanPhamCase, Intege
 
     @Query("SELECT DISTINCT c.sanPham.thuongHieu.tenThuongHieu FROM SanPhamCase c")
     List<String> findAllThuongHieu();
+
+    @Query("SELECT c FROM SanPhamCase c WHERE c.sanPham.id = :sanPhamID")
+    SanPhamCase findBySanPhamID(@Param("sanPhamID") Integer sanPhamID);
 }

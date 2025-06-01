@@ -48,4 +48,8 @@ public class SanPhamOCungService {
     public List<String> getAllThuongHieu() {
         return repository.findAllThuongHieu();
     }
+
+    public SanPhamOCung findBySanPhamID(Integer sanPhamID) {
+        return repository.findBySanPhamID(sanPhamID);
+    }
 }

@@ -12,11 +12,11 @@ import com.example.gearshop.repository.SanPhamRAMRepository;
 @Service
 public class SanPhamRAMService {
     @Autowired
-    private SanPhamRAMRepository repository;
+    private SanPhamRAMRepository ramRepository;
 
     public List<SanPhamRAM> locSanPham(String thuongHieu, String chuanRAM, String dungLuong,
             Long giaMin, Long giaMax, String sort) {
-        List<SanPhamRAM> sanPhamRAMs = repository.findAll();
+        List<SanPhamRAM> sanPhamRAMs = ramRepository.findAll();
 
         return sanPhamRAMs.stream()
                 .filter(ram -> thuongHieu == null || thuongHieu.isEmpty()
@@ -39,14 +39,18 @@ public class SanPhamRAMService {
     }
 
     public List<String> getTatCaChuanRAM() {
-        return repository.findDistinctChuanRAM();
+        return ramRepository.findDistinctChuanRAM();
     }
 
     public List<String> getTatCaDungLuong() {
-        return repository.findDistinctDungLuong();
+        return ramRepository.findDistinctDungLuong();
     }
 
     public List<String> getTatCaThuongHieu() {
-        return repository.findAllThuongHieu();
+        return ramRepository.findAllThuongHieu();
+    }
+
+    public SanPhamRAM findBySanPhamID(Integer sanPhamID) {
+        return ramRepository.findBySanPhamID(sanPhamID);
     }
 }

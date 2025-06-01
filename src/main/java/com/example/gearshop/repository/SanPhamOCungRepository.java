@@ -38,4 +38,7 @@ public interface SanPhamOCungRepository extends JpaRepository<SanPhamOCung, Inte
 
     @Query("SELECT DISTINCT sp.thuongHieu.tenThuongHieu FROM SanPhamOCung o JOIN o.sanPham sp")
     List<String> findAllThuongHieu();
+
+    @Query("SELECT o FROM SanPhamOCung o WHERE o.sanPham.id = :sanPhamID")
+    SanPhamOCung findBySanPhamID(@Param("sanPhamID") Integer sanPhamID);
 }

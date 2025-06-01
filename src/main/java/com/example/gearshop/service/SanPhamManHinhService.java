@@ -64,4 +64,8 @@ public class SanPhamManHinhService {
     public List<String> getAllThuongHieu() {
         return manHinhRepository.findAllThuongHieu();
     }
+
+    public SanPhamManHinh findBySanPhamID(Integer sanPhamID) {
+        return manHinhRepository.findBySanPhamID(sanPhamID);
+    }
 }

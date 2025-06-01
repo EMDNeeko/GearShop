@@ -1,6 +1,5 @@
 package com.example.gearshop.repository;
 
-import com.example.gearshop.model.SanPhamCPU;
 import com.example.gearshop.model.SanPhamVGA;
 
 import java.util.List;
@@ -38,4 +37,7 @@ public interface SanPhamVGARepository extends JpaRepository<SanPhamVGA, Integer>
 
     @Query("SELECT DISTINCT sp.thuongHieu.tenThuongHieu FROM SanPhamVGA v JOIN v.sanPham sp")
     List<String> findAllThuongHieu();
+
+    @Query("SELECT v FROM SanPhamVGA v WHERE v.sanPham.id = :sanPhamID")
+    SanPhamVGA findBySanPhamID(@Param("sanPhamID") Integer sanPhamID);
 }

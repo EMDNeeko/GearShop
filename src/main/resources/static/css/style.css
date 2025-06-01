@@ -123,7 +123,6 @@ a {
     background-color: #fff;
 }
 
-<<<<<<< HEAD
 .table th {
     background-color: #f8f9fa;
     font-weight: bold;
@@ -145,6 +144,20 @@ a {
     color: #ffcc00;
 }
 
+.form-control#quantityInput {
+    width: 60px; /* Giảm chiều rộng */
+    height: 30px; /* Giảm chiều cao */
+    font-size: 12px; /* Giảm kích thước chữ */
+    text-align: center; /* Căn giữa nội dung */
+    padding: 5px; /* Giảm padding */
+    margin-right: 10px; /* Khoảng cách bên phải */
+}
+
+#btnConfirm {
+    height: 30px; /* Đảm bảo nút có cùng chiều cao với trường nhập */
+    font-size: 12px; /* Giảm kích thước chữ */
+}
+
 footer h5 {
     font-weight: bold;
     margin-bottom: 15px;
@@ -154,45 +167,39 @@ footer p {
     font-size: 14px;
     line-height: 1.6;
 }
-=======
-        footer p {
-            font-size: 14px;
-            line-height: 1.6;
-        }
 
-        .custom-dropdown {
-            background-color: transparent;
-            border: none;
-            color: white;
-            padding: 0;
-            margin: 0;
-            font-size: 1rem;
-            text-decoration: none;
-        }
+.custom-dropdown {
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
+    text-decoration: none;
+}
 
-        .custom-dropdown:focus,
-        .custom-dropdown:hover {
-            color: #ffc107;
-            /* Màu khi hover (vàng nhạt) */
-            text-decoration: none;
-        }
+.custom-dropdown:focus,
+.custom-dropdown:hover {
+    color: #ffc107;
+    /* Màu khi hover (vàng nhạt) */
+    text-decoration: none;
+}
 
-        .custom-dropdown::after {
-            margin-left: 5px;
-        }
+.custom-dropdown::after {
+    margin-left: 5px;
+}
 
-        .dropdown-item {
-            text-decoration: none;
-            padding: 10px 20px;
-            display: block;
-        }
+.dropdown-item {
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+}
 
-        .dropdown-item:hover {
-            background-color: #ffc107;
+.dropdown-item:hover {
+    background-color: #ffc107;
 
-        }
+}
 
-        .list-group-item.active {
-            background-color: #242424;
-        }
->>>>>>> 65a8f9553f28a6417b16d4dfbd6af0382d26b1dc
+.list-group-item.active {
+    background-color: #242424;
+}

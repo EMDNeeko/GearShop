@@ -52,7 +52,7 @@ public class SanPhamCPUService {
         return cpuRepository.findAllSoNhanSoLuong();
     }
 
-    public SanPhamCPU findById(Integer id) {
-        return cpuRepository.findById(id).orElse(null);
+    public SanPhamCPU findBySanPhamID(Integer sanPhamID) {
+        return cpuRepository.findBySanPhamID(sanPhamID);
     }
 }

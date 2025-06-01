@@ -53,4 +53,8 @@ public class SanPhamCaseService {
     public List<String> getAllMauCase() {
         return caseRepository.findAllMauCase();
     }
+
+    public SanPhamCase findBySanPhamID(Integer sanPhamID) {
+        return caseRepository.findBySanPhamID(sanPhamID);
+    }
 }

@@ -51,4 +51,8 @@ public class SanPhamCoolerService {
     public List<Boolean> getAllCoLED() {
         return coolerRepository.findAllCoLED();
     }
+
+    public SanPhamCooler findBySanPhamID(Integer sanPhamID) {
+        return coolerRepository.findBySanPhamID(sanPhamID);
+    }
 }

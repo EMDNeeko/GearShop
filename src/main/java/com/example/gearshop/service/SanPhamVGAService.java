@@ -54,4 +54,8 @@ public class SanPhamVGAService {
     public List<String> getAllThuongHieu() {
         return vgaRepository.findAllThuongHieu();
     }
+
+    public SanPhamVGA findBySanPhamID(Integer sanPhamID) {
+        return vgaRepository.findBySanPhamID(sanPhamID);
+    }
 }

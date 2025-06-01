@@ -1,7 +1,7 @@
 package com.example.gearshop.controller;
 
-import com.example.gearshop.model.SanPhamCPU;
-import com.example.gearshop.service.SanPhamCPUService;
+import com.example.gearshop.model.SanPhamRAM;
+import com.example.gearshop.service.SanPhamRAMService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,32 +13,32 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-@RequestMapping("/sanphamcpu")
-public class SanPhamCPUController {
+@RequestMapping("/sanphamram")
+public class SanPhamRAMController {
 
     @Autowired
-    private SanPhamCPUService cpuService;
+    private SanPhamRAMService ramService;
 
     @GetMapping("/{sanPhamID}")
-    public String getCPUBySanPhamID(@PathVariable Integer sanPhamID, Model model) {
-        // Lấy chi tiết sản phẩm CPU theo sanPhamID
-        SanPhamCPU cpu = cpuService.findBySanPhamID(sanPhamID);
+    public String getRAMBySanPhamID(@PathVariable Integer sanPhamID, Model model) {
+        // Lấy chi tiết sản phẩm RAM theo sanPhamID
+        SanPhamRAM ram = ramService.findBySanPhamID(sanPhamID);
 
-        // Kiểm tra nếu sản phẩm không tồn tại hoặc không phải CPU
-        if (cpu == null || cpu.getSanPham().getLoaiSanPham().getId() != 2) {
+        // Kiểm tra nếu sản phẩm không tồn tại hoặc không phải RAM
+        if (ram == null || ram.getSanPham().getLoaiSanPham().getId() != 3) {
             return "redirect:/error"; // Chuyển hướng đến trang lỗi nếu không tìm thấy sản phẩm
         }
 
         // Tách chuỗi mô tả thành danh sách
-        List<String> motaList = cpu.getMota() != null
-                ? Arrays.asList(cpu.getMota().split("\\|"))
+        List<String> motaList = ram.getMota() != null
+                ? Arrays.asList(ram.getMota().split("\\|"))
                 : null;
 
         // Thêm dữ liệu vào model
-        model.addAttribute("sanPham", cpu.getSanPham());
-        model.addAttribute("sanPhamCPU", cpu);
+        model.addAttribute("sanPham", ram.getSanPham());
+        model.addAttribute("sanPhamRAM", ram);
         model.addAttribute("motaList", motaList);
-        model.addAttribute("loaiSanPham", "CPU");
+        model.addAttribute("loaiSanPham", "RAM");
 
         // Trả về giao diện chung
         return "clientTemplate/chitietsanpham";

@@ -36,4 +36,7 @@ public interface SanPhamCoolerRepository extends JpaRepository<SanPhamCooler, In
 
     @Query("SELECT DISTINCT sp.thuongHieu.tenThuongHieu FROM SanPhamCooler c JOIN c.sanPham sp")
     List<String> findAllThuongHieu();
+
+    @Query("SELECT c FROM SanPhamCooler c WHERE c.sanPham.id = :sanPhamID")
+    SanPhamCooler findBySanPhamID(@Param("sanPhamID") Integer sanPhamID);
 }

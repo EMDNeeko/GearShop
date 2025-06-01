@@ -21,6 +21,9 @@ public interface SanPhamRAMRepository extends JpaRepository<SanPhamRAM, Integer>
     @Query("SELECT DISTINCT sp.thuongHieu.tenThuongHieu FROM SanPhamRAM cpu JOIN cpu.sanPham sp")
     List<String> findAllThuongHieu();
 
+    @Query("SELECT r FROM SanPhamRAM r WHERE r.sanPham.id = :sanPhamID")
+        SanPhamRAM findBySanPhamID(@Param("sanPhamID") Integer sanPhamID);
+
     @Query("SELECT r FROM SanPhamRAM r " +
             "WHERE (:thuongHieu IS NULL OR r.sanPham.thuongHieu.tenThuongHieu = :thuongHieu) " +
             "AND (:chuanRAM IS NULL OR r.chuanRAM = :chuanRAM) " +
@@ -36,4 +39,5 @@ public interface SanPhamRAMRepository extends JpaRepository<SanPhamRAM, Integer>
             @Param("giaMin") Long giaMin,
             @Param("giaMax") Long giaMax,
             @Param("sort") String sort);
+
 }

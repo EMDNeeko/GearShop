@@ -52,4 +52,7 @@ public interface SanPhamManHinhRepository extends JpaRepository<SanPhamManHinh, 
 
     @Query("SELECT DISTINCT m.sanPham.thuongHieu.tenThuongHieu FROM SanPhamManHinh m")
     List<String> findAllThuongHieu();
+
+    @Query("SELECT m FROM SanPhamManHinh m WHERE m.sanPham.id = :sanPhamID")
+    SanPhamManHinh findBySanPhamID(@Param("sanPhamID") Integer sanPhamID);
 }
