@@ -8,4 +8,8 @@ import com.example.gearshop.model.NhanVien;
 
 public interface NhanVienRepository extends JpaRepository<NhanVien, Integer> {
     Optional<NhanVien> findByNguoiDung_Id(int nguoiDungId);
+
+    void deleteByNguoiDung_Id(Integer id);
+
+    boolean existsByNguoiDung_Id(Integer id);
 }

@@ -13,4 +13,8 @@ public interface KhachHangRepository extends JpaRepository<KhachHang, Integer> {
 
     @Query("SELECT k.maKhachHang FROM KhachHang k ORDER BY k.maKhachHang DESC LIMIT 1")
     String findMaxMaKhachHang();
+
+    void deleteByNguoiDung_Id(Integer id);
+
+    boolean existsByNguoiDung_Id(Integer id);
 }
