@@ -1,0 +1,702 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <header class="bg-dark text-white py-3">
+        <div class="container d-flex align-items-center justify-content-between">
+            <div class="fs-3 fw-bold"><a class="no-underline" href="/admin/trangchu">PGearShop Administrator</a></div>
+
+            <div class="d-flex align-items-center">
+
+                <!-- Nếu đã đăng nhập -->
+                <div class="dropdown" th:if="${nguoiDung != null}">
+                    <a class="custom-dropdown dropdown-toggle no-underline" href="#" role="button" id="userDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <span th:text="'Xin chào, ' + ${nguoiDung.tenNguoiDung}">Xin chào, Tên</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" th:href="@{/thongtincanhan}">Thông tin cá nhân</a></li>
+                        <li><a class="dropdown-item" th:href="@{/dangxuat}">Đăng xuất</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Chi tiết sản phẩm</title>
+    </head>
+
+    <body>
+        <h2>Chi tiết sản phẩm</h2>
+
+        <!-- Thông tin chung -->
+        <div>
+            <p><strong>Tên:</strong> <span th:text="${sanPham.tenSanPham}"></span></p>
+            <p><strong>Giá:</strong> <span
+                    th:text="${#numbers.formatDecimal(sanPham.gia, 0, 'COMMA', '0', 'POINT')}"></span> VNĐ</p>
+            <p><strong>Thương hiệu:</strong> <span th:text="${sanPham.thuongHieu.tenThuongHieu}"></span></p>
+            <p><strong>Loại sản phẩm:</strong> <span th:text="${sanPham.loaiSanPham.tenLoaiSanPham}"></span></p>
+            <p><strong>Ngày thêm:</strong> <span
+                    th:text="${#temporals.format(sanPham.ngayThem, 'dd/MM/yyyy HH:mm')}"></span></p>
+        </div>
+        <div>
+            <img th:src="@{'/images/product/' + ${sanPham.hinhAnh}}" alt="Ảnh sản phẩm" width="300"
+                style="border: 1px solid #ccc; padding: 10px;" />
+        </div>
+
+        <hr>
+
+        <!-- Chi tiết theo loại -->
+
+        <div th:switch="${sanPham.loaiSanPham.tenLoaiSanPham.toLowerCase()}">
+
+            <div th:case="'mainboard'"
+                th:replace="fragments/mainboard-detail :: mainboardDetailFragment(~{chiTietSanPham=${chiTietSanPham}})">
+            </div>
+            <div th:case="'cpu'"
+                th:replace="fragments/cpu-detail :: cpuDetailFragment(~{chiTietSanPham=${chiTietSanPham}})"></div>
+            <div th:case="'ram'"
+                th:replace="fragments/ram-detail :: ramDetailFragment(~{chiTietSanPham=${chiTietSanPham}})"></div>
+            <div th:case="'vga'"
+                th:replace="fragments/vga-detail :: vgaDetailFragment(~{chiTietSanPham=${chiTietSanPham}})"></div>
+            <div th:case="'ocung'"
+                th:replace="fragments/ocung-detail :: ocungDetailFragment(~{chiTietSanPham=${chiTietSanPham}})"></div>
+            <div th:case="'psu'"
+                th:replace="fragments/psu-detail :: psuDetailFragment(~{chiTietSanPham=${chiTietSanPham}})"></div>
+            <div th:case="'cooler'"
+                th:replace="fragments/cooler-detail :: coolerDetailFragment(~{chiTietSanPham=${chiTietSanPham}})">
+            </div>
+            <div th:case="'manhinh'"
+                th:replace="fragments/manhinh-detail :: manhinhDetailFragment(~{chiTietSanPham=${chiTietSanPham}})">
+            </div>
+            <div th:case="'case'"
+                th:replace="fragments/case-detail :: caseDetailFragment(~{chiTietSanPham=${chiTietSanPham}})">
+            </div>
+            <div th:case="*">
+                <p><i>Không có thông tin chi tiết cho loại sản phẩm này.</i></p>
+            </div>
+        </div>
+        <div class="mt-4">
+            <a href="/admin/quanlysanpham" class="btn btn-secondary">⬅ Trở lại danh sách</a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+                Sửa
+            </button>
+        </div>
+
+        <!-- Modal CPU -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg"> <!-- modal-lg để rộng hơn -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Chỉnh sửa CPU</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <form th:action="@{/admin/quanlysanpham/capnhat/cpu}" th:object="${cpu}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" th:field="*{sanPham.id}" />
+
+                            <div class="mb-3">
+                                <label for="tenSanPham" class="form-label">Tên sản phẩm</label>
+                                <input type="text" th:field="*{sanPham.tenSanPham}" class="form-control" id="tenSanPham"
+                                    required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="thuongHieu" class="form-label">Thương hiệu</label>
+                                <select th:field="*{sanPham.thuongHieu.id}" class="form-select" id="thuongHieu"
+                                    required>
+                                    <option th:each="thuongHieu : ${thuongHieuList}" th:value="${thuongHieu.id}"
+                                        th:text="${thuongHieu.tenThuongHieu}"
+                                        th:selected="${thuongHieu.id} == ${cpu.sanPham.thuongHieu.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="loaiSanPham" class="form-label">Loại sản phẩm</label>
+                                <select th:field="*{sanPham.loaiSanPham.id}" class="form-select" id="loaiSanPham"
+                                    required>
+                                    <option th:each="loaiSP : ${loaiSanPhamList}" th:value="${loaiSP.id}"
+                                        th:text="${loaiSP.tenLoaiSanPham}"
+                                        th:selected="${loaiSP.id} == ${cpu.sanPham.loaiSanPham.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="gia" class="form-label">Giá tiền</label>
+                                <input type="number" min="0" th:field="*{sanPham.gia}" class="form-control" id="gia"
+                                    required />
+                            </div>
+
+                            <!-- Thuộc tính riêng của CPU -->
+                            <div class="mb-3">
+                                <label for="loaiCPU" class="form-label">Loại CPU</label>
+                                <input type="text" th:field="*{loaiCPU}" class="form-control" id="loaiCPU" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="soNhanSoLuong" class="form-label">Số nhân - số lượng luồng</label>
+                                <input type="text" th:field="*{soNhansoLuong}" class="form-control" id="soNhanSoLuong"
+                                    required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="moTa" class="form-label">Mô tả</label>
+                                <textarea th:field="*{mota}" class="form-control" id="moTa" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Mainboard-->
+        <div class="modal fade" id="editMainBoardModal" tabindex="-1" aria-labelledby="editMainBoardLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editMainBoardLabel">Chỉnh sửa MainBoard</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <form th:action="@{/admin/quanlysanpham/capnhat/mainboard}" th:object="${mainboard}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" th:field="*{sanPham.id}" />
+
+                            <div class="mb-3">
+                                <label class="form-label">Tên sản phẩm</label>
+                                <input type="text" th:field="*{sanPham.tenSanPham}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Thương hiệu</label>
+                                <select th:field="*{sanPham.thuongHieu.id}" class="form-select" required>
+                                    <option th:each="thuongHieu : ${thuongHieuList}" th:value="${thuongHieu.id}"
+                                        th:text="${thuongHieu.tenThuongHieu}"
+                                        th:selected="${thuongHieu.id} == ${mainboard.sanPham.thuongHieu.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Loại sản phẩm</label>
+                                <select th:field="*{sanPham.loaiSanPham.id}" class="form-select" required>
+                                    <option th:each="loaiSP : ${loaiSanPhamList}" th:value="${loaiSP.id}"
+                                        th:text="${loaiSP.tenLoaiSanPham}"
+                                        th:selected="${loaiSP.id} == ${mainboard.sanPham.loaiSanPham.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Giá tiền</label>
+                                <input type="number" min="0" th:field="*{sanPham.gia}" class="form-control" required />
+                            </div>
+
+                            <!-- Thuộc tính MainBoard -->
+                            <div class="mb-3">
+                                <label class="form-label">Model Main</label>
+                                <input type="text" th:field="*{modelMain}" class="form-control" required />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Chipset</label>
+                                <input type="text" th:field="*{chipSet}" class="form-control" required />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Socket Main</label>
+                                <input type="text" th:field="*{socketMain}" class="form-control" required />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Kích thước</label>
+                                <input type="text" th:field="*{kichThuoc}" class="form-control" required />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Số khe RAM</label>
+                                <input type="number" min="0" th:field="*{soKheRAM}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Mô tả</label>
+                                <textarea th:field="*{mota}" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- RAM-->
+        <div class="modal fade" id="editRAMModal" tabindex="-1" aria-labelledby="editRAMLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editRAMLabel">Chỉnh sửa RAM</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <form th:action="@{/admin/quanlysanpham/capnhat/ram}" th:object="${ram}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" th:field="*{sanPham.id}" />
+
+                            <div class="mb-3">
+                                <label class="form-label">Tên sản phẩm</label>
+                                <input type="text" th:field="*{sanPham.tenSanPham}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Thương hiệu</label>
+                                <select th:field="*{sanPham.thuongHieu.id}" class="form-select" required>
+                                    <option th:each="thuongHieu : ${thuongHieuList}" th:value="${thuongHieu.id}"
+                                        th:text="${thuongHieu.tenThuongHieu}"
+                                        th:selected="${thuongHieu.id} == ${ram.sanPham.thuongHieu.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Loại sản phẩm</label>
+                                <select th:field="*{sanPham.loaiSanPham.id}" class="form-select" required>
+                                    <option th:each="loaiSP : ${loaiSanPhamList}" th:value="${loaiSP.id}"
+                                        th:text="${loaiSP.tenLoaiSanPham}"
+                                        th:selected="${loaiSP.id} == ${ram.sanPham.loaiSanPham.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Giá tiền</label>
+                                <input type="number" min="0" th:field="*{sanPham.gia}" class="form-control" required />
+                            </div>
+
+                            <!-- Thuộc tính RAM -->
+                            <div class="mb-3">
+                                <label class="form-label">Chuẩn RAM</label>
+                                <input type="text" th:field="*{chuanRAM}" class="form-control" required />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Dung lượng</label>
+                                <input type="text" th:field="*{dungLuong}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Mô tả</label>
+                                <textarea th:field="*{mota}" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- VGA-->
+        <div class="modal fade" id="editVGAModal" tabindex="-1" aria-labelledby="editVGALabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editVGALabel">Chỉnh sửa VGA</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <form th:action="@{/admin/quanlysanpham/capnhat/vga}" th:object="${vga}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" th:field="*{sanPham.id}" />
+
+                            <div class="mb-3">
+                                <label class="form-label">Tên sản phẩm</label>
+                                <input type="text" th:field="*{sanPham.tenSanPham}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Thương hiệu</label>
+                                <select th:field="*{sanPham.thuongHieu.id}" class="form-select" required>
+                                    <option th:each="thuongHieu : ${thuongHieuList}" th:value="${thuongHieu.id}"
+                                        th:text="${thuongHieu.tenThuongHieu}"
+                                        th:selected="${thuongHieu.id} == ${vga.sanPham.thuongHieu.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Loại sản phẩm</label>
+                                <select th:field="*{sanPham.loaiSanPham.id}" class="form-select" required>
+                                    <option th:each="loaiSP : ${loaiSanPhamList}" th:value="${loaiSP.id}"
+                                        th:text="${loaiSP.tenLoaiSanPham}"
+                                        th:selected="${loaiSP.id} == ${vga.sanPham.loaiSanPham.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Giá tiền</label>
+                                <input type="number" min="0" th:field="*{sanPham.gia}" class="form-control" required />
+                            </div>
+
+                            <!-- Thuộc tính VGA -->
+                            <div class="mb-3">
+                                <label class="form-label">Loại bộ nhớ</label>
+                                <input type="text" th:field="*{kieuBoNho}" class="form-control" required />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Dung lượng bộ nhớ</label>
+                                <input type="text" th:field="*{dungLuongBoNho}" class="form-control" required />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Chip GPU</label>
+                                <input type="text" th:field="*{chipGPU}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Mô tả</label>
+                                <textarea th:field="*{mota}" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--Ở cứng-->
+        <div class="modal fade" id="editOCungModal" tabindex="-1" aria-labelledby="editOCungLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editOCungLabel">Chỉnh sửa Ổ cứng</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <form th:action="@{/admin/quanlysanpham/capnhat/ocung}" th:object="${ocung}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" th:field="*{sanPham.id}" />
+
+                            <div class="mb-3">
+                                <label class="form-label">Tên sản phẩm</label>
+                                <input type="text" th:field="*{sanPham.tenSanPham}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Thương hiệu</label>
+                                <select th:field="*{sanPham.thuongHieu.id}" class="form-select" required>
+                                    <option th:each="thuongHieu : ${thuongHieuList}" th:value="${thuongHieu.id}"
+                                        th:text="${thuongHieu.tenThuongHieu}"
+                                        th:selected="${thuongHieu.id} == ${ocung.sanPham.thuongHieu.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Loại sản phẩm</label>
+                                <select th:field="*{sanPham.loaiSanPham.id}" class="form-select" required>
+                                    <option th:each="loaiSP : ${loaiSanPhamList}" th:value="${loaiSP.id}"
+                                        th:text="${loaiSP.tenLoaiSanPham}"
+                                        th:selected="${loaiSP.id} == ${ocung.sanPham.loaiSanPham.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Giá tiền</label>
+                                <input type="number" min="0" th:field="*{sanPham.gia}" class="form-control" required />
+                            </div>
+
+                            <!-- Thuộc tính OCung -->
+                            <div class="mb-3">
+                                <label class="form-label">Loại ổ cứng</label>
+                                <input type="text" th:field="*{loaiOCung}" class="form-control" required />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Dung lượng</label>
+                                <input type="text" th:field="*{dungLuong}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Mô tả</label>
+                                <textarea th:field="*{mota}" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- PSU-->
+        <div class="modal fade" id="editPSUModal" tabindex="-1" aria-labelledby="editPSULabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editPSULabel">Chỉnh sửa PSU</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <form th:action="@{/admin/quanlysanpham/capnhat/psu}" th:object="${psu}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" th:field="*{sanPham.id}" />
+
+                            <div class="mb-3">
+                                <label class="form-label">Tên sản phẩm</label>
+                                <input type="text" th:field="*{sanPham.tenSanPham}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Thương hiệu</label>
+                                <select th:field="*{sanPham.thuongHieu.id}" class="form-select" required>
+                                    <option th:each="thuongHieu : ${thuongHieuList}" th:value="${thuongHieu.id}"
+                                        th:text="${thuongHieu.tenThuongHieu}"
+                                        th:selected="${thuongHieu.id} == ${psu.sanPham.thuongHieu.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Loại sản phẩm</label>
+                                <select th:field="*{sanPham.loaiSanPham.id}" class="form-select" required>
+                                    <option th:each="loaiSP : ${loaiSanPhamList}" th:value="${loaiSP.id}"
+                                        th:text="${loaiSP.tenLoaiSanPham}"
+                                        th:selected="${loaiSP.id} == ${psu.sanPham.loaiSanPham.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Giá tiền</label>
+                                <input type="number" min="0" th:field="*{sanPham.gia}" class="form-control" required />
+                            </div>
+
+                            <!-- Thuộc tính PSU -->
+                            <div class="mb-3">
+                                <label class="form-label">Công suất (W)</label>
+                                <input type="number" min="0" th:field="*{congSuat}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Mô tả</label>
+                                <textarea th:field="*{mota}" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Cooler-->
+        <div class="modal fade" id="editCoolerModal" tabindex="-1" aria-labelledby="editCoolerLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editCoolerLabel">Chỉnh sửa Cooler</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <form th:action="@{/admin/quanlysanpham/capnhat/cooler}" th:object="${cooler}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" th:field="*{sanPham.id}" />
+
+                            <div class="mb-3">
+                                <label class="form-label">Tên sản phẩm</label>
+                                <input type="text" th:field="*{sanPham.tenSanPham}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Thương hiệu</label>
+                                <select th:field="*{sanPham.thuongHieu.id}" class="form-select" required>
+                                    <option th:each="thuongHieu : ${thuongHieuList}" th:value="${thuongHieu.id}"
+                                        th:text="${thuongHieu.tenThuongHieu}"
+                                        th:selected="${thuongHieu.id} == ${cooler.sanPham.thuongHieu.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Loại sản phẩm</label>
+                                <select th:field="*{sanPham.loaiSanPham.id}" class="form-select" required>
+                                    <option th:each="loaiSP : ${loaiSanPhamList}" th:value="${loaiSP.id}"
+                                        th:text="${loaiSP.tenLoaiSanPham}"
+                                        th:selected="${loaiSP.id} == ${cooler.sanPham.loaiSanPham.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Giá tiền</label>
+                                <input type="number" min="0" th:field="*{sanPham.gia}" class="form-control" required />
+                            </div>
+
+                            <!-- Thuộc tính Cooler -->
+                            <div class="mb-3">
+                                <label class="form-label">Loại Cooler</label>
+                                <input type="text" th:field="*{loaiCooler}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Mô tả</label>
+                                <textarea th:field="*{mota}" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--Case-->
+        <div class="modal fade" id="editCaseModal" tabindex="-1" aria-labelledby="editCaseLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editCaseLabel">Chỉnh sửa Case</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <form th:action="@{/admin/quanlysanpham/capnhat/case}" th:object="${casePC}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" th:field="*{sanPham.id}" />
+
+                            <div class="mb-3">
+                                <label class="form-label">Tên sản phẩm</label>
+                                <input type="text" th:field="*{sanPham.tenSanPham}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Thương hiệu</label>
+                                <select th:field="*{sanPham.thuongHieu.id}" class="form-select" required>
+                                    <option th:each="thuongHieu : ${thuongHieuList}" th:value="${thuongHieu.id}"
+                                        th:text="${thuongHieu.tenThuongHieu}"
+                                        th:selected="${thuongHieu.id} == ${casePC.sanPham.thuongHieu.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Loại sản phẩm</label>
+                                <select th:field="*{sanPham.loaiSanPham.id}" class="form-select" required>
+                                    <option th:each="loaiSP : ${loaiSanPhamList}" th:value="${loaiSP.id}"
+                                        th:text="${loaiSP.tenLoaiSanPham}"
+                                        th:selected="${loaiSP.id} == ${casePC.sanPham.loaiSanPham.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Giá tiền</label>
+                                <input type="number" min="0" th:field="*{sanPham.gia}" class="form-control" required />
+                            </div>
+
+                            <!-- Thuộc tính Case -->
+                            <div class="mb-3">
+                                <label class="form-label">Kích thước Case</label>
+                                <input type="text" th:field="*{kichThuocCase}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Màu sắc</label>
+                                <input type="text" th:field="*{mauSac}" class="form-control" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Mô tả</label>
+                                <textarea th:field="*{mota}" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Màn hình-->
+        <div class="modal fade" id="editManHinhModal" tabindex="-1" aria-labelledby="editManHinhLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editManHinhLabel">Chỉnh sửa Màn hình</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <form th:action="@{/admin/quanlysanpham/capnhat/manhinh}" th:object="${manHinh}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" th:field="*{sanPham.id}" />
+
+                            <div class="mb-3">
+                                <label class="form-label">Tên sản phẩm</label>
+                                <input type="text" th:field="*{sanPham.tenSanPham}" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Thương hiệu</label>
+                                <select th:field="*{sanPham.thuongHieu.id}" class="form-select" required>
+                                    <option th:each="thuongHieu : ${thuongHieuList}" th:value="${thuongHieu.id}"
+                                        th:text="${thuongHieu.tenThuongHieu}"
+                                        th:selected="${thuongHieu.id} == ${manHinh.sanPham.thuongHieu.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Loại sản phẩm</label>
+                                <select th:field="*{sanPham.loaiSanPham.id}" class="form-select" required>
+                                    <option th:each="loaiSP : ${loaiSanPhamList}" th:value="${loaiSP.id}"
+                                        th:text="${loaiSP.tenLoaiSanPham}"
+                                        th:selected="${loaiSP.id} == ${manHinh.sanPham.loaiSanPham.id}"></option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Giá tiền</label>
+                                <input type="number" min="0" th:field="*{sanPham.gia}" class="form-control" required />
+                            </div>
+
+                            <!-- Thuộc tính Màn hình -->
+                            <div class="mb-3">
+                                <label class="form-label">Kích thước</label>
+                                <input type="text" th:field="*{kichThuoc}" class="form-control" required />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tấm nền</label>
+                                <input type="text" th:field="*{tamNen}" class="form-control" />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Độ phân giải</label>
+                                <input type="text" th:field="*{doPhanGiai}" class="form-control" />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tần số quét (Hz)</label>
+                                <input type="number" min="0" th:field="*{tanSoQuet}" class="form-control" />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Bề mặt</label>
+                                <input type="text" th:field="*{beMat}" class="form-control" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Mô tả</label>
+                                <textarea th:field="*{mota}" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+    </html>
+
+
+</body>
+
+</html>

@@ -1,6 +1,10 @@
 package com.example.gearshop.controller;
 
+import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +22,17 @@ import com.example.gearshop.dto.NguoiDungDTO;
 import com.example.gearshop.model.KhachHang;
 import com.example.gearshop.model.NguoiDung;
 import com.example.gearshop.model.NhanVien;
+import com.example.gearshop.model.SanPham;
+import com.example.gearshop.model.SanPhamMainBoard;
 import com.example.gearshop.repository.KhachHangRepository;
 import com.example.gearshop.repository.NguoiDungRepository;
 import com.example.gearshop.repository.NhanVienRepository;
 import com.example.gearshop.service.NguoiDungService;
+import com.example.gearshop.service.SanPhamService;
+import com.example.gearshop.service.LoaiSanPhamService;
+import com.example.gearshop.service.ThuongHieuService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 
 @Controller
@@ -35,6 +45,12 @@ public class AdminController {
     private KhachHangRepository khachHangRepo;
     @Autowired
     private NhanVienRepository nhanVienRepo;
+    @Autowired
+    private LoaiSanPhamService loaiSanPhamService;
+    @Autowired
+    private ThuongHieuService thuongHieuService;
+    @Autowired
+    private SanPhamService sanPhamService;
     @Autowired
     private NguoiDungService nguoiDungService;
 
@@ -175,11 +191,6 @@ public class AdminController {
     @GetMapping("/themsanpham")
     public String themSanPham() {
         return "adminTemplate/themsanpham";
-    }
-
-    @GetMapping("/quanlysanpham")
-    public String quanLySanPham() {
-        return "adminTemplate/quanlysanpham";
     }
 
     @GetMapping("/khuyenmai")

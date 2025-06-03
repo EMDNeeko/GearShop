@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.example.gearshop.model.NguoiDung;
 import com.example.gearshop.model.NhanVien;
 
 public interface NhanVienRepository extends JpaRepository<NhanVien, Integer> {
@@ -12,4 +13,6 @@ public interface NhanVienRepository extends JpaRepository<NhanVien, Integer> {
     void deleteByNguoiDung_Id(Integer id);
 
     boolean existsByNguoiDung_Id(Integer id);
+
+    Optional<NhanVien> findByNguoiDung(NguoiDung nguoidung);
 }

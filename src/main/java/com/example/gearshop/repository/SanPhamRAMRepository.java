@@ -22,7 +22,7 @@ public interface SanPhamRAMRepository extends JpaRepository<SanPhamRAM, Integer>
     List<String> findAllThuongHieu();
 
     @Query("SELECT r FROM SanPhamRAM r WHERE r.sanPham.id = :sanPhamID")
-        SanPhamRAM findBySanPhamID(@Param("sanPhamID") Integer sanPhamID);
+    SanPhamRAM findBySanPhamID(@Param("sanPhamID") Integer sanPhamID);
 
     @Query("SELECT r FROM SanPhamRAM r " +
             "WHERE (:thuongHieu IS NULL OR r.sanPham.thuongHieu.tenThuongHieu = :thuongHieu) " +
@@ -40,4 +40,5 @@ public interface SanPhamRAMRepository extends JpaRepository<SanPhamRAM, Integer>
             @Param("giaMax") Long giaMax,
             @Param("sort") String sort);
 
+    SanPhamRAM findBySanPham(com.example.gearshop.model.SanPham sp);
 }
