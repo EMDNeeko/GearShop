@@ -59,4 +59,6 @@ public interface SanPhamMainBoardRepository
         SanPhamMainBoard findBySanPhamID(Integer sanPhamId);
 
         SanPhamMainBoard findBySanPham(SanPham sanPham);
+
+        void deleteBySanPham(SanPham sanPham);
 }

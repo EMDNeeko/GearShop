@@ -25,6 +25,10 @@ public class SanPhamVGA {
     private String mota;
 
     // getters và setters
+    public Integer getId() {
+        return ID;
+    }
+
     public String getMaVGA() {
         return maVGA;
     }

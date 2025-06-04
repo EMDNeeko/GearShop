@@ -88,7 +88,7 @@
                 <tr th:each="sp : ${dsSanPham}">
                     <td th:text="${sp.maSanPham}"></td>
                     <td th:text="${sp.tenSanPham}"></td>
-                    <td th:text="${sp.loaiSanPham.tenLoaiSanPham}"></td>
+                    <td th:text="${#strings.defaultString(sp.loaiSanPham?.tenLoaiSanPham, 'Không xác định')}"></td>
                     <td th:text="${sp.thuongHieu.tenThuongHieu}"></td>
                     <td th:text="${sp.nguoiThem.nguoiDung.tenNguoiDung}"></td>
                     <td th:text="${#temporals.format(sp.ngayThem, 'dd/MM/yyyy')}"></td>

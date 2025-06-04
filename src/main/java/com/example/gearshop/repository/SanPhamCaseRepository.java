@@ -38,4 +38,6 @@ public interface SanPhamCaseRepository extends JpaRepository<SanPhamCase, Intege
         SanPhamCase findBySanPhamID(@Param("sanPhamID") Integer sanPhamID);
 
         SanPhamCase findBySanPham(SanPham sp);
+
+        void deleteBySanPham(SanPham sp);
 }

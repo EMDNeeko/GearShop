@@ -18,5 +18,12 @@ public class LoaiSanPhamService {
         return loaiSanPhamRepository.findAll();
     }
 
+    public LoaiSanPham getByTenLoaiSanPham(String tenLoaiSanPham) {
+        return loaiSanPhamRepository.findByTenLoaiSanPham(tenLoaiSanPham);
+    }
+
+    public LoaiSanPham getByIdLoaiSanPham(Integer maLoaiSanPham) {
+        return loaiSanPhamRepository.findById(maLoaiSanPham);
+    }
     // existing code
 }

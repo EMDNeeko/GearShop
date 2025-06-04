@@ -13,6 +13,9 @@ import com.example.gearshop.model.SanPhamRAM;
 import com.example.gearshop.model.SanPhamVGA;
 import com.example.gearshop.model.ThuongHieu;
 import com.example.gearshop.repository.*;
+
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,26 +77,27 @@ public class SanPhamService {
     }
 
     public Object layChiTietTheoLoai(SanPham sp) {
-        String tenLoai = sp.getLoaiSanPham().getTenLoaiSanPham();
+        String tenLoai = sp.getLoaiSanPham().getMaLoaiSP();
         System.out.println("Loại sản phẩm: " + tenLoai);
         switch (tenLoai) {
-            case "CPU":
+            case "LSP02":
                 return (SanPhamCPU) cpuRepo.findBySanPhamID(sp.getId());
-            case "RAM":
+            case "LSP03":
                 return (SanPhamRAM) ramRepo.findBySanPhamID(sp.getId());
-            case "Mainboard":
+            case "LSP01":
+                System.out.println(((SanPhamMainBoard) mainBoardRepo.findBySanPhamID(sp.getId())).getModelMain());
                 return (SanPhamMainBoard) mainBoardRepo.findBySanPhamID(sp.getId());
-            case "VGA":
+            case "LSP04":
                 return (SanPhamVGA) vgaRepo.findBySanPhamID(sp.getId());
-            case "Ổ Cứng":
+            case "LSP05":
                 return (SanPhamOCung) oCungRepo.findBySanPhamID(sp.getId());
-            case "PSU":
+            case "LSP06":
                 return (SanPhamPSU) psuRepo.findBySanPhamID(sp.getId());
-            case "Cooler":
+            case "LSP07":
                 return (SanPhamCooler) coolerRepo.findBySanPhamID(sp.getId());
-            case "Case":
+            case "LSP08":
                 return (SanPhamCase) caseRepo.findBySanPhamID(sp.getId());
-            case "Màn hình":
+            case "LSP09":
                 return (SanPhamManHinh) manHinhRepo.findBySanPhamID(sp.getId());
             default:
                 return null;
@@ -102,8 +106,8 @@ public class SanPhamService {
 
     public void capNhatSanPhamVaChiTiet(SanPham sanPham, Object sanPhamMoi) {
 
-        switch (sanPham.getLoaiSanPham().getTenLoaiSanPham().toLowerCase()) {
-            case "cpu":
+        switch (sanPham.getLoaiSanPham().getMaLoaiSP().toLowerCase()) {
+            case "lsp02":
                 if (sanPhamMoi instanceof SanPhamCPU cpuMoi) {
                     SanPham sanPhamTuForm = cpuMoi.getSanPham();
                     sanPham.setTenSanPham(sanPhamTuForm.getTenSanPham());
@@ -126,7 +130,7 @@ public class SanPhamService {
                 }
                 break;
 
-            case "mainboard":
+            case "lsp01":
                 if (sanPhamMoi instanceof SanPhamMainBoard mbMoi) {
                     SanPham sanPhamTuForm = mbMoi.getSanPham();
                     sanPham.setTenSanPham(sanPhamTuForm.getTenSanPham());
@@ -152,7 +156,7 @@ public class SanPhamService {
                 }
                 break;
 
-            case "ram":
+            case "lsp03":
                 if (sanPhamMoi instanceof SanPhamRAM ramMoi) {
                     SanPham sanPhamTuForm = ramMoi.getSanPham();
                     sanPham.setTenSanPham(sanPhamTuForm.getTenSanPham());
@@ -175,7 +179,7 @@ public class SanPhamService {
                 }
                 break;
 
-            case "vga":
+            case "lsp04":
                 if (sanPhamMoi instanceof SanPhamVGA vgaMoi) {
                     SanPham sanPhamTuForm = vgaMoi.getSanPham();
                     sanPham.setTenSanPham(sanPhamTuForm.getTenSanPham());
@@ -199,7 +203,7 @@ public class SanPhamService {
                 }
                 break;
 
-            case "ocung":
+            case "lsp05":
                 if (sanPhamMoi instanceof SanPhamOCung ocungMoi) {
                     SanPham sanPhamTuForm = ocungMoi.getSanPham();
                     sanPham.setTenSanPham(sanPhamTuForm.getTenSanPham());
@@ -222,7 +226,7 @@ public class SanPhamService {
                 }
                 break;
 
-            case "psu":
+            case "lsp06":
                 if (sanPhamMoi instanceof SanPhamPSU psuMoi) {
                     SanPham sanPhamTuForm = psuMoi.getSanPham();
                     sanPham.setTenSanPham(sanPhamTuForm.getTenSanPham());
@@ -245,7 +249,7 @@ public class SanPhamService {
                 }
                 break;
 
-            case "cooler":
+            case "lsp07":
                 if (sanPhamMoi instanceof SanPhamCooler coolerMoi) {
                     SanPham sanPhamTuForm = coolerMoi.getSanPham();
                     sanPham.setTenSanPham(sanPhamTuForm.getTenSanPham());
@@ -268,7 +272,7 @@ public class SanPhamService {
                 }
                 break;
 
-            case "case":
+            case "lsp08":
                 if (sanPhamMoi instanceof SanPhamCase caseMoi) {
                     SanPham sanPhamTuForm = caseMoi.getSanPham();
                     sanPham.setTenSanPham(sanPhamTuForm.getTenSanPham());
@@ -291,7 +295,7 @@ public class SanPhamService {
                 }
                 break;
 
-            case "manhinh":
+            case "lsp09":
                 if (sanPhamMoi instanceof SanPhamManHinh mhMoi) {
                     SanPham sanPhamTuForm = mhMoi.getSanPham();
                     sanPham.setTenSanPham(sanPhamTuForm.getTenSanPham());
@@ -323,9 +327,43 @@ public class SanPhamService {
         }
     };
 
-    public Optional<SanPham> findById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    @Transactional
+    public void xoaSanPhamVaChiTiet(SanPham sanPham) {
+        int idLoai = sanPham.getLoaiSanPham().getId();
+        switch (idLoai) {
+            case 2: // CPU
+                cpuRepo.deleteBySanPham(sanPham);
+                break;
+            case 3: // RAM
+                ramRepo.deleteBySanPham(sanPham);
+                break;
+            case 1: // MainBoard
+                mainBoardRepo.deleteBySanPham(sanPham);
+                break;
+            case 4: // VGA
+                vgaRepo.deleteBySanPham(sanPham);
+                break;
+            case 5: // OCung
+                oCungRepo.deleteBySanPham(sanPham);
+                break;
+            case 6: // PSU
+                psuRepo.deleteBySanPham(sanPham);
+                break;
+            case 7: // Cooler
+                coolerRepo.deleteBySanPham(sanPham);
+                break;
+            case 8: // Case
+                caseRepo.deleteBySanPham(sanPham);
+                break;
+            case 9: // ManHinh
+                manHinhRepo.deleteBySanPham(sanPham);
+                break;
+        }
+        sanPhamRepository.delete(sanPham);
+    }
+
+    public SanPham findById(Integer id) {
+        return sanPhamRepository.findById(id).get();
     }
 
 }

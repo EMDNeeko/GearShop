@@ -38,4 +38,6 @@ public interface SanPhamCPURepository extends JpaRepository<SanPhamCPU, Integer>
         SanPhamCPU findBySanPhamID(@Param("sanPhamID") Integer sanPhamID);
 
         SanPhamCPU findBySanPham(SanPham sp);
+
+        void deleteBySanPham(SanPham sp);
 }

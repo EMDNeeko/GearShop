@@ -25,6 +25,10 @@ public class SanPhamManHinh {
     private String mota;
 
     // getters và setters
+    public Integer getId() {
+        return ID;
+    }
+
     public String getMaMH() {
         return maMH;
     }

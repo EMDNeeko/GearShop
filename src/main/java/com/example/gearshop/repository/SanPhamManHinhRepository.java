@@ -57,4 +57,6 @@ public interface SanPhamManHinhRepository extends JpaRepository<SanPhamManHinh, 
         SanPhamManHinh findBySanPhamID(@Param("sanPhamID") Integer sanPhamID);
 
         SanPhamManHinh findBySanPham(com.example.gearshop.model.SanPham sp);
+
+        void deleteBySanPham(com.example.gearshop.model.SanPham sp);
 }

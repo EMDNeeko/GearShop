@@ -22,6 +22,9 @@ public class SanPhamRAM {
     private String mota;
 
     // getters và setters
+    public Integer getId() {
+        return ID;
+    }
 
     public String getMaRAM() {
         return maRAM;

@@ -22,6 +22,10 @@ public class SanPhamCase {
     private String mota;
 
     // getters và setters
+    public Integer getId() {
+        return ID;
+    }
+
     public String getMaCase() {
         return maCase;
     }

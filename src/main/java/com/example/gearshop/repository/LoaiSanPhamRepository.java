@@ -13,4 +13,6 @@ public interface LoaiSanPhamRepository extends JpaRepository<LoaiSanPham, Long> 
 
     List<LoaiSanPham> findAll();
 
+    LoaiSanPham findById(Integer id);
+
 }

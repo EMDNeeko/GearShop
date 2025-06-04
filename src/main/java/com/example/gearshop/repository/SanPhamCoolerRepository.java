@@ -42,4 +42,6 @@ public interface SanPhamCoolerRepository extends JpaRepository<SanPhamCooler, In
         SanPhamCooler findBySanPhamID(@Param("sanPhamID") Integer sanPhamID);
 
         SanPhamCooler findBySanPham(SanPham sp);
+
+        void deleteBySanPham(SanPham sp);
 }

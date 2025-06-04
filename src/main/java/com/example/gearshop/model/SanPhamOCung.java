@@ -24,6 +24,10 @@ public class SanPhamOCung {
     private String mota;
 
     // getters và setters
+    public Integer getId() {
+        return ID;
+    }
+
     public String getMaOCung() {
         return maOCung;
     }

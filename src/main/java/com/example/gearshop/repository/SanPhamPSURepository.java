@@ -37,4 +37,6 @@ public interface SanPhamPSURepository extends JpaRepository<SanPhamPSU, Integer>
         SanPhamPSU findBySanPhamID(@Param("sanPhamID") Integer sanPhamID);
 
         SanPhamPSU findBySanPham(com.example.gearshop.model.SanPham sp);
+
+        void deleteBySanPham(com.example.gearshop.model.SanPham sp);
 }

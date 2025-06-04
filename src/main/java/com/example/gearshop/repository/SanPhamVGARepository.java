@@ -42,4 +42,6 @@ public interface SanPhamVGARepository extends JpaRepository<SanPhamVGA, Integer>
         SanPhamVGA findBySanPhamID(@Param("sanPhamID") Integer sanPhamID);
 
         SanPhamVGA findBySanPham(com.example.gearshop.model.SanPham sp);
+
+        void deleteBySanPham(com.example.gearshop.model.SanPham sp);
 }

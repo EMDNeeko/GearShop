@@ -12,7 +12,7 @@ import lombok.*;
 public class SanPhamPSU {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer ID;
+    private Integer Id;
     private String maPSU;
 
     @ManyToOne

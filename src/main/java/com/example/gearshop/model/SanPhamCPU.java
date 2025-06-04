@@ -21,6 +21,10 @@ public class SanPhamCPU {
     @Column(length = 500)
     private String mota;
 
+    public Integer getId() {
+        return ID;
+    }
+
     public String getMaCPU() {
         return maCPU;
     }
