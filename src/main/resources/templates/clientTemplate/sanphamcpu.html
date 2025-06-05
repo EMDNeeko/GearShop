@@ -21,9 +21,9 @@
 
             <div class="d-flex align-items-center">
                 <!-- Giỏ hàng dropdown -->
-                <div class="dropdown">
+                <div class="dropdown" th:if="${nguoiDung != null}>
                     <a href="#" class="btn btn-warning position-relative dropdown-toggle" id="cartDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                        aria-expanded="false">
                         <i class="bi bi-cart-fill"></i> <!-- Biểu tượng giỏ hàng -->
                         <span id="cartItemCount"
                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -189,7 +189,7 @@
                                 <strong>${item.name}</strong>
                                 <p class="mb-0 text-muted">Số lượng: ${item.quantity}</p>
                             </div>
-                            <span>${item.price}₫</span>
+                            <span>${item.price}</span>
                         </div>
                     `
                     )
@@ -199,6 +199,28 @@
 
         // Cập nhật giao diện khi tải trang
         updateCartUI();
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        const cartDropdown = document.getElementById('cartDropdown');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+
+        // Xử lý sự kiện nhấn vào biểu tượng giỏ hàng
+        cartDropdown.addEventListener('click', function (e) {
+            e.preventDefault(); // Ngăn chặn hành vi mặc định
+            dropdownMenu.classList.toggle('show'); // Thêm hoặc xóa class "show"
+        });
+
+        // Ngăn menu bị ẩn khi nhấn vào bên trong menu
+        dropdownMenu.addEventListener('click', function (e) {
+            e.stopPropagation(); // Ngăn sự kiện lan ra ngoài
+        });
+
+        // Ẩn menu khi nhấn vào bất kỳ đâu bên ngoài menu
+        document.addEventListener('click', function (e) {
+            if (!cartDropdown.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.remove('show'); // Xóa class "show"
+            }
+        });
     });
 </script>
 

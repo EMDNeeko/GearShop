@@ -96,7 +96,6 @@
             </div>
         </div>
     </div>
-
 </body>
 
 <footer class="bg-dark text-light pt-4 mt-5">
@@ -132,5 +131,16 @@
         </div>
     </div>
 </footer>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const loginForm = document.querySelector('form[th\\:action="@{/dangnhap}"]');
 
+        if (loginForm) {
+            loginForm.addEventListener('submit', function () {
+                // Đặt cờ resetCart trong localStorage khi đăng nhập thành công
+                localStorage.setItem('resetCart', 'true');
+            });
+        }
+    });
+</script>
 </html>

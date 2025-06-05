@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PGearShop - Thanh Toán</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="bg-dark text-white py-3">
+        <div class="container d-flex align-items-center justify-content-between">
+            <div class="fs-3 fw-bold"><a class="no-underline" href="/">PGearShop</a></div>
+            <form class="flex-grow-1 mx-3" role="search" action="/timkiem" method="get">
+                <input class="form-control" type="search" name="q" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
+            </form>
+            <div class="d-flex align-items-center">
+                <a href="/dangnhap" th:if="${nguoiDung == null}" class="btn btn-outline-light">Đăng nhập</a>
+                <div class="dropdown" th:if="${nguoiDung != null}">
+                    <a class="custom-dropdown dropdown-toggle" href="#" role="button" id="userDropdown"
+                        aria-expanded="false">
+                        <span th:text="'Xin chào, ' + ${nguoiDung.tenNguoiDung}">Xin chào, Tên</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" th:href="@{/thongtincanhan}">Thông tin cá nhân</a></li>
+                        <li><a class="dropdown-item" th:href="@{/dangxuat}">Đăng xuất</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Nội dung thanh toán -->
+    <div class="container my-5">
+        <div class="row">
+            <!-- Phần 1: Thông tin khách hàng -->
+            <div class="col-lg-6 col-md-6">
+                <h4>Thông tin khách hàng</h4>
+                <p><strong>Tên khách hàng:</strong> <span th:text="${nguoiDung.tenNguoiDung}">Tên khách hàng</span></p>
+                <p><strong>Địa chỉ:</strong> <span th:text="${nguoiDung.diaChi}">Địa chỉ</span></p>
+                <p><strong>Số điện thoại:</strong> <span th:text="${nguoiDung.sdt}">Số điện thoại</span></p>
+                <p><strong>Email:</strong> <span th:text="${nguoiDung.email}">Email</span></p>
+            </div>
+
+            <!-- Phần 2: Thông tin sản phẩm -->
+            <div class="col-lg-6 col-md-6">
+                <h4>Thông tin sản phẩm</h4>
+                <table class="table table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Số lượng và giá tiền</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cartTableBody">
+                        <!-- Sản phẩm sẽ được thêm vào đây bằng JavaScript -->
+                    </tbody>
+                </table>
+                <h5 class="text-end" id="totalPrice">Tổng tiền: 0₫</h5>
+            </div>
+        </div>
+
+        <!-- Nút Đặt hàng -->
+        <div class="row mt-4">
+            <div class="col-md-12 text-center">
+                <button class="btn btn-success btn-lg">Đặt hàng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light pt-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <!-- Thông tin shop -->
+                <div class="col-md-4 mb-3">
+                    <h5>PGearShop</h5>
+                    <p>Chuyên cung cấp linh kiện máy tính chính hãng.<br />
+                        Địa chỉ: Km10 đường Trần Phú, quận Hà Đông, thành phố Hà Nội<br />
+                        SĐT: 0999 999 999<br />
+                        Email: contact@pgearshop.vn
+                    </p>
+                </div>
+
+                <!-- Chính sách đổi trả -->
+                <div class="col-md-4 mb-3">
+                    <h5>Chính sách đổi trả</h5>
+                    <p>Hỗ trợ đổi trả trong vòng <strong>7 ngày</strong> nếu sản phẩm bị lỗi kỹ thuật hoặc không đúng mô tả.
+                    </p>
+                </div>
+
+                <!-- Chính sách bảo hành -->
+                <div class="col-md-4 mb-3">
+                    <h5>Bảo hành chính hãng</h5>
+                    <p>Tất cả sản phẩm đều được bảo hành chính hãng từ <strong>6 đến 36 tháng</strong> tùy loại. Hỗ trợ bảo
+                        hành nhanh tại cửa hàng.</p>
+                </div>
+            </div>
+
+            <div class="text-center py-3 border-top border-secondary">
+                &copy; 2025 GearShop. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartTableBody = document.getElementById('cartTableBody');
+            const totalPriceElement = document.getElementById('totalPrice');
+
+            // Hàm hiển thị giỏ hàng
+            function renderCart() {
+                cartTableBody.innerHTML = '';
+                let totalPrice = 0;
+
+                cart.forEach((item) => {
+                    // Chuyển đổi giá trị price từ string (có dấu phẩy) sang number
+                    item.price = parseFloat(item.price.replace(/,/g, ''));
+
+                    const row = document.createElement('tr');
+                    const itemTotal = item.quantity * item.price;
+                    totalPrice += itemTotal;
+
+                    row.innerHTML = `
+                        <td>${item.name}</td>
+                        <td>${item.quantity} x ${item.price.toLocaleString()}₫</td>
+                        <td>${itemTotal.toLocaleString()}₫</td>
+                    `;
+                    cartTableBody.appendChild(row);
+                });
+
+                totalPriceElement.textContent = `Tổng tiền: ${totalPrice.toLocaleString()}₫`;
+            }
+
+            // Hiển thị giỏ hàng khi tải trang
+            renderCart();
+        });
+    </script>
+</body>
+
+</html>

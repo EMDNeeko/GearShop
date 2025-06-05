@@ -56,16 +56,17 @@ public class HomeController {
 
     @GetMapping("/")
     public String homePage(Model model, HttpSession session) {
-
+        // Lấy thông tin người dùng từ session
         NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
         if (nguoiDung != null) {
-            model.addAttribute("nguoiDung", nguoiDung);
+            model.addAttribute("nguoiDung", nguoiDung); // Thêm thông tin người dùng vào model
         }
+
+        // Thêm các sản phẩm bán chạy vào model
         model.addAttribute("sanPhamBanChay", sanPhamRepo.findTop10ByOrderByDaBanDesc());
 
-        List<String> tenLoaiList = List.of("Mainboard", "CPU", "RAM", "VGA", "Ổ cứng", "Nguồn", "tản nhiệt", "case",
-                "màn hình");
-
+        // Thêm danh mục sản phẩm theo loại vào model
+        List<String> tenLoaiList = List.of("Mainboard", "CPU", "RAM", "VGA", "Ổ cứng", "Nguồn", "Tản nhiệt", "Case", "Màn hình");
         Map<String, List<SanPham>> sanPhamTheoLoai = new LinkedHashMap<>();
         for (String tenLoai : tenLoaiList) {
             LoaiSanPham loai = loaiSPRepo.findByTenLoaiSanPham(tenLoai);
@@ -75,7 +76,7 @@ public class HomeController {
         }
         model.addAttribute("sanPhamTheoLoai", sanPhamTheoLoai);
 
-        return "clientTemplate/trangchu"; // home.html trong templates
+        return "clientTemplate/trangchu"; // Trả về giao diện trang chủ
     }
 
     @GetMapping("/dangnhap")
@@ -92,7 +93,7 @@ public class HomeController {
 
     if (optionalNguoiDung.isPresent()) {
         NguoiDung nguoiDung = optionalNguoiDung.get();
-        session.setAttribute("nguoiDung", nguoiDung);
+        session.setAttribute("nguoiDung", nguoiDung); // Lưu thông tin người dùng vào session
 
         // Reset giỏ hàng trong session
         session.setAttribute("cart", new ArrayList<>()); // Giỏ hàng trống
@@ -140,7 +141,7 @@ public class HomeController {
     @GetMapping("/dangxuat")
     public String logout(HttpSession session) {
         session.invalidate(); // Xóa toàn bộ session
-        return "redirect:/dangnhap"; // hoặc "redirect:/" nếu bạn muốn về trang chủ
+        return "redirect:/"; // hoặc "redirect:/" nếu bạn muốn về trang chủ
     }
 
     @Controller

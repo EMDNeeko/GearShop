@@ -133,13 +133,27 @@ a {
 }
 
 .table th {
-    background-color: #f8f9fa;
+    background-color: #555;
     font-weight: bold;
     text-align: left;
+    text-align: center;
 }
 
 .table td {
     vertical-align: middle;
+    text-align: center;
+}
+
+.table td input[type="number"] {
+    text-align: center; /* Căn giữa nội dung trong input */
+    margin: 0 auto; /* Căn giữa input theo chiều ngang */
+    display: block; /* Đảm bảo input được căn giữa */
+}
+
+ul {
+    list-style-type: none; /* Loại bỏ kiểu danh sách mặc định */
+    padding: 0; /* Loại bỏ khoảng cách bên trong */
+    margin: 0; /* Loại bỏ khoảng cách bên ngoài */
 }
 
 .nav-items a {
@@ -206,6 +220,7 @@ header a.no-underline:hover {
     margin-right: 15px; /* Tạo khoảng cách bên phải giữa giỏ hàng và nút Đăng nhập */
 }
 
+
 footer h5 {
     font-weight: bold;
     margin-bottom: 15px;
@@ -244,7 +259,7 @@ footer p {
     left: auto;
     right: 0; /* Căn phải */
     z-index: 1050; /* Đảm bảo hiển thị đè lên các phần tử khác */
-    display: none; /* Mặc định ẩn */
+    display: none; /* Ẩn menu mặc định */
     background-color: white;
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 0.25rem;
@@ -252,7 +267,7 @@ footer p {
 }
 
 .dropdown-menu.show {
-    display: block; /* Hiển thị khi được kích hoạt */
+    display: block; /* Hiển thị menu khi có class "show" */
 }
 
 .dropdown-header {
