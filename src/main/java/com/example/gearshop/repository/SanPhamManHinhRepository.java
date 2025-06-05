@@ -59,4 +59,7 @@ public interface SanPhamManHinhRepository extends JpaRepository<SanPhamManHinh, 
         SanPhamManHinh findBySanPham(com.example.gearshop.model.SanPham sp);
 
         void deleteBySanPham(com.example.gearshop.model.SanPham sp);
+
+        @Query("SELECT MAX(m.maMH) FROM SanPhamManHinh m")
+        String findMaxMaManHinh();
 }

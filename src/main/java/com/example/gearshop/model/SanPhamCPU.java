@@ -1,13 +1,17 @@
 package com.example.gearshop.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "sanphamcpu")
 public class SanPhamCPU {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer ID;
+    private Integer id;
 
     private String maCPU;
 
@@ -21,48 +25,4 @@ public class SanPhamCPU {
     @Column(length = 500)
     private String mota;
 
-    public Integer getId() {
-        return ID;
-    }
-
-    public String getMaCPU() {
-        return maCPU;
-    }
-
-    public void setMaCPU(String maCPU) {
-        this.maCPU = maCPU;
-    }
-
-    public SanPham getSanPham() {
-        return sanPham;
-    }
-
-    public void setSanPham(SanPham sanPham) {
-        this.sanPham = sanPham;
-    }
-
-    public String getLoaiCPU() {
-        return loaiCPU;
-    }
-
-    public void setLoaiCPU(String loaiCPU) {
-        this.loaiCPU = loaiCPU;
-    }
-
-    public String getSoNhansoLuong() {
-        return soNhansoLuong;
-    }
-
-    public void setSoNhansoLuong(String soNhansoLuong) {
-        this.soNhansoLuong = soNhansoLuong;
-    }
-
-    public String getMota() {
-        return mota;
-    }
-
-    public void setMota(String mota) {
-        this.mota = mota;
-    }
-    // getters và setters
 }

@@ -61,4 +61,7 @@ public interface SanPhamMainBoardRepository
         SanPhamMainBoard findBySanPham(SanPham sanPham);
 
         void deleteBySanPham(SanPham sanPham);
+
+        @Query("SELECT MAX(m.maMainBoard) FROM SanPhamMainBoard m")
+        String findMaxMaMainBoard();
 }

@@ -40,4 +40,7 @@ public interface SanPhamCPURepository extends JpaRepository<SanPhamCPU, Integer>
         SanPhamCPU findBySanPham(SanPham sp);
 
         void deleteBySanPham(SanPham sp);
+
+        @Query("SELECT MAX(c.maCPU) FROM SanPhamCPU c")
+        String findMaxMaCPU();
 }

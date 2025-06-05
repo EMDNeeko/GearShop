@@ -52,4 +52,17 @@ public class SanPhamOCungService {
     public SanPhamOCung findBySanPhamID(Integer sanPhamID) {
         return repository.findBySanPhamID(sanPhamID);
     }
+
+    public String taoMaOCungMoi() {
+        String maSanPhamCuoi = repository.findMaxMaOCung();
+        if (maSanPhamCuoi == null) {
+            return "STR00001"; // Mã đầu tiên nếu không có sản phẩm nào
+        }
+        int soThuTu = Integer.parseInt(maSanPhamCuoi.substring(2)) + 1;
+        return String.format("STR%05d", soThuTu); // Tạo mã mới với định dạng OCxxxx
+    }
+
+    public SanPhamOCung luuSanPhamOCung(SanPhamOCung sanPhamOCung) {
+        return repository.save(sanPhamOCung);
+    }
 }

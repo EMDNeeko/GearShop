@@ -188,11 +188,6 @@ public class AdminController {
         return "adminTemplate/hoadon";
     }
 
-    @GetMapping("/themsanpham")
-    public String themSanPham() {
-        return "adminTemplate/themsanpham";
-    }
-
     @GetMapping("/khuyenmai")
     public String khuyenMai() {
         return "adminTemplate/khuyenmai";

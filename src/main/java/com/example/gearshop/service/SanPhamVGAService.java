@@ -58,4 +58,18 @@ public class SanPhamVGAService {
     public SanPhamVGA findBySanPhamID(Integer sanPhamID) {
         return vgaRepository.findBySanPhamID(sanPhamID);
     }
+
+    public String taoMaVGAMoi() {
+        String maSanPhamCuoi = vgaRepository.findMaxMaVGA();
+        if (maSanPhamCuoi == null) {
+            return "VGA0001"; // Mã đầu tiên nếu không có sản phẩm nào
+        }
+        int soHienTai = Integer.parseInt(maSanPhamCuoi.substring(3));
+        int soTiepTheo = soHienTai + 1;
+        return String.format("VGA%05d", soTiepTheo); // Tạo mã mới với định dạng VGAXXXX
+    }
+
+    public SanPhamVGA luuSanPhamVGA(SanPhamVGA sanPhamVGA) {
+        return vgaRepository.save(sanPhamVGA);
+    }
 }

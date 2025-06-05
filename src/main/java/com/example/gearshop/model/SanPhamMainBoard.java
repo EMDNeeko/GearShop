@@ -12,7 +12,7 @@ import lombok.*;
 public class SanPhamMainBoard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Id;
+    private Integer id;
 
     private String maMainBoard;
 

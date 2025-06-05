@@ -40,4 +40,7 @@ public interface SanPhamCaseRepository extends JpaRepository<SanPhamCase, Intege
         SanPhamCase findBySanPham(SanPham sp);
 
         void deleteBySanPham(SanPham sp);
+
+        @Query("SELECT MAX(c.maCase) FROM SanPhamCase c")
+        String findMaxMaCase();
 }

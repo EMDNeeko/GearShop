@@ -1,6 +1,8 @@
 package com.example.gearshop.service;
 
 import com.example.gearshop.model.LoaiSanPham;
+import com.example.gearshop.model.NguoiDung;
+import com.example.gearshop.model.NhanVien;
 import com.example.gearshop.model.SanPham;
 import com.example.gearshop.model.SanPhamCPU;
 import com.example.gearshop.model.SanPhamCase;
@@ -19,6 +21,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +53,12 @@ public class SanPhamService {
     private ThuongHieuRepository thuongHieuRepository;
     @Autowired
     private LoaiSanPhamRepository loaiSanPhamRepository;
+    @Autowired
+    private NhanVienRepository nhanVienRepo;
+    @Autowired
+    private ThuongHieuRepository thuongHieuRepo;
+    @Autowired
+    private LoaiSanPhamRepository loaiSanPhamRepo;
     private SanPhamVGARepository sanPhamVGARepository;
 
     SanPhamService(SanPhamVGARepository sanPhamVGARepository) {
@@ -366,4 +375,46 @@ public class SanPhamService {
         return sanPhamRepository.findById(id).get();
     }
 
+    public String sinhMaSanPham() {
+        String maxMaSanPham = sanPhamRepository.findMaxMaSanPham();
+        if (maxMaSanPham == null) {
+            return "SP00001"; // Trường hợp chưa có sản phẩm nào
+        }
+
+        // Tách phần số (bỏ "SP")
+        int soThuTu = Integer.parseInt(maxMaSanPham.substring(2));
+
+        // Tăng 1
+        soThuTu++;
+
+        // Định dạng lại 5 chữ số, ví dụ: 00001, 00124
+        return String.format("SP%05d", soThuTu);
+
+    }
+
+    public SanPham themSanPhamChung(String tenSanPham, String maSanPham, String hinhAnh, Integer thuongHieuID,
+            Integer loaiSPID, Integer tonKho, BigDecimal giaBan, NguoiDung nguoiDung) {
+        SanPham sanPham = new SanPham();
+        Optional<NhanVien> nhanVien = nhanVienRepo.findByNguoiDung_Id(nguoiDung.getId());
+        ThuongHieu thuongHieu = thuongHieuRepo.findById(thuongHieuID.longValue()).get();
+        LoaiSanPham loaiSanPham = loaiSanPhamRepo.findById(loaiSPID.longValue()).get();
+        sanPham.setTenSanPham(tenSanPham);
+        sanPham.setMaSanPham(maSanPham);
+        sanPham.setHinhAnh(hinhAnh);
+        sanPham.setThuongHieu(thuongHieu);
+        sanPham.setLoaiSanPham(loaiSanPham);
+        sanPham.setTonKho(tonKho);
+        sanPham.setDaBan(0);
+        sanPham.setGia(giaBan);
+        sanPham.setNguoiThem(nhanVien.get());
+        sanPham.setNgayThem(LocalDateTime.now());
+
+        sanPhamRepository.save(sanPham);
+
+        return sanPham;
+    }
+
+    public void xoaSanPham(SanPham sanPham) {
+        sanPhamRepository.delete(sanPham);
+    }
 }

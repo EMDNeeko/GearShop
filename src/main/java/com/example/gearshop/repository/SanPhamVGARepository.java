@@ -44,4 +44,7 @@ public interface SanPhamVGARepository extends JpaRepository<SanPhamVGA, Integer>
         SanPhamVGA findBySanPham(com.example.gearshop.model.SanPham sp);
 
         void deleteBySanPham(com.example.gearshop.model.SanPham sp);
+
+        @Query("SELECT MAX(v.sanPham.maSanPham) FROM SanPhamVGA v")
+        String findMaxMaVGA();
 }

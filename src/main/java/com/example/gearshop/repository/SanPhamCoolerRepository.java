@@ -44,4 +44,7 @@ public interface SanPhamCoolerRepository extends JpaRepository<SanPhamCooler, In
         SanPhamCooler findBySanPham(SanPham sp);
 
         void deleteBySanPham(SanPham sp);
+
+        @Query("SELECT MAX(c.maCooler) FROM SanPhamCooler c")
+        String findMaxMaCooler();
 }

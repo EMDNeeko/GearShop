@@ -45,4 +45,7 @@ public interface SanPhamOCungRepository extends JpaRepository<SanPhamOCung, Inte
         SanPhamOCung findBySanPham(com.example.gearshop.model.SanPham sp);
 
         void deleteBySanPham(com.example.gearshop.model.SanPham sp);
+
+        @Query("SELECT MAX(o.maOCung) FROM SanPhamOCung o")
+        String findMaxMaOCung();
 }

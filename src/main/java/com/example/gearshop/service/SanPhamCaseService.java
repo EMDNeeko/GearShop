@@ -57,4 +57,17 @@ public class SanPhamCaseService {
     public SanPhamCase findBySanPhamID(Integer sanPhamID) {
         return caseRepository.findBySanPhamID(sanPhamID);
     }
+
+    public String taoMaCaseMoi() {
+        String maSanPhamCuoi = caseRepository.findMaxMaCase();
+        if (maSanPhamCuoi == null) {
+            return "CASE0001"; // Mã đầu tiên nếu không có sản phẩm nào
+        }
+        int soThuTu = Integer.parseInt(maSanPhamCuoi.substring(4)) + 1;
+        return String.format("CASE%04d", soThuTu);
+    }
+
+    public void luuSanPhamCase(SanPhamCase sanPhamCase) {
+        caseRepository.save(sanPhamCase);
+    }
 }

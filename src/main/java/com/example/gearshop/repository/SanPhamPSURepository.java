@@ -39,4 +39,7 @@ public interface SanPhamPSURepository extends JpaRepository<SanPhamPSU, Integer>
         SanPhamPSU findBySanPham(com.example.gearshop.model.SanPham sp);
 
         void deleteBySanPham(com.example.gearshop.model.SanPham sp);
+
+        @Query("SELECT MAX(p.maPSU) FROM SanPhamPSU p")
+        String findMaxMaPSU();
 }

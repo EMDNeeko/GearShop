@@ -54,4 +54,18 @@ public class SanPhamPSUService {
     public SanPhamPSU findBySanPhamID(Integer sanPhamID) {
         return psuRepository.findBySanPhamID(sanPhamID);
     }
+
+    public String taoMaPSUMoi() {
+        String maSanPhamCuoi = psuRepository.findMaxMaPSU();
+        if (maSanPhamCuoi == null) {
+            return "PSU00001"; // Mã đầu tiên nếu không có sản phẩm nào
+        }
+        int so = Integer.parseInt(maSanPhamCuoi.substring(3)); // Lấy phần số sau "PSU"
+        so++;
+        return String.format("PSU%05d", so); // Tạo mã mới với định dạng PSUxxxx
+    }
+
+    public SanPhamPSU luuSanPhamPSU(SanPhamPSU sanPhamPSU) {
+        return psuRepository.save(sanPhamPSU);
+    }
 }

@@ -53,4 +53,18 @@ public class SanPhamRAMService {
     public SanPhamRAM findBySanPhamID(Integer sanPhamID) {
         return ramRepository.findBySanPhamID(sanPhamID);
     }
+
+    public String taoMaRAMMoi() {
+        String maSanPhamCuoi = ramRepository.findMaxMaRAM();
+        if (maSanPhamCuoi == null) {
+            return "RAM0001"; // Mã đầu tiên nếu không có sản phẩm nào
+        }
+        int so = Integer.parseInt(maSanPhamCuoi.substring(3)); // Lấy phần số sau "RAM"
+        so++;
+        return String.format("RAM%05d", so); // Tạo mã mới với định dạng RAMxxxx
+    }
+
+    public SanPhamRAM luuSanPhamRAM(SanPhamRAM sanPhamRAM) {
+        return ramRepository.save(sanPhamRAM);
+    }
 }

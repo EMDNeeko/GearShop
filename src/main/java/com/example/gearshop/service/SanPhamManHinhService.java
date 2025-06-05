@@ -68,4 +68,17 @@ public class SanPhamManHinhService {
     public SanPhamManHinh findBySanPhamID(Integer sanPhamID) {
         return manHinhRepository.findBySanPhamID(sanPhamID);
     }
+
+    public String taoMaManHinhMoi() {
+        String maSanPhamCuoi = manHinhRepository.findMaxMaManHinh();
+        if (maSanPhamCuoi == null) {
+            return "MH00001"; // Mã đầu tiên nếu không có sản phẩm nào
+        }
+        int soThuTu = Integer.parseInt(maSanPhamCuoi.substring(2)) + 1; // Lấy số thứ tự sau "MNH"
+        return String.format("MH%05d", soThuTu); // Định dạng lại mã mới
+    }
+
+    public SanPhamManHinh luuSanPhamManHinh(SanPhamManHinh sanPhamManHinh) {
+        return manHinhRepository.save(sanPhamManHinh);
+    }
 }

@@ -275,3 +275,12 @@ alter table sanphamvga modify column chipGPU nvarchar(50);
 alter table sanphamocung modify column dungluong nvarchar(10);
 
 alter table sanpham add column daBan int default 0;
+alter table sanphammainboard drop column san_phamid;
+alter table sanphamcpu drop column san_phamid;
+alter table sanphamram drop column san_phamid;
+alter table sanphamvga drop column san_phamid;
+alter table sanphamcooler drop column san_phamid;
+alter table sanphampsu drop column san_phamid;
+alter table sanphamocung drop column san_phamid;
+alter table sanphammanhinh drop column san_phamid;
+alter table sanphamcase drop column san_phamid;

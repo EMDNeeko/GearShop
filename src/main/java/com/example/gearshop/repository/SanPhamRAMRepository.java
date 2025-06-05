@@ -43,4 +43,7 @@ public interface SanPhamRAMRepository extends JpaRepository<SanPhamRAM, Integer>
         SanPhamRAM findBySanPham(com.example.gearshop.model.SanPham sp);
 
         void deleteBySanPham(com.example.gearshop.model.SanPham sp);
+
+        @Query("SELECT MAX(r.maRAM) FROM SanPhamRAM r")
+        String findMaxMaRAM();
 }

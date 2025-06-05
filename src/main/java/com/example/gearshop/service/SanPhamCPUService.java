@@ -55,4 +55,18 @@ public class SanPhamCPUService {
     public SanPhamCPU findBySanPhamID(Integer sanPhamID) {
         return cpuRepository.findBySanPhamID(sanPhamID);
     }
+
+    public String taoMaCPUMoi() {
+        String maSanPhamCuoi = cpuRepository.findMaxMaCPU();
+        if (maSanPhamCuoi == null) {
+            return "CPU0001"; // Mã đầu tiên nếu không có sản phẩm nào
+        }
+        int so = Integer.parseInt(maSanPhamCuoi.substring(3)); // Lấy phần số sau "CPU"
+        so++;
+        return String.format("CPU%05d", so); // Tạo mã mới với định dạng CPUxxxx
+    }
+
+    public SanPhamCPU luuSanPhamCPU(SanPhamCPU sanPhamCPU) {
+        return cpuRepository.save(sanPhamCPU);
+    }
 }

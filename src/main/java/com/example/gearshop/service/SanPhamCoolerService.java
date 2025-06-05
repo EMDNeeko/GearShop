@@ -55,4 +55,17 @@ public class SanPhamCoolerService {
     public SanPhamCooler findBySanPhamID(Integer sanPhamID) {
         return coolerRepository.findBySanPhamID(sanPhamID);
     }
+
+    public String taoMaCoolerMoi() {
+        String maSanPhamCuoi = coolerRepository.findMaxMaCooler();
+        if (maSanPhamCuoi == null) {
+            return "TAN00001"; // Mã đầu tiên nếu không có sản phẩm nào
+        }
+        int soThuTu = Integer.parseInt(maSanPhamCuoi.substring(4)) + 1;
+        return String.format("TAN%05d", soThuTu);
+    }
+
+    public SanPhamCooler luuSanPhamCooler(SanPhamCooler sanPhamCooler) {
+        return coolerRepository.save(sanPhamCooler);
+    }
 }
