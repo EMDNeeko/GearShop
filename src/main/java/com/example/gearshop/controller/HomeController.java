@@ -22,6 +22,7 @@ import com.example.gearshop.model.ThuongHieu;
 import java.security.Principal;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
@@ -84,33 +85,34 @@ public class HomeController {
 
     @PostMapping("/dangnhap")
     public String login(@RequestParam String tenDangNhap,
-            @RequestParam String matKhau,
-            HttpSession session,
-            Model model) {
-        Optional<NguoiDung> optionalNguoiDung = nguoiDungRepo.findByTenDangNhapAndMatKhau(tenDangNhap, matKhau);
+                    @RequestParam String matKhau,
+                    HttpSession session,
+                    Model model) {
+    Optional<NguoiDung> optionalNguoiDung = nguoiDungRepo.findByTenDangNhapAndMatKhau(tenDangNhap, matKhau);
 
-        if (optionalNguoiDung.isPresent()) {
-            NguoiDung nguoiDung = optionalNguoiDung.get();
-            session.setAttribute("nguoiDung", nguoiDung);
+    if (optionalNguoiDung.isPresent()) {
+        NguoiDung nguoiDung = optionalNguoiDung.get();
+        session.setAttribute("nguoiDung", nguoiDung);
 
-            boolean isKhachHang = khachHangRepo.findByNguoiDung_Id(nguoiDung.getId()).isPresent();
-            boolean isNhanVien = nhanVienRepo.findByNguoiDung_Id(nguoiDung.getId()).isPresent();
+        // Reset giỏ hàng trong session
+        session.setAttribute("cart", new ArrayList<>()); // Giỏ hàng trống
 
-            if (isKhachHang) {
+        boolean isKhachHang = khachHangRepo.findByNguoiDung_Id(nguoiDung.getId()).isPresent();
+        boolean isNhanVien = nhanVienRepo.findByNguoiDung_Id(nguoiDung.getId()).isPresent();
 
-                return "redirect:/";
-            } else if (isNhanVien) {
-
-                return "redirect:/admin/trangchu";
-            } else {
-                model.addAttribute("error", "Tài khoản không thuộc vai trò hợp lệ.");
-                return "clientTemplate/dangnhap";
-            }
+        if (isKhachHang) {
+            return "redirect:/"; // Chuyển đến trang chủ
+        } else if (isNhanVien) {
+            return "redirect:/admin/trangchu"; // Chuyển đến trang admin
         } else {
-            model.addAttribute("error", "Sai tên đăng nhập hoặc mật khẩu.");
+            model.addAttribute("error", "Tài khoản không thuộc vai trò hợp lệ.");
             return "clientTemplate/dangnhap";
         }
+    } else {
+        model.addAttribute("error", "Sai tên đăng nhập hoặc mật khẩu.");
+        return "clientTemplate/dangnhap";
     }
+}
 
     // Tim kiem san pham
     @GetMapping("/timkiem")

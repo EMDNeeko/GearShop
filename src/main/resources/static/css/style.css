@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    margin-left: 20px;
+    /* margin-left: 20px; */
     /* padding: 20px; */
     background: #f4f4f4;
 }
@@ -20,6 +20,10 @@ body {
     justify-content: flex-start;
     padding-left: 40px;
     color: white;
+}
+
+.btn-warning.position-relative {
+    margin-right: 15px; /* Tạo khoảng cách bên phải giữa giỏ hàng và nút Đăng nhập */
 }
 
 .section-title {
@@ -149,26 +153,57 @@ a {
     color: #ffcc00;
 }
 
+/* Trường nhập số lượng */
 .form-control#quantityInput {
-    width: 60px;
-    /* Giảm chiều rộng */
-    height: 30px;
-    /* Giảm chiều cao */
-    font-size: 12px;
-    /* Giảm kích thước chữ */
-    text-align: center;
-    /* Căn giữa nội dung */
-    padding: 5px;
-    /* Giảm padding */
-    margin-right: 10px;
-    /* Khoảng cách bên phải */
+    width: 80px; /* Tăng chiều rộng */
+    height: 40px; /* Tăng chiều cao */
+    font-size: 16px; /* Tăng kích thước chữ */
+    text-align: center; /* Căn giữa nội dung */
+    padding: 8px; /* Tăng padding */
+    margin-right: 15px; /* Khoảng cách bên phải */
+    border-radius: 5px; /* Bo góc */
+    border: 1px solid #ccc; /* Đường viền */
 }
 
+/* Nút Xác nhận */
 #btnConfirm {
-    height: 30px;
-    /* Đảm bảo nút có cùng chiều cao với trường nhập */
-    font-size: 12px;
-    /* Giảm kích thước chữ */
+    height: 40px; /* Tăng chiều cao */
+    font-size: 16px; /* Tăng kích thước chữ */
+    padding: 8px 20px; /* Tăng padding */
+    border-radius: 5px; /* Bo góc */
+    background-color: #28a745; /* Màu nền */
+    color: white; /* Màu chữ */
+    border: none; /* Xóa đường viền */
+    cursor: pointer; /* Thay đổi con trỏ khi hover */
+}
+
+#btnConfirm:hover {
+    background-color: #218838; /* Màu nền khi hover */
+}
+
+/* Header styles */
+header {
+    background-color: #333;
+    color: white;
+    padding: 15px 0;
+}
+
+header .fs-3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+header a.no-underline {
+    text-decoration: none;
+    color: white;
+}
+
+header a.no-underline:hover {
+    color: #ffc107; /* Màu vàng nhạt khi hover */
+}
+
+.btn-warning.position-relative {
+    margin-right: 15px; /* Tạo khoảng cách bên phải giữa giỏ hàng và nút Đăng nhập */
 }
 
 footer h5 {
@@ -200,6 +235,42 @@ footer p {
 
 .custom-dropdown::after {
     margin-left: 5px;
+}
+
+/* Dropdown giỏ hàng */
+.dropdown-menu {
+    position: absolute;
+    top: 100%; /* Hiển thị ngay bên dưới nút giỏ hàng */
+    left: auto;
+    right: 0; /* Căn phải */
+    z-index: 1050; /* Đảm bảo hiển thị đè lên các phần tử khác */
+    display: none; /* Mặc định ẩn */
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+}
+
+.dropdown-menu.show {
+    display: block; /* Hiển thị khi được kích hoạt */
+}
+
+.dropdown-header {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+#cartItems {
+    max-height: 200px; /* Giới hạn chiều cao */
+    overflow-y: auto; /* Cuộn dọc nếu danh sách quá dài */
+}
+
+#cartItems p {
+    margin: 0;
+    padding: 5px 0;
+    font-size: 0.9rem;
+    color: #555;
 }
 
 .dropdown-item {
