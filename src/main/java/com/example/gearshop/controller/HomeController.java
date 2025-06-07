@@ -6,6 +6,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.gearshop.repository.SanPhamRepository;
 import com.example.gearshop.service.DangKyService;
 import com.example.gearshop.service.NguoiDungService;
+import com.example.gearshop.service.SanPhamService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -17,6 +18,7 @@ import com.example.gearshop.model.SanPham;
 import com.example.gearshop.model.KhachHang;
 import com.example.gearshop.model.LoaiSanPham;
 import com.example.gearshop.model.NguoiDung;
+import com.example.gearshop.model.NhanVien;
 import com.example.gearshop.model.ThuongHieu;
 
 import java.security.Principal;
@@ -50,9 +52,11 @@ public class HomeController {
 
     @Autowired
     private KhachHangRepository khachHangRepo;
-
     @Autowired
     private NhanVienRepository nhanVienRepo;
+
+    @Autowired
+    private SanPhamService sanPhamService;
 
     @GetMapping("/")
     public String homePage(Model model, HttpSession session) {
@@ -90,20 +94,19 @@ public class HomeController {
                     HttpSession session,
                     Model model) {
     Optional<NguoiDung> optionalNguoiDung = nguoiDungRepo.findByTenDangNhapAndMatKhau(tenDangNhap, matKhau);
-
     if (optionalNguoiDung.isPresent()) {
         NguoiDung nguoiDung = optionalNguoiDung.get();
         session.setAttribute("nguoiDung", nguoiDung); // Lưu thông tin người dùng vào session
 
-        // Reset giỏ hàng trong session
-        session.setAttribute("cart", new ArrayList<>()); // Giỏ hàng trống
+        // Kiểm tra vai trò của người dùng
+        Optional<KhachHang> optionalKhachHang = khachHangRepo.findByNguoiDung_Id(nguoiDung.getId());
+        Optional<NhanVien> optionalNhanVien = nhanVienRepo.findByNguoiDung_Id(nguoiDung.getId());
 
-        boolean isKhachHang = khachHangRepo.findByNguoiDung_Id(nguoiDung.getId()).isPresent();
-        boolean isNhanVien = nhanVienRepo.findByNguoiDung_Id(nguoiDung.getId()).isPresent();
-
-        if (isKhachHang) {
+        if (optionalKhachHang.isPresent()) {
+            session.setAttribute("khachHang", optionalKhachHang.get()); // Tạo session khách hàng
             return "redirect:/"; // Chuyển đến trang chủ
-        } else if (isNhanVien) {
+        } else if (optionalNhanVien.isPresent()) {
+            session.setAttribute("nhanVien", optionalNhanVien.get()); // Tạo session nhân viên
             return "redirect:/admin/trangchu"; // Chuyển đến trang admin
         } else {
             model.addAttribute("error", "Tài khoản không thuộc vai trò hợp lệ.");
@@ -117,18 +120,17 @@ public class HomeController {
 
     // Tim kiem san pham
     @GetMapping("/timkiem")
-    public String timKiemSanPham(@RequestParam("q") String keyword,
-            @RequestParam(value = "sort", required = false) String sort,
-            Model model, Principal principal) {
-
+    public String timKiem(@RequestParam("q") String keyword,
+                        @RequestParam(value = "sort", required = false) String sort,
+                        Model model) {
         List<SanPham> ketQua;
 
-        if ("giaTangDan".equals(sort)) {
-            ketQua = sanPhamRepo.findByTenSanPhamContainingIgnoreCaseOrderByGiaAsc(keyword);
-        } else if ("giaGiamDan".equals(sort)) {
-            ketQua = sanPhamRepo.findByTenSanPhamContainingIgnoreCaseOrderByGiaDesc(keyword);
+        if ("asc".equals(sort)) {
+            ketQua = sanPhamService.timKiemTheoGiaTangDan(keyword);
+        } else if ("desc".equals(sort)) {
+            ketQua = sanPhamService.timKiemTheoGiaGiamDan(keyword);
         } else {
-            ketQua = sanPhamRepo.findByTenSanPhamContainingIgnoreCase(keyword);
+            ketQua = sanPhamService.timKiemSanPham(keyword);
         }
 
         model.addAttribute("ketQua", ketQua);

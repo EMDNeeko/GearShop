@@ -121,183 +121,183 @@
                         </tr>
                         <tr th:if="${loaiSanPham == 'CPU'}">
                             <td>Loại CPU</td>
-                            <td th:text="${sanPhamCPU.loaiCPU}">Loại CPU</td>
+                            <td th:text="${chiTietSanPham.loaiCPU}">Loại CPU</td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'CPU'}">
                             <td>Số nhân/Số luồng</td>
-                            <td th:text="${sanPhamCPU.soNhansoLuong}">Số nhân/Số luồng</td>
+                            <td th:text="${chiTietSanPham.soNhansoLuong}">Số nhân/Số luồng</td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'CPU'}">
                             <td>Mô tả</td>
                             <td>
-                                <ul th:if="${motaList != null}">
-                                    <li th:each="desc : ${motaList}" th:text="${desc}"></li>
+                                <ul th:if="${moTaList != null}">
+                                    <li th:each="desc : ${moTaList}" th:text="${desc}"></li>
                                 </ul>
-                                <p th:if="${motaList == null}">Không có mô tả.</p>
+                                <p th:if="${moTaList == null}">Không có mô tả.</p>
                             </td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'Mainboard'}">
                             <td>Model</td>
-                            <td th:text="${sanPhamMainBoard.modelMain}">Model</td>
+                            <td th:text="${chiTietSanPham.modelMain}">Model</td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'Mainboard'}">
                             <td>Chipset</td>
-                            <td th:text="${sanPhamMainBoard.chipset}">Chipset</td>
+                            <td th:text="${chiTietSanPham.chipset}">Chipset</td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'Mainboard'}">
                             <td>Socket</td>
-                            <td th:text="${sanPhamMainBoard.socketMain}">Socket</td>
+                            <td th:text="${chiTietSanPham.socketMain}">Socket</td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'Mainboard'}">
                             <td>Kích thước</td>
-                            <td th:text="${sanPhamMainBoard.kichThuoc}">Kích thước</td>
+                            <td th:text="${chiTietSanPham.kichThuoc}">Kích thước</td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'Mainboard'}">
                             <td>Số khe RAM</td>
-                            <td th:text="${sanPhamMainBoard.soKheRAM}">Số khe RAM</td>
+                            <td th:text="${chiTietSanPham.soKheRAM}">Số khe RAM</td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'Mainboard'}">
                             <td>Mô tả</td>
                             <td>
-                                <ul th:if="${motaList != null}">
-                                    <li th:each="desc : ${motaList}" th:text="${desc}"></li>
+                                <ul th:if="${moTaList != null}">
+                                    <li th:each="desc : ${moTaList}" th:text="${desc}"></li>
                                 </ul>
-                                <p th:if="${motaList == null}">Không có mô tả.</p>
+                                <p th:if="${moTaList == null}">Không có mô tả.</p>
                             </td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'RAM'}">
                             <td>Chuẩn RAM</td>
-                            <td th:text="${sanPhamRAM.chuanRAM}">Chuẩn RAM</td>
+                            <td th:text="${chiTietSanPham.chuanRAM}">Chuẩn RAM</td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'RAM'}">
                             <td>Dung lượng</td>
-                            <td th:text="${sanPhamRAM.dungLuong}">Dung lượng</td>
+                            <td th:text="${chiTietSanPham.dungLuong}">Dung lượng</td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'RAM'}">
                             <td>Mô tả</td>
                             <td>
-                                <ul th:if="${motaList != null}">
-                                    <li th:each="desc : ${motaList}" th:text="${desc}"></li>
+                                <ul th:if="${moTaList != null}">
+                                    <li th:each="desc : ${moTaList}" th:text="${desc}"></li>
                                 </ul>
-                                <p th:if="${motaList == null}">Không có mô tả.</p>
+                                <p th:if="${moTaList == null}">Không có mô tả.</p>
                             </td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'VGA'}">
                             <td>Kiểu bộ nhớ</td>
-                            <td th:text="${sanPhamVGA.kieuBoNho}">Kiểu bộ nhớ</td>
+                            <td th:text="${chiTietSanPham.kieuBoNho}">Kiểu bộ nhớ</td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'VGA'}">
                             <td>Dung lượng bộ nhớ</td>
-                            <td th:text="${sanPhamVGA.dungLuongBoNho}">Dung lượng bộ nhớ</td>
+                            <td th:text="${chiTietSanPham.dungLuongBoNho}">Dung lượng bộ nhớ</td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'VGA'}">
                             <td>Chip GPU</td>
-                            <td th:text="${sanPhamVGA.chipGPU}">Chip GPU</td>
+                            <td th:text="${chiTietSanPham.chipGPU}">Chip GPU</td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'VGA'}">
                             <td>Mô tả</td>
                             <td>
-                                <ul th:if="${motaList != null}">
-                                    <li th:each="desc : ${motaList}" th:text="${desc}"></li>
+                                <ul th:if="${moTaList != null}">
+                                    <li th:each="desc : ${moTaList}" th:text="${desc}"></li>
                                 </ul>
-                                <p th:if="${motaList == null}">Không có mô tả.</p>
+                                <p th:if="${moTaList == null}">Không có mô tả.</p>
                             </td>
                         </tr>
-                        <tr th:if="${loaiSanPham == 'Ổ Cứng'}">
+                        <tr th:if="${loaiSanPham == 'Ổ cứng'}">
                             <td>Loại ổ cứng</td>
-                            <td th:text="${sanPhamOCung.loaiOCung}">Loại ổ cứng</td>
+                            <td th:text="${chiTietSanPham.loaiOCung}">Loại ổ cứng</td>
                         </tr>
-                        <tr th:if="${loaiSanPham == 'Ổ Cứng'}">
+                        <tr th:if="${loaiSanPham == 'Ổ cứng'}">
                             <td>Dung lượng</td>
-                            <td th:text="${sanPhamOCung.dungLuong} + ' GB'">Dung lượng</td>
+                            <td th:text="${chiTietSanPham.dungLuong} + ' GB'">Dung lượng</td>
                         </tr>
-                        <tr th:if="${loaiSanPham == 'Ổ Cứng'}">
+                        <tr th:if="${loaiSanPham == 'Ổ cứng'}">
                             <td>Mô tả</td>
                             <td>
-                                <ul th:if="${motaList != null}">
-                                    <li th:each="desc : ${motaList}" th:text="${desc}"></li>
+                                <ul th:if="${moTaList != null}">
+                                    <li th:each="desc : ${moTaList}" th:text="${desc}"></li>
                                 </ul>
-                                <p th:if="${motaList == null}">Không có mô tả.</p>
+                                <p th:if="${moTaList == null}">Không có mô tả.</p>
                             </td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'Case'}">
                             <td>Hỗ trợ Mainboard</td>
-                            <td th:text="${sanPhamCase.hoTroMain}">Hỗ trợ Mainboard</td>
+                            <td th:text="${chiTietSanPham.hoTroMain}">Hỗ trợ Mainboard</td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'Case'}">
                             <td>Màu sắc</td>
-                            <td th:text="${sanPhamCase.mauCase}">Màu sắc</td>
+                            <td th:text="${chiTietSanPham.mauCase}">Màu sắc</td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'Case'}">
                             <td>Mô tả</td>
                             <td>
-                                <ul th:if="${motaList != null}">
-                                    <li th:each="desc : ${motaList}" th:text="${desc}"></li>
+                                <ul th:if="${moTaList != null}">
+                                    <li th:each="desc : ${moTaList}" th:text="${desc}"></li>
                                 </ul>
-                                <p th:if="${motaList == null}">Không có mô tả.</p>
+                                <p th:if="${moTaList == null}">Không có mô tả.</p>
                             </td>
                         </tr>
-                        <tr th:if="${loaiSanPham == 'Màn Hình'}">
+                        <tr th:if="${loaiSanPham == 'Màn hình'}">
                             <td>Kích thước</td>
-                            <td th:text="${sanPhamManHinh.kichThuoc} + ' inch'">Kích thước</td>
+                            <td th:text="${chiTietSanPham.kichThuoc} + ' inch'">Kích thước</td>
                         </tr>
-                        <tr th:if="${loaiSanPham == 'Màn Hình'}">
+                        <tr th:if="${loaiSanPham == 'Màn hình'}">
                             <td>Bề mặt</td>
-                            <td th:text="${sanPhamManHinh.beMat}">Bề mặt</td>
+                            <td th:text="${chiTietSanPham.beMat}">Bề mặt</td>
                         </tr>
-                        <tr th:if="${loaiSanPham == 'Màn Hình'}">
+                        <tr th:if="${loaiSanPham == 'Màn hình'}">
                             <td>Tần số quét</td>
-                            <td th:text="${sanPhamManHinh.tanSoQuet} + ' Hz'">Tần số quét</td>
+                            <td th:text="${chiTietSanPham.tanSoQuet} + ' Hz'">Tần số quét</td>
                         </tr>
-                        <tr th:if="${loaiSanPham == 'Màn Hình'}">
+                        <tr th:if="${loaiSanPham == 'Màn hình'}">
                             <td>Tấm nền</td>
-                            <td th:text="${sanPhamManHinh.tamNen}">Tấm nền</td>
+                            <td th:text="${chiTietSanPham.tamNen}">Tấm nền</td>
                         </tr>
-                        <tr th:if="${loaiSanPham == 'Màn Hình'}">
+                        <tr th:if="${loaiSanPham == 'Màn hình'}">
                             <td>Độ phân giải</td>
-                            <td th:text="${sanPhamManHinh.doPhanGiai}">Độ phân giải</td>
+                            <td th:text="${chiTietSanPham.doPhanGiai}">Độ phân giải</td>
                         </tr>
-                        <tr th:if="${loaiSanPham == 'Màn Hình'}">
+                        <tr th:if="${loaiSanPham == 'Màn hình'}">
                             <td>Mô tả</td>
                             <td>
-                                <ul th:if="${motaList != null}">
-                                    <li th:each="desc : ${motaList}" th:text="${desc}"></li>
+                                <ul th:if="${moTaList != null}">
+                                    <li th:each="desc : ${moTaList}" th:text="${desc}"></li>
                                 </ul>
-                                <p th:if="${motaList == null}">Không có mô tả.</p>
+                                <p th:if="${moTaList == null}">Không có mô tả.</p>
                             </td>
                         </tr>
-                        <tr th:if="${loaiSanPham == 'Tản Nhiệt'}">
+                        <tr th:if="${loaiSanPham == 'Tản nhiệt'}">
                             <td>Loại tản nhiệt</td>
-                            <td th:text="${sanPhamCooler.loaiTan}">Loại tản nhiệt</td>
+                            <td th:text="${chiTietSanPham.loaiTan}">Loại tản nhiệt</td>
                         </tr>
-                        <tr th:if="${loaiSanPham == 'Tản Nhiệt'}">
+                        <tr th:if="${loaiSanPham == 'Tản nhiệt'}">
                             <td>Có LED</td>
-                            <td th:text="${sanPhamCooler.coLED ? 'Có' : 'Không'}">Có LED</td>
+                            <td th:text="${chiTietSanPham.coLED ? 'Có' : 'Không'}">Có LED</td>
                         </tr>
-                        <tr th:if="${loaiSanPham == 'Tản Nhiệt'}">
+                        <tr th:if="${loaiSanPham == 'Tản nhiệt'}">
                             <td>Mô tả</td>
                             <td>
-                                <ul th:if="${motaList != null}">
-                                    <li th:each="desc : ${motaList}" th:text="${desc}"></li>
+                                <ul th:if="${moTaList != null}">
+                                    <li th:each="desc : ${moTaList}" th:text="${desc}"></li>
                                 </ul>
-                                <p th:if="${motaList == null}">Không có mô tả.</p>
+                                <p th:if="${moTaList == null}">Không có mô tả.</p>
                             </td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'PSU'}">
                             <td>Điện áp vào</td>
-                            <td th:text="${sanPhamPSU.dienApVao} + ' V'">Điện áp vào</td>
+                            <td th:text="${chiTietSanPham.dienApVao} + ' V'">Điện áp vào</td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'PSU'}">
                             <td>Công suất</td>
-                            <td th:text="${sanPhamPSU.congSuat} + ' W'">Công suất</td>
+                            <td th:text="${chiTietSanPham.congSuat} + ' W'">Công suất</td>
                         </tr>
                         <tr th:if="${loaiSanPham == 'PSU'}">
                             <td>Mô tả</td>
                             <td>
-                                <ul th:if="${motaList != null}">
-                                    <li th:each="desc : ${motaList}" th:text="${desc}"></li>
+                                <ul th:if="${moTaList != null}">
+                                    <li th:each="desc : ${moTaList}" th:text="${desc}"></li>
                                 </ul>
-                                <p th:if="${motaList == null}">Không có mô tả.</p>
+                                <p th:if="${moTaList == null}">Không có mô tả.</p>
                             </td>
                         </tr>
                     </tbody>
@@ -333,6 +333,25 @@
                 </div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
+        </div>
+    </div>
+
+    <!-- Biểu tượng Chatbot AI -->
+    <div id="chatbotIcon" class="position-fixed bottom-0 end-0 m-3">
+        <a href="#" class="btn btn-primary rounded-circle"
+            style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+            <i class="bi bi-robot fs-3"></i>
+        </a>
+    </div>
+
+    <!-- Khung Chatbot -->
+    <div id="chat-container" class="position-fixed bottom-0 end-0 m-3 p-3 bg-light border rounded"
+        style="width: 500px; height: 500px; display: none; z-index: 1000;">
+        <h2 class="text-center">Chatbot AI</h2>
+        <div id="chat-box" style="height: 380px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;"></div>
+        <div class="input-container d-flex mt-2">
+            <input type="text" id="user-input" class="form-control me-2" placeholder="Hỏi Chatbot AI...">
+            <button class="btn btn-primary" onclick="sendMessage()">Gửi</button>
         </div>
     </div>
 
@@ -479,6 +498,65 @@
                     dropdownMenu.classList.remove('show'); // Xóa class "show"
                 }
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const chatbotIcon = document.getElementById('chatbotIcon');
+            const chatContainer = document.getElementById('chat-container');
+            const chatBox = document.getElementById('chat-box');
+            const userInput = document.getElementById('user-input');
+
+            // Hiển thị hoặc ẩn khung chatbot khi nhấn vào biểu tượng
+            chatbotIcon.addEventListener('click', function (e) {
+                e.preventDefault();
+                chatContainer.style.display = chatContainer.style.display === 'none' ? 'block' : 'none';
+            });
+
+            // Ẩn khung chatbot khi nhấn bên ngoài
+            document.addEventListener('click', function (e) {
+                if (!chatContainer.contains(e.target) && !chatbotIcon.contains(e.target)) {
+                    chatContainer.style.display = 'none';
+                }
+            });
+
+            // Hàm gửi tin nhắn
+            function sendMessage() {
+                const userMessageText = userInput.value.trim();
+
+                if (userMessageText === "") return;
+
+                // Hiển thị tin nhắn của người dùng (bên phải)
+                const userMessage = document.createElement('div');
+                userMessage.className = 'user-message';
+                userMessage.textContent = userMessageText;
+                chatBox.appendChild(userMessage);
+
+                // Gửi yêu cầu đến API
+                fetch("/chatbot/sendMessage", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: userMessageText })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Hiển thị phản hồi của chatbot (bên trái)
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'bot-message';
+                    botMessage.textContent = data.error ? `Bot: ${data.error}` : `GearShop: ${data.response}`;
+                    chatBox.appendChild(botMessage);
+                    userInput.value = '';
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                })
+                .catch(error => {
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'bot-message';
+                    errorMessage.textContent = 'Bot: Failed to fetch response.';
+                    chatBox.appendChild(errorMessage);
+                });
+            }
+
+            // Gán hàm sendMessage vào nút gửi
+            window.sendMessage = sendMessage;
         });
     </script>
 </body>

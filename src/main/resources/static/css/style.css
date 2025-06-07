@@ -51,13 +51,13 @@ body {
 }
 
 .product-card {
-    flex: 0 0 20%;
-    max-width: 200px;
-    min-width: 180px;
-    margin-right: 16px;
+    flex: 0 0 18%; /* Giảm kích thước chiều rộng */
+    max-width: 180px; /* Giảm kích thước tối đa */
+    min-width: 160px; /* Giảm kích thước tối thiểu */
+    margin-right: 12px; /* Giảm khoảng cách giữa các thẻ */
     background: white;
     border-radius: 10px;
-    padding: 10px;
+    padding: 8px; /* Giảm padding */
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     scroll-snap-align: start;
 }
@@ -71,7 +71,11 @@ body {
 
 .card-img-top {
     object-fit: cover;
-    height: 200px;
+    height: 150px;
+    width: 150px;
+    display: block; /* Đảm bảo hình ảnh là block */
+    margin: 0 auto; /* Căn giữa hình ảnh */
+    border-radius: 4px; /* Bo góc ảnh */
 }
 
 .product-detail-image {
@@ -297,6 +301,63 @@ footer p {
 .dropdown-item:hover {
     background-color: #ffc107;
 
+}
+
+#chatbotIcon {
+    z-index: 1000; /* Đảm bảo biểu tượng luôn hiển thị trên các thành phần khác */
+}
+
+#chatbotIcon a {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+#chatbotIcon a:hover {
+    transform: scale(1.1); /* Hiệu ứng phóng to khi hover */
+}
+
+#chat-container {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#chat-box {
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-message {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border-radius: 15px;
+    margin: 5px 0;
+    max-width: 70%;
+    align-self: flex-end;
+    text-align: left;
+}
+
+.bot-message {
+    background-color: #e9ecef;
+    color: black;
+    padding: 10px;
+    border-radius: 15px;
+    margin: 5px 0;
+    max-width: 70%;
+    align-self: flex-start;
+    text-align: left;
+}
+
+#chat-box div {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-container input {
+    flex: 1;
 }
 
 .list-group-item.active {
