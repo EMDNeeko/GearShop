@@ -28,4 +28,6 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Long> {
 
     @Query("SELECT MAX(sp.maSanPham) FROM SanPham sp")
     String findMaxMaSanPham();
+
+    Boolean existsByThuongHieu_Id(Integer id);
 }

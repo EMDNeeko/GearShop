@@ -193,9 +193,4 @@ public class AdminController {
         return "adminTemplate/khuyenmai";
     }
 
-    @GetMapping("/thanhtoan")
-    public String thanhToan() {
-        return "adminTemplate/thanhtoan";
-    }
-
 }
