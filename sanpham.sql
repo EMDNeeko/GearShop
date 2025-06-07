@@ -24,6 +24,15 @@ create table khachHang(
     ghiChu nvarchar(100)
 );
 
+create table thongTinNhanHang(
+	ID int primary key auto_increment not null,
+    khachHangID int,
+    tenNguoiNhan varchar(100),
+    sdt varchar(20),
+    diachi nvarchar(200),
+    foreign key (khachHangID) references khachHang(ID)
+);
+
 create table gioHang(
 	ID int primary key auto_increment not null,
     maGioHang nvarchar(10),
@@ -42,6 +51,8 @@ create table loaiSanPham(
     maLoaiSP nvarchar(10),
     tenLoaiSanPham nvarchar(20)
 );
+-- select * from loaiSanPham;
+
 create table sanPham(
 	ID int primary key auto_increment not null,
     maSanPham nvarchar(10),
@@ -77,6 +88,7 @@ create table hoaDon(
     trangThaiDonHang nvarchar(20),
     foreign key (khachHangID) references khachHang(ID)
 );
+-- select * from hoaDon;
 
 create table hoaDonChiTiet(
 	ID int primary key auto_increment not null,
@@ -150,6 +162,7 @@ create table sanPhamCPU(
     mota nvarchar(200),
     foreign key (sanPhamID) references sanPham(ID)
 );
+select * from sanPhamCPU;
 
 create table sanPhamRAM(
 	ID int primary key auto_increment not null,
@@ -160,6 +173,7 @@ create table sanPhamRAM(
     mota nvarchar(200),
     foreign key (sanPhamID) references sanPham(ID)
 );
+-- SELECT * FROM sanPham;
 
 create table sanPhamVGA(
 	ID int primary key auto_increment not null,
