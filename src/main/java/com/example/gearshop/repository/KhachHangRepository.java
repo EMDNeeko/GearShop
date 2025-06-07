@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.gearshop.model.KhachHang;
+import com.example.gearshop.model.ThongTinNhanHang;
 
 public interface KhachHangRepository extends JpaRepository<KhachHang, Integer> {
 
@@ -17,4 +18,5 @@ public interface KhachHangRepository extends JpaRepository<KhachHang, Integer> {
     void deleteByNguoiDung_Id(Integer id);
 
     boolean existsByNguoiDung_Id(Integer id);
+
 }

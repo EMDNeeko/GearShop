@@ -2,6 +2,8 @@ package com.example.gearshop.controller;
 
 import com.example.gearshop.model.KhachHang;
 import com.example.gearshop.model.NguoiDung;
+import com.example.gearshop.repository.KhachHangRepository;
+import com.example.gearshop.repository.ThongTinNhanHangRepository;
 import com.example.gearshop.service.HoaDonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,10 @@ public class ThanhToanController {
 
     @Autowired
     private HoaDonService hoaDonService;
+    @Autowired
+    private KhachHangRepository khachHangRepository;
+    @Autowired
+    private ThongTinNhanHangRepository thongTinNhanHangRepository;
 
     @GetMapping("/checkout")
     public String showCheckoutPage(HttpSession session, Model model) {
@@ -50,7 +56,8 @@ public class ThanhToanController {
         // Tạo mã hóa đơn mới với giá trị QR động là 5000
         double qrAmount = 5000; // Giá trị cố định cho mã QR
         String maHoaDon = "HD" + String.valueOf(System.currentTimeMillis()).substring(6);
-        hoaDonService.createHoaDon(maHoaDon, khachHang, totalPrice);
+        hoaDonService.createHoaDon(maHoaDon,
+                thongTinNhanHangRepository.findByKhachHangId(khachHang.getId()).get(), totalPrice);
 
         // Truyền mã hóa đơn và giá trị QR vào giao diện
         model.addAttribute("qrAmount", qrAmount);

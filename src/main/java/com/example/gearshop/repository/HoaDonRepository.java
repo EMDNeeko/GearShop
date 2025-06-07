@@ -9,5 +9,5 @@ import com.example.gearshop.model.HoaDon;
 public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
     // Define custom query methods if needed
     // For example, find by customer ID or status
-    List<HoaDon> findByKhachHangId(Long khachHangId);
+    List<HoaDon> findByThongTinNhanHangId(Long id);
 }
