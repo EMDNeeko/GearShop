@@ -32,13 +32,15 @@ create table thongTinNhanHang(
     diachi nvarchar(200),
     foreign key (khachHangID) references khachHang(ID)
 );
+-- drop table thongTinNhanHang;
 
 create table gioHang(
 	ID int primary key auto_increment not null,
     maGioHang nvarchar(10),
-	khachHangID int,
-    foreign key (khachHangID) references khachHang(ID)
+	thongTinNhanHangID int,
+    foreign key (thongTinNhanHangID) references thongTinNhanHang(ID)
 );
+-- drop table gioHang;
 
 create table thuongHieu(
 	ID int primary key auto_increment not null,
@@ -51,7 +53,6 @@ create table loaiSanPham(
     maLoaiSP nvarchar(10),
     tenLoaiSanPham nvarchar(20)
 );
--- select * from loaiSanPham;
 
 create table sanPham(
 	ID int primary key auto_increment not null,
@@ -78,17 +79,18 @@ create table gioHangChiTiet(
     foreign key (gioHangID) references gioHang(ID),
     foreign key (sanPhamID) references sanPham(ID)
 );
+-- drop table gioHangChiTiet;
 
 create table hoaDon(
 	ID int primary key auto_increment not null,
     maHoaDon nvarchar(10),
-    khachHangID int,
+    thongTinNhanHangID int,
     ngayTao datetime,
     tongGia decimal(18,0),
     trangThaiDonHang nvarchar(20),
-    foreign key (khachHangID) references khachHang(ID)
+    foreign key (thongTinNhanHangID) references khachHang(ID)
 );
--- select * from hoaDon;
+-- drop table HoaDon;
 
 create table hoaDonChiTiet(
 	ID int primary key auto_increment not null,
@@ -100,6 +102,7 @@ create table hoaDonChiTiet(
     foreign key (hoaDonID) references hoaDon(ID),
     foreign key (sanPhamID) references sanPham(ID)
 );
+-- drop table hoaDonChiTiet;
 
 create table yeuCauHoanTien(
 	ID int primary key auto_increment not null,
@@ -109,6 +112,7 @@ create table yeuCauHoanTien(
     trangThai nvarchar(15),
     foreign key (hoaDonChiTietID) references hoaDonChiTiet(ID)
 );
+-- drop table yeuCauHoanTien;
 
 create table voucher(
 	ID int primary key auto_increment not null,
@@ -162,7 +166,6 @@ create table sanPhamCPU(
     mota nvarchar(200),
     foreign key (sanPhamID) references sanPham(ID)
 );
-select * from sanPhamCPU;
 
 create table sanPhamRAM(
 	ID int primary key auto_increment not null,
@@ -173,7 +176,6 @@ create table sanPhamRAM(
     mota nvarchar(200),
     foreign key (sanPhamID) references sanPham(ID)
 );
--- SELECT * FROM sanPham;
 
 create table sanPhamVGA(
 	ID int primary key auto_increment not null,

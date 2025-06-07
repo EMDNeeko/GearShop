@@ -18,8 +18,8 @@ public class GioHang {
     private String maGioHang;
 
     @OneToOne
-    @JoinColumn(name = "khachHangID")
-    private KhachHang khachHang;
+    @JoinColumn(name = "thongTinNhanHangID")
+    private ThongTinNhanHang thongTinNhanHang;
 
     // Getters và Setters
 }
