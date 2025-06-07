@@ -30,7 +30,10 @@ insert into khachhang(maKhachHang, nguoiDungID) values
 (N'KH0008', 10);
 
 -- import dl hoadon
-insert into hoadon(maHoaDon, khachHangID, ngayTao, tongGia, trangThaiDonHang) values
+insert into thongTinNhanHang(khachHangID, tenNguoiNhan, sdt, diachi) values
+(1, N'Nguyễn Văn A', '0123456789', N'Mỗ Lao, Hà Đông, Hà Nội');
+
+insert into hoadon(maHoaDon, thongTinNhanHangID, ngayTao, tongGia, trangThaiDonHang) values
 (N'HD0001', 1, '2025-04-11', 2000000, N'Đã thanh toán');
 
 insert into loaiSanPham(maLoaiSP, tenLoaiSanPham) values

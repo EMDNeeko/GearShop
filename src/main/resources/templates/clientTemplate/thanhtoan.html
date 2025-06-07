@@ -50,7 +50,7 @@
                 <p><strong>Email:</strong> <span th:text="${nguoiDung.email}">Email</span></p>
             </div>
 
-            <!-- Phần 2: Thông tin sản phẩm -->
+            <!-- Phần 1: Hiển thị tổng tiền trong thông tin sản phẩm -->
             <div class="col-lg-6 col-md-6">
                 <h4>Thông tin sản phẩm</h4>
                 <table class="table table-bordered">
@@ -65,7 +65,53 @@
                         <!-- Sản phẩm sẽ được thêm vào đây bằng JavaScript -->
                     </tbody>
                 </table>
-                <h5 class="text-end" id="totalPrice">Tổng tiền: 0₫</h5>
+                <h5 class="text-end" id="totalPriceProduct">Tổng tiền: 0₫</h5>
+            </div>
+        </div>
+
+        <!-- Phần 3: Thanh toán -->
+        <div class="row mt-5" id="checkout_box">
+            <div class="col-md-6 border text-center p-2">
+                <p class="fw-bold">Cách 1: Mở app ngân hàng và quét mã QR</p>
+                <div class="my-2">
+                    <img id="qrCodeImage" src="" class="img-fluid" alt="QR Code" style="max-width:500px; max-height:500px;">
+                    <br>
+                    <span>Trạng thái: Chờ thanh toán...
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-md-6 border p-2">
+                <p class="fw-bold">Cách 2: Chuyển khoản thủ công theo thông tin</p>
+                <div class="text-center">
+                    <img src="https://qr.sepay.vn/assets/img/banklogo/MB.png" class="img-fluid"
+                        style="max-height:50px" alt="MB Bank">
+                    <p class="fw-bold">Ngân hàng MBBank</p>
+                </div>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>Chủ tài khoản: </td>
+                            <td><b>Ngọ Văn Trọng</b></td>
+                        </tr>
+                        <tr>
+                            <td>Số TK: </td>
+                            <td><b>0904708498</b></td>
+                        </tr>
+                        <tr>
+                            <td>Số tiền: </td>
+                            <td><b><span id="totalPriceTransfer"></span>đ</b></td>
+                        </tr>
+                        <tr>
+                            <td>Nội dung CK: </td>
+                            <td><b><span id="orderContent">Chuyển khoản online</span></b></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="bg-light p-2">Lưu ý: Vui lòng giữ nguyên nội dung chuyển khoản để hệ thống tự động xác nhận thanh toán</p>
             </div>
         </div>
 
@@ -114,13 +160,15 @@
 
     <!-- Bootstrap JS Bundle CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="@{/js/api.js}"></script>
 
     <!-- Custom JS -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             const cartTableBody = document.getElementById('cartTableBody');
-            const totalPriceElement = document.getElementById('totalPrice');
+            const totalPriceProductElement = document.getElementById('totalPriceProduct');
+            const totalPriceTransferElement = document.getElementById('totalPriceTransfer');
 
             // Hàm hiển thị giỏ hàng
             function renderCart() {
@@ -143,11 +191,21 @@
                     cartTableBody.appendChild(row);
                 });
 
-                totalPriceElement.textContent = `Tổng tiền: ${totalPrice.toLocaleString()}₫`;
+                // Gán giá trị tổng tiền vào cả hai phần tử
+                totalPriceProductElement.textContent = `Tổng tiền: ${totalPrice.toLocaleString()}₫`;
+                totalPriceTransferElement.textContent = totalPrice.toLocaleString();
             }
 
             // Hiển thị giỏ hàng khi tải trang
             renderCart();
+
+            // Lấy giá trị tổng tiền từ DOM
+            const totalPrice = parseFloat(totalPriceProductElement.textContent.replace(/[^0-9]/g, '')); // Loại bỏ ký tự không phải số
+            const qrAmount = Math.floor(totalPrice / 1000); // Giảm giá trị xuống 1000 lần
+
+            // Hiển thị mã QR thanh toán
+            const qrCodeImageElement = document.getElementById('qrCodeImage');
+            qrCodeImageElement.src = `https://qr.sepay.vn/img?bank=MBBank&acc=0904708498&template=compact&amount=${qrAmount}&des=Chuyen%20khoan%20online`;
         });
     </script>
 </body>

@@ -74,7 +74,7 @@ public class SanPhamService {
     }
 
     public SanPham getSanPhamById(Integer id) {
-        return sanPhamRepository.findById(id).orElse(null);
+        return sanPhamRepository.findById(id);
     }
 
     public List<ThuongHieu> getAllThuongHieu() {
@@ -372,7 +372,7 @@ public class SanPhamService {
     }
 
     public SanPham findById(Integer id) {
-        return sanPhamRepository.findById(id).get();
+        return sanPhamRepository.findById(id);
     }
 
     public String sinhMaSanPham() {
@@ -416,5 +416,17 @@ public class SanPhamService {
 
     public void xoaSanPham(SanPham sanPham) {
         sanPhamRepository.delete(sanPham);
+    }
+
+    public List<SanPham> timKiemTheoGiaTangDan(String keyword) {
+        return sanPhamRepository.findByTenSanPhamContainingIgnoreCaseOrderByGiaAsc(keyword);
+    }
+
+    public List<SanPham> timKiemTheoGiaGiamDan(String keyword) {
+        return sanPhamRepository.findByTenSanPhamContainingIgnoreCaseOrderByGiaDesc(keyword);
+    }
+
+    public List<SanPham> timKiemSanPham(String keyword) {
+        return sanPhamRepository.findByTenSanPhamContainingIgnoreCase(keyword);
     }
 }

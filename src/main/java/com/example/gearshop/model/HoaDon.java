@@ -19,8 +19,8 @@ public class HoaDon {
     private String maHoaDon;
 
     @ManyToOne
-    @JoinColumn(name = "khachHangID")
-    private KhachHang khachHang;
+    @JoinColumn(name = "thongTinNhanHangID")
+    private ThongTinNhanHang thongTinNhanHang;
 
     private LocalDateTime ngayTao;
 

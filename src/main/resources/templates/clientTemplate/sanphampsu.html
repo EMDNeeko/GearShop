@@ -130,6 +130,24 @@
             </a>
         </div>
     </div>
+    <!-- Biểu tượng Chatbot AI -->
+    <div id="chatbotIcon" class="position-fixed bottom-0 end-0 m-3">
+        <a href="#" class="btn btn-primary rounded-circle"
+            style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+            <i class="bi bi-robot fs-3"></i>
+        </a>
+    </div>
+
+    <!-- Khung Chatbot -->
+    <div id="chat-container" class="position-fixed bottom-0 end-0 m-3 p-3 bg-light border rounded"
+        style="width: 500px; height: 500px; display: none; z-index: 1000;">
+        <h2 class="text-center">Chatbot AI</h2>
+        <div id="chat-box" style="height: 380px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;"></div>
+        <div class="input-container d-flex mt-2">
+            <input type="text" id="user-input" class="form-control me-2" placeholder="Hỏi Chatbot AI...">
+            <button class="btn btn-primary" onclick="sendMessage()">Gửi</button>
+        </div>
+    </div>
 </body>
 <footer class="bg-dark text-light pt-4 mt-5">
     <div class="container">
@@ -221,6 +239,64 @@
                 dropdownMenu.classList.remove('show'); // Xóa class "show"
             }
         });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        const chatbotIcon = document.getElementById('chatbotIcon');
+        const chatContainer = document.getElementById('chat-container');
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('user-input');
+
+        // Hiển thị hoặc ẩn khung chatbot khi nhấn vào biểu tượng
+        chatbotIcon.addEventListener('click', function (e) {
+            e.preventDefault();
+            chatContainer.style.display = chatContainer.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Ẩn khung chatbot khi nhấn bên ngoài
+        document.addEventListener('click', function (e) {
+            if (!chatContainer.contains(e.target) && !chatbotIcon.contains(e.target)) {
+                chatContainer.style.display = 'none';
+            }
+        });
+
+        // Hàm gửi tin nhắn
+        function sendMessage() {
+            const userMessageText = userInput.value.trim();
+
+            if (userMessageText === "") return;
+
+            // Hiển thị tin nhắn của người dùng (bên phải)
+            const userMessage = document.createElement('div');
+            userMessage.className = 'user-message';
+            userMessage.textContent = userMessageText;
+            chatBox.appendChild(userMessage);
+
+            // Gửi yêu cầu đến API
+            fetch("/chatbot/sendMessage", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: userMessageText })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hiển thị phản hồi của chatbot (bên trái)
+                const botMessage = document.createElement('div');
+                botMessage.className = 'bot-message';
+                botMessage.textContent = data.error ? `Bot: ${data.error}` : `GearShop: ${data.response}`;
+                chatBox.appendChild(botMessage);
+                userInput.value = '';
+                chatBox.scrollTop = chatBox.scrollHeight;
+            })
+            .catch(error => {
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'bot-message';
+                errorMessage.textContent = 'Bot: Failed to fetch response.';
+                chatBox.appendChild(errorMessage);
+            });
+        }
+
+        // Gán hàm sendMessage vào nút gửi
+        window.sendMessage = sendMessage;
     });
 </script>
 </html>
