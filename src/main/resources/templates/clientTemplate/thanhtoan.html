@@ -137,6 +137,7 @@
     <!-- Bootstrap JS Bundle CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="@{/js/api.js}"></script>
+    <script src="@{/js/record.js}"></script>
 
     <!-- Custom JS -->
     <script>
@@ -183,6 +184,73 @@
             const qrCodeImageElement = document.getElementById('qrCodeImage');
             // qrCodeImageElement.src = `https://qr.sepay.vn/img?bank=MBBank&acc=0904708498&template=compact&amount=${qrAmount}&des=Chuyen%20khoan%20online`;
         });
+
+        var pay_status = 'Unpaid';
+
+        async function checkPaymentStatus() {
+            if (pay_status === 'Unpaid') {
+                try {
+                    const records = await checkPaidFromSheet(); // Hàm giả định để lấy dữ liệu thanh toán
+                    const invoiceDesc = `HDPTITSHOP${orderId}`; // Mã đơn hàng cần kiểm tra
+
+                    for (let record of records) {
+                        if (record.content.includes(invoiceDesc)) {
+                            const recordAmount = Math.abs(record.amount);
+
+                            // Nếu số tiền chính xác
+                            if (recordAmount === totalAmount) {
+                                await fetch('/update-payment-status', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ orderId, amount: recordAmount })
+                                });
+                                document.getElementById('checkout_box').style.display = 'none';
+                                document.getElementById('error_pay_box').style.display = 'none';
+                                document.getElementById('success_pay_box').style.display = 'block';
+                                pay_status = 'Paid';
+                                break;
+                            }
+
+                            // Nếu chuyển khoản THỪA
+                            else if (recordAmount > totalAmount) {
+                                const extra = recordAmount - totalAmount;
+                                await fetch('/update-payment-status-extra-missing', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ orderId, type: 'extra', amount: recordAmount })
+                                });
+                                document.getElementById('checkout_box').style.display = 'none';
+                                document.getElementById('error_pay_box').style.display = 'none';
+                                document.getElementById('success_pay_box').innerHTML =
+                                    `Số tiền chuyển khoản thừa: ${extra.toLocaleString()}đ. Hệ thống sẽ hoàn lại phần dư cho bạn!`;
+                                pay_status = 'Extra';
+                                break;
+                            }
+
+                            // Nếu chuyển khoản THIẾU
+                            else if (recordAmount < totalAmount) {
+                                const missing = totalAmount - recordAmount;
+                                await fetch('/update-payment-status-extra-missing', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ orderId, type: 'missing', amount: recordAmount })
+                                });
+                                document.getElementById('checkout_box').style.display = 'none';
+                                document.getElementById('error_pay_box').innerHTML =
+                                    `Số tiền chuyển khoản thiếu: ${missing.toLocaleString()}đ. Bạn có thể trả phần còn lại khi nhận hàng.`;
+                                pay_status = 'Missing';
+                                break;
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.error('Lỗi trong checkPaymentStatus:', error);
+                }
+            }
+        }
+
+        // Gọi kiểm tra mỗi 10 giây
+        setInterval(checkPaymentStatus, 10000);
     </script>
 </body>
 

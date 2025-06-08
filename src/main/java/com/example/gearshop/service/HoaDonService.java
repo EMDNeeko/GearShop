@@ -69,4 +69,8 @@ public class HoaDonService {
         }
         return prefix + "001";
     }
+
+    public HoaDon findById(int id) {
+        return hoaDonRepository.findById(id).orElse(null);
+    }
 }
