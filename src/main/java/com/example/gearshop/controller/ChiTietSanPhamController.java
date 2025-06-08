@@ -32,6 +32,7 @@ public class ChiTietSanPhamController {
         // Thêm dữ liệu sản phẩm chung vào model
         model.addAttribute("sanPham", sanPham);
         model.addAttribute("loaiSanPham", sanPham.getLoaiSanPham().getTenLoaiSanPham());
+        System.out.println("Loai San Pham: " + sanPham.getLoaiSanPham().getTenLoaiSanPham());
 
         // Lấy thông tin chi tiết theo loại sản phẩm
         Object chiTietSanPham = sanPhamService.layChiTietTheoLoai(sanPham);

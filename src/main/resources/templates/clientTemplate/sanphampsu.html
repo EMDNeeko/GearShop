@@ -115,15 +115,16 @@
     </nav>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
         <div class="col" th:each="psu : ${dsPSU}">
-            <a th:href="@{/sanphampsu/{sanPhamID}(sanPhamID=${psu.sanPham.id})}"
-                class="card product-card h-100 text-decoration-none">
-                <img th:src="@{/images/product/{img}(img=${psu.sanPham.hinhAnh})}" class="card-img-top"
-                    alt="Hình ảnh PSU">
+            <a th:href="@{/chitietsanpham/{sanPhamID}(sanPhamID=${mb.sanPham.id})}"
+            class="card product-card h-100 text-decoration-none">
+                <img th:src="@{/images/product/{img}(img=${mb.sanPham.hinhAnh})}" class="card-img-top"
+                    alt="Hình ảnh sản phẩm">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${psu.sanPham.tenSanPham}">Tên PSU</h5>
-                    <p class="card-text">
-                        Giá: <span
-                            th:text="${#numbers.formatDecimal(psu.sanPham.gia, 0, 'COMMA', 0, 'POINT')} + '₫'"></span>
+                    <h5 class="card-title">Mainboard <br th:remove="tag" />
+                        <span th:text="${mb.sanPham.tenSanPham}"></span>
+                    </h5>
+                    <p class="card-text">Giá: <span
+                            th:text="${#numbers.formatDecimal(mb.sanPham.gia, 0, 'COMMA', 0, 'POINT')} + '₫'"></span>
                     </p>
                 </div>
             </a>
