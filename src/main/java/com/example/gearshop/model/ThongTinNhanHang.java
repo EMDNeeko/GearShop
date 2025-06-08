@@ -15,11 +15,11 @@ public class ThongTinNhanHang {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "khachHangID")
-    private KhachHang khachHang;
+    private int khachHangID; // Lưu ID của khách hàng thay vì đối tượng
 
     private String tenNguoiNhan;
+
+    private String email;
 
     private String sdt;
 

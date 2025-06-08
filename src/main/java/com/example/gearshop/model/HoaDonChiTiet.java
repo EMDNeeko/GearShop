@@ -18,11 +18,7 @@ public class HoaDonChiTiet {
     private int soLuongSP;
     private BigDecimal thanhTien;
 
-    @ManyToOne
-    @JoinColumn(name = "hoaDonID")
-    private HoaDon hoaDon;
+    private int hoaDonID; // Lưu ID của hóa đơn thay vì đối tượng
 
-    @ManyToOne
-    @JoinColumn(name = "sanPhamID")
-    private SanPham sanPham;
+    private int sanPhamID; // Lưu ID của sản phẩm thay vì đối tượng
 }

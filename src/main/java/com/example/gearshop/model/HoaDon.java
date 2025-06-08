@@ -18,9 +18,8 @@ public class HoaDon {
 
     private String maHoaDon;
 
-    @ManyToOne
-    @JoinColumn(name = "thongTinNhanHangID")
-    private ThongTinNhanHang thongTinNhanHang;
+    // Lưu ID của thông tin nhận hàng thay vì ánh xạ đối tượng
+    private int thongTinNhanHangID;
 
     private LocalDateTime ngayTao;
 
