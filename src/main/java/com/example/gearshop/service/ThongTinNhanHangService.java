@@ -26,4 +26,9 @@ public class ThongTinNhanHangService {
     public List<ThongTinNhanHang> getThongTinNhanHangByKhachHangID(int khachHangID) {
         return thongTinNhanHangRepository.findByKhachHangID(khachHangID);
     }
+
+    public ThongTinNhanHang getThongTinNhanHangById(Integer id) {
+        return thongTinNhanHangRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy thông tin nhận hàng với ID: " + id));
+    }
 }

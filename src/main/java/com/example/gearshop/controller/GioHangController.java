@@ -4,6 +4,8 @@ import com.example.gearshop.model.NguoiDung;
 import com.example.gearshop.model.KhachHang;
 import com.example.gearshop.model.ThongTinNhanHang;
 import com.example.gearshop.service.ThongTinNhanHangService;
+import com.example.gearshop.model.Voucher;
+import com.example.gearshop.service.VoucherService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,8 @@ public class GioHangController {
 
     @Autowired
     private ThongTinNhanHangService thongTinNhanHangService;
+    @Autowired
+    private VoucherService voucherService;
 
     @PostMapping("/save-selected-items")
     public ResponseEntity<Void> saveSelectedItems(@RequestBody List<Map<String, Object>> selectedItems, HttpSession session) {
@@ -56,6 +60,10 @@ public class GioHangController {
         // Lấy danh sách thông tin nhận hàng ứng với khachHangID
         List<ThongTinNhanHang> thongTinNhanHangList = thongTinNhanHangService.getThongTinNhanHangByKhachHangID(khachHang.getId());
         model.addAttribute("receivers", thongTinNhanHangList);
+
+        // Lấy danh sách voucher từ service
+        List<Voucher> vouchers = voucherService.getAllVouchers();
+        model.addAttribute("vouchers", vouchers);
 
         // Lấy các sản phẩm đã chọn từ session
         List<Map<String, Object>> selectedItems = (List<Map<String, Object>>) session.getAttribute("selectedItems");

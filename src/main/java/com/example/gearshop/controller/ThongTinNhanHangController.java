@@ -15,14 +15,12 @@ public class ThongTinNhanHangController {
     private ThongTinNhanHangService thongTinNhanHangService;
 
     @PostMapping
-    public ThongTinNhanHang addReceiver(@RequestBody ThongTinNhanHang receiver, HttpSession session) {
-        // Lấy thông tin khách hàng từ session
+    public ThongTinNhanHang addReceiver(@RequestBody ThongTinNhanHang receiver,
+                                        HttpSession session) {
         KhachHang khachHang = (KhachHang) session.getAttribute("khachHang");
         if (khachHang == null) {
             throw new IllegalStateException("Không tìm thấy thông tin khách hàng. Vui lòng đăng nhập.");
         }
-
-        // Sử dụng ID của khách hàng để thêm thông tin nhận hàng
         return thongTinNhanHangService.createThongTinNhanHang(
             khachHang.getId(),
             receiver.getTenNguoiNhan(),
@@ -30,5 +28,10 @@ public class ThongTinNhanHangController {
             receiver.getSdt(),
             receiver.getDiachi()
         );
+    }
+
+    @GetMapping("/{id}")
+    public ThongTinNhanHang getReceiverById(@PathVariable Integer id) {
+        return thongTinNhanHangService.getThongTinNhanHangById(id);
     }
 }
