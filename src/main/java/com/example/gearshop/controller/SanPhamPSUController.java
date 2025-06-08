@@ -36,7 +36,7 @@ public class SanPhamPSUController {
 
         // Thêm dữ liệu vào model
         model.addAttribute("sanPham", psu.getSanPham());
-        model.addAttribute("sanPhamPSU", psu);
+        model.addAttribute("chiTietSanPham", psu);
         model.addAttribute("motaList", motaList);
         model.addAttribute("loaiSanPham", "PSU");
 

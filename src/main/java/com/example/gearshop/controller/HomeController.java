@@ -70,7 +70,8 @@ public class HomeController {
         model.addAttribute("sanPhamBanChay", sanPhamRepo.findTop10ByOrderByDaBanDesc());
 
         // Thêm danh mục sản phẩm theo loại vào model
-        List<String> tenLoaiList = List.of("Mainboard", "CPU", "RAM", "VGA", "Ổ cứng", "Nguồn", "Tản nhiệt", "Case", "Màn hình");
+        List<String> tenLoaiList = List.of("Mainboard", "CPU", "RAM", "VGA", "Ổ cứng", "Nguồn", "Tản nhiệt", "Case",
+                "Màn hình");
         Map<String, List<SanPham>> sanPhamTheoLoai = new LinkedHashMap<>();
         for (String tenLoai : tenLoaiList) {
             LoaiSanPham loai = loaiSPRepo.findByTenLoaiSanPham(tenLoai);
@@ -90,39 +91,39 @@ public class HomeController {
 
     @PostMapping("/dangnhap")
     public String login(@RequestParam String tenDangNhap,
-                    @RequestParam String matKhau,
-                    HttpSession session,
-                    Model model) {
-    Optional<NguoiDung> optionalNguoiDung = nguoiDungRepo.findByTenDangNhapAndMatKhau(tenDangNhap, matKhau);
-    if (optionalNguoiDung.isPresent()) {
-        NguoiDung nguoiDung = optionalNguoiDung.get();
-        session.setAttribute("nguoiDung", nguoiDung); // Lưu thông tin người dùng vào session
+            @RequestParam String matKhau,
+            HttpSession session,
+            Model model) {
+        Optional<NguoiDung> optionalNguoiDung = nguoiDungRepo.findByTenDangNhapAndMatKhau(tenDangNhap, matKhau);
+        if (optionalNguoiDung.isPresent()) {
+            NguoiDung nguoiDung = optionalNguoiDung.get();
+            session.setAttribute("nguoiDung", nguoiDung); // Lưu thông tin người dùng vào session
 
-        // Kiểm tra vai trò của người dùng
-        Optional<KhachHang> optionalKhachHang = khachHangRepo.findByNguoiDung_Id(nguoiDung.getId());
-        Optional<NhanVien> optionalNhanVien = nhanVienRepo.findByNguoiDung_Id(nguoiDung.getId());
+            // Kiểm tra vai trò của người dùng
+            Optional<KhachHang> optionalKhachHang = khachHangRepo.findByNguoiDung_Id(nguoiDung.getId());
+            Optional<NhanVien> optionalNhanVien = nhanVienRepo.findByNguoiDung_Id(nguoiDung.getId());
 
-        if (optionalKhachHang.isPresent()) {
-            session.setAttribute("khachHang", optionalKhachHang.get()); // Tạo session khách hàng
-            return "redirect:/"; // Chuyển đến trang chủ
-        } else if (optionalNhanVien.isPresent()) {
-            session.setAttribute("nhanVien", optionalNhanVien.get()); // Tạo session nhân viên
-            return "redirect:/admin/trangchu"; // Chuyển đến trang admin
+            if (optionalKhachHang.isPresent()) {
+                session.setAttribute("khachHang", optionalKhachHang.get()); // Tạo session khách hàng
+                return "redirect:/"; // Chuyển đến trang chủ
+            } else if (optionalNhanVien.isPresent()) {
+                session.setAttribute("nhanVien", optionalNhanVien.get()); // Tạo session nhân viên
+                return "redirect:/admin/trangchu"; // Chuyển đến trang admin
+            } else {
+                model.addAttribute("error", "Tài khoản không thuộc vai trò hợp lệ.");
+                return "clientTemplate/dangnhap";
+            }
         } else {
-            model.addAttribute("error", "Tài khoản không thuộc vai trò hợp lệ.");
+            model.addAttribute("error", "Sai tên đăng nhập hoặc mật khẩu.");
             return "clientTemplate/dangnhap";
         }
-    } else {
-        model.addAttribute("error", "Sai tên đăng nhập hoặc mật khẩu.");
-        return "clientTemplate/dangnhap";
     }
-}
 
     // Tim kiem san pham
     @GetMapping("/timkiem")
     public String timKiem(@RequestParam("q") String keyword,
-                        @RequestParam(value = "sort", required = false) String sort,
-                        Model model) {
+            @RequestParam(value = "sort", required = false) String sort,
+            Model model) {
         List<SanPham> ketQua;
 
         if ("asc".equals(sort)) {
@@ -168,6 +169,8 @@ public class HomeController {
             model.addAttribute("nguoiDung", nguoiDung);
             boolean isKhachHang = khachHangRepo.findByNguoiDung_Id(nguoiDung.getId()).isPresent();
             boolean isNhanVien = nhanVienRepo.findByNguoiDung_Id(nguoiDung.getId()).isPresent();
+            System.out.println("isKhachHang: " + isKhachHang);
+            System.out.println("isNhanVien: " + isNhanVien);
             model.addAttribute("isKhachHang", isKhachHang);
             model.addAttribute("isNhanVien", isNhanVien);
             return "/thongtincanhan";

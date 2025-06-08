@@ -36,7 +36,7 @@ public class SanPhamVGAController {
 
         // Thêm dữ liệu vào model
         model.addAttribute("sanPham", vga.getSanPham());
-        model.addAttribute("sanPhamVGA", vga);
+        model.addAttribute("chiTietSanPham", vga);
         model.addAttribute("motaList", motaList);
         model.addAttribute("loaiSanPham", "VGA");
 

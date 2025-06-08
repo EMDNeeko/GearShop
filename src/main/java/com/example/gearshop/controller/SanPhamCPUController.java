@@ -36,7 +36,7 @@ public class SanPhamCPUController {
 
         // Thêm dữ liệu vào model
         model.addAttribute("sanPham", cpu.getSanPham());
-        model.addAttribute("sanPhamCPU", cpu);
+        model.addAttribute("chiTietSanPham", cpu);
         model.addAttribute("motaList", motaList);
         model.addAttribute("loaiSanPham", "CPU");
 

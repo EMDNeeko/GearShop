@@ -15,7 +15,8 @@
             <div class="d-flex align-items-center justify-content-between">
 
                 <!-- Nút quay về trang chủ -->
-                <a th:href="${isNhanVien} ? '/admin/trangchu' : '/'" class="btn btn-outline-light">← Trang chủ</a>
+                <a th:if="${isNhanVien}" th:href="@{/admin/trangchu}" class="btn btn-outline-light">← Trang chủ</a>
+                <a th:unless="${isNhanVien}" th:href="@{/}" class="btn btn-outline-light">← Trang chủ</a>
 
                 <!-- Tiêu đề chính giữa -->
                 <div class="fs-3 fw-bold text-center flex-grow-1">Thông tin người dùng</div>
@@ -109,7 +110,7 @@
                 </div>
 
                 <!-- Lịch sử mua hàng -->
-                <div class="tab-pane fade" id="lichsumuahang">
+                <div class="tab-pane fade" id="lichsumuahang" th:if="${isKhachHang}">
                     <h4>Lịch sử mua hàng</h4>
                     <p>Chức năng đang phát triển.</p>
                 </div>

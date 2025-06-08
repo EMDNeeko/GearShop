@@ -36,7 +36,7 @@ public class SanPhamMainBoardController {
 
         // Thêm dữ liệu vào model
         model.addAttribute("sanPham", mainboard.getSanPham());
-        model.addAttribute("sanPhamMainBoard", mainboard);
+        model.addAttribute("chiTietSanPham", mainboard);
         model.addAttribute("motaList", motaList);
         model.addAttribute("loaiSanPham", "Mainboard");
 

@@ -36,7 +36,7 @@ public class SanPhamCoolerController {
 
         // Thêm dữ liệu vào model
         model.addAttribute("sanPham", cooler.getSanPham());
-        model.addAttribute("sanPhamCooler", cooler);
+        model.addAttribute("chiTietSanPham", cooler);
         model.addAttribute("motaList", motaList);
         model.addAttribute("loaiSanPham", "Tản Nhiệt");
 

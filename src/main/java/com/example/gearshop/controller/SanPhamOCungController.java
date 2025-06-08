@@ -36,7 +36,7 @@ public class SanPhamOCungController {
 
         // Thêm dữ liệu vào model
         model.addAttribute("sanPham", ocung.getSanPham());
-        model.addAttribute("sanPhamOCung", ocung);
+        model.addAttribute("chiTietSanPham", ocung);
         model.addAttribute("motaList", motaList);
         model.addAttribute("loaiSanPham", "Ổ Cứng");
 

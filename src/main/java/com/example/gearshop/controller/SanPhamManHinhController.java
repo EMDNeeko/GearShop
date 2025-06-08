@@ -36,7 +36,7 @@ public class SanPhamManHinhController {
 
         // Thêm dữ liệu vào model
         model.addAttribute("sanPham", manHinh.getSanPham());
-        model.addAttribute("sanPhamManHinh", manHinh);
+        model.addAttribute("chiTietSanPham", manHinh);
         model.addAttribute("motaList", motaList);
         model.addAttribute("loaiSanPham", "Màn Hình");
 

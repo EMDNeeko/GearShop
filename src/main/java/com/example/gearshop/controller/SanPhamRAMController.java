@@ -36,7 +36,7 @@ public class SanPhamRAMController {
 
         // Thêm dữ liệu vào model
         model.addAttribute("sanPham", ram.getSanPham());
-        model.addAttribute("sanPhamRAM", ram);
+        model.addAttribute("chiTietSanPham", ram);
         model.addAttribute("motaList", motaList);
         model.addAttribute("loaiSanPham", "RAM");
 

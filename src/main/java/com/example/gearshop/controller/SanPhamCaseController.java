@@ -36,7 +36,7 @@ public class SanPhamCaseController {
 
         // Thêm dữ liệu vào model
         model.addAttribute("sanPham", caseProduct.getSanPham());
-        model.addAttribute("sanPhamCase", caseProduct);
+        model.addAttribute("chiTietSanPham", caseProduct);
         model.addAttribute("motaList", motaList);
         model.addAttribute("loaiSanPham", "Case");
 

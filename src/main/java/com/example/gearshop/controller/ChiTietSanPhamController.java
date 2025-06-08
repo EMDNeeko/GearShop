@@ -40,58 +40,58 @@ public class ChiTietSanPhamController {
         // Ép kiểu đối tượng chi tiết sản phẩm theo loại
         if (chiTietSanPham instanceof SanPhamMainBoard) {
             SanPhamMainBoard mainBoard = (SanPhamMainBoard) chiTietSanPham;
-            List<String> moTaList = mainBoard.getMota() != null
+            List<String> motaList = mainBoard.getMota() != null
                     ? Arrays.asList(mainBoard.getMota().split("\\|"))
                     : null;
-            model.addAttribute("moTaList", moTaList);
+            model.addAttribute("motaList", motaList);
         } else if (chiTietSanPham instanceof SanPhamCPU) {
             SanPhamCPU cpu = (SanPhamCPU) chiTietSanPham;
-            List<String> moTaList = cpu.getMota() != null
+            List<String> motaList = cpu.getMota() != null
                     ? Arrays.asList(cpu.getMota().split("\\|"))
                     : null;
-            model.addAttribute("moTaList", moTaList);
+            model.addAttribute("motaList", motaList);
         } else if (chiTietSanPham instanceof SanPhamRAM) {
             SanPhamRAM ram = (SanPhamRAM) chiTietSanPham;
-            List<String> moTaList = ram.getMota() != null
+            List<String> motaList = ram.getMota() != null
                     ? Arrays.asList(ram.getMota().split("\\|"))
                     : null;
-            model.addAttribute("moTaList", moTaList);
+            model.addAttribute("motaList", motaList);
         } else if (chiTietSanPham instanceof SanPhamVGA) {
             SanPhamVGA vga = (SanPhamVGA) chiTietSanPham;
-            List<String> moTaList = vga.getMota() != null
+            List<String> motaList = vga.getMota() != null
                     ? Arrays.asList(vga.getMota().split("\\|"))
                     : null;
-            model.addAttribute("moTaList", moTaList);
+            model.addAttribute("motaList", motaList);
         } else if (chiTietSanPham instanceof SanPhamOCung) {
             SanPhamOCung oCung = (SanPhamOCung) chiTietSanPham;
-            List<String> moTaList = oCung.getMota() != null
+            List<String> motaList = oCung.getMota() != null
                     ? Arrays.asList(oCung.getMota().split("\\|"))
                     : null;
-            model.addAttribute("moTaList", moTaList);
+            model.addAttribute("motaList", motaList);
         } else if (chiTietSanPham instanceof SanPhamPSU) {
             SanPhamPSU psu = (SanPhamPSU) chiTietSanPham;
-            List<String> moTaList = psu.getMota() != null
+            List<String> motaList = psu.getMota() != null
                     ? Arrays.asList(psu.getMota().split("\\|"))
                     : null;
-            model.addAttribute("moTaList", moTaList);
+            model.addAttribute("motaList", motaList);
         } else if (chiTietSanPham instanceof SanPhamCooler) {
             SanPhamCooler cooler = (SanPhamCooler) chiTietSanPham;
-            List<String> moTaList = cooler.getMota() != null
+            List<String> motaList = cooler.getMota() != null
                     ? Arrays.asList(cooler.getMota().split("\\|"))
                     : null;
-            model.addAttribute("moTaList", moTaList);
+            model.addAttribute("motaList", motaList);
         } else if (chiTietSanPham instanceof SanPhamCase) {
             SanPhamCase spCase = (SanPhamCase) chiTietSanPham;
-            List<String> moTaList = spCase.getMota() != null
+            List<String> motaList = spCase.getMota() != null
                     ? Arrays.asList(spCase.getMota().split("\\|"))
                     : null;
-            model.addAttribute("moTaList", moTaList);
+            model.addAttribute("motaList", motaList);
         } else if (chiTietSanPham instanceof SanPhamManHinh) {
             SanPhamManHinh manHinh = (SanPhamManHinh) chiTietSanPham;
-            List<String> moTaList = manHinh.getMota() != null
+            List<String> motaList = manHinh.getMota() != null
                     ? Arrays.asList(manHinh.getMota().split("\\|"))
                     : null;
-            model.addAttribute("moTaList", moTaList);
+            model.addAttribute("motaList", motaList);
         }
 
         // Trả về template chi tiết sản phẩm
