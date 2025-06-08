@@ -56,12 +56,7 @@ public class ThanhToanController {
         // Tạo mã hóa đơn mới với giá trị QR động là 5000
         double qrAmount = 5000; // Giá trị cố định cho mã QR
         String maHoaDon = "HD" + String.valueOf(System.currentTimeMillis()).substring(6);
-<<<<<<< Updated upstream
-        hoaDonService.createHoaDon(maHoaDon,
-                thongTinNhanHangRepository.findByKhachHangId(khachHang.getId()).get(), totalPrice);
-=======
         // hoaDonService.createHoaDon(maHoaDon, khachHang, totalPrice);
->>>>>>> Stashed changes
 
         // Truyền mã hóa đơn và giá trị QR vào giao diện
         model.addAttribute("qrAmount", qrAmount);

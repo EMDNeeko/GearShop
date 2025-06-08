@@ -1,12 +1,7 @@
 package com.example.gearshop.service;
 
 import com.example.gearshop.model.HoaDon;
-<<<<<<< Updated upstream
-import com.example.gearshop.model.KhachHang;
-import com.example.gearshop.model.ThongTinNhanHang;
-=======
 import com.example.gearshop.model.HoaDonChiTiet;
->>>>>>> Stashed changes
 import com.example.gearshop.repository.HoaDonRepository;
 import com.example.gearshop.repository.HoaDonChiTietRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +16,6 @@ public class HoaDonService {
     @Autowired
     private HoaDonRepository hoaDonRepository;
 
-<<<<<<< Updated upstream
-    public HoaDon createHoaDon(String maHoaDon, ThongTinNhanHang khachHang, double tongGia) {
-        HoaDon hoaDon = new HoaDon();
-        hoaDon.setMaHoaDon(maHoaDon);
-        hoaDon.setThongTinNhanHang(khachHang); // Sử dụng đối tượng KhachHang thay vì ID
-        hoaDon.setNgayTao(LocalDateTime.now());
-        hoaDon.setTongGia(BigDecimal.valueOf(tongGia)); // Chuyển đổi từ double sang BigDecimal
-        hoaDon.setTrangThaiDonHang("Chờ thanh toán");
-=======
     @Autowired
     private HoaDonChiTietRepository hoaDonChiTietRepository;
 
@@ -44,7 +30,6 @@ public class HoaDonService {
         hoaDon.setTongGia(BigDecimal.valueOf(tongGia));
         hoaDon.setTrangThaiDonHang("Chưa thanh toán");
 
->>>>>>> Stashed changes
         return hoaDonRepository.save(hoaDon);
     }
 
