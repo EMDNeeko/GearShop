@@ -291,15 +291,15 @@
                                 <p th:if="${motaList == null}">Không có mô tả.</p>
                             </td>
                         </tr>
-                        <tr th:if="${loaiSanPham == 'Tản nhiệt'}">
+                        <tr th:if="${loaiSanPham == 'Cooler'}">
                             <td>Loại tản nhiệt</td>
                             <td th:text="${chiTietSanPham.loaiTan}">Loại tản nhiệt</td>
                         </tr>
-                        <tr th:if="${loaiSanPham == 'Tản nhiệt'}">
+                        <tr th:if="${loaiSanPham == 'Cooler'}">
                             <td>Có LED</td>
                             <td th:text="${chiTietSanPham.coLED ? 'Có' : 'Không'}">Có LED</td>
                         </tr>
-                        <tr th:if="${loaiSanPham == 'Tản nhiệt'}">
+                        <tr th:if="${loaiSanPham == 'Cooler'}">
                             <td>Mô tả</td>
                             <td>
                                 <ul th:if="${motaList != null}">
