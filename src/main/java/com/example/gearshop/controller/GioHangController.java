@@ -29,6 +29,10 @@ public class GioHangController {
 
     @PostMapping("/save-selected-items")
     public ResponseEntity<Void> saveSelectedItems(@RequestBody List<Map<String, Object>> selectedItems, HttpSession session) {
+        // Kiểm tra và log dữ liệu để đảm bảo rằng selectedItems chứa sanPhamID
+        System.out.println("Du lieu selectedItems trong API /save-selected-items:");
+        selectedItems.forEach(item -> System.out.println(item));
+
         session.setAttribute("selectedItems", selectedItems);
         return ResponseEntity.ok().build(); // Trả về phản hồi HTTP 200 OK
     }
@@ -61,6 +65,14 @@ public class GioHangController {
         List<ThongTinNhanHang> thongTinNhanHangList = thongTinNhanHangService.getThongTinNhanHangByKhachHangID(khachHang.getId());
         model.addAttribute("receivers", thongTinNhanHangList);
 
+        // Tìm đối tượng thông tin nhận hàng có tên giống tên người dùng
+        ThongTinNhanHang matchedReceiver = thongTinNhanHangList.stream()
+            .filter(receiver -> receiver.getTenNguoiNhan().equalsIgnoreCase(nguoiDung.getTenNguoiDung()))
+            .findFirst()
+            .orElse(null);
+
+        model.addAttribute("matchedReceiver", matchedReceiver);
+
         // Lấy danh sách voucher từ service
         List<Voucher> vouchers = voucherService.getAllVouchers();
         model.addAttribute("vouchers", vouchers);
@@ -82,31 +94,14 @@ public class GioHangController {
             totalPrice += quantity * price;
         }
 
+        // Kiểm tra dữ liệu selectedItems
+        System.out.println("Du lieu selectedItems trong API order:");
+        selectedItems.forEach(item -> System.out.println(item));
+
         model.addAttribute("cart", selectedItems);
         model.addAttribute("totalPrice", totalPrice);
 
         // Trả về giao diện xemhoadon.html
         return "clientTemplate/xemhoadon";
-    }
-
-    @PostMapping("/save-order-info")
-    public String saveOrderInfo(HttpSession session, @RequestParam String tenNguoiDung, @RequestParam String email,
-                                @RequestParam String sdt, @RequestParam String diachi, Model model) {
-        NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
-        if (nguoiDung == null) {
-            model.addAttribute("error", "Bạn cần đăng nhập để lưu thông tin.");
-            return "redirect:/dangnhap";
-        }
-
-        // Cập nhật thông tin người dùng
-        nguoiDung.setTenNguoiDung(tenNguoiDung);
-        nguoiDung.setEmail(email);
-        nguoiDung.setSdt(sdt);
-        nguoiDung.setDiaChi(diachi);
-
-        session.setAttribute("nguoiDung", nguoiDung); // Lưu lại thông tin vào session
-
-        model.addAttribute("nguoiDung", nguoiDung);
-        return "redirect:/order"; // Quay lại trang xem hóa đơn
     }
 }

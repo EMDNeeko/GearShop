@@ -40,41 +40,17 @@
 
     <!-- Nội dung thanh toán -->
     <div class="container my-5">
-        <div class="row">
-            <!-- Phần 1: Thông tin khách hàng -->
-            <div class="col-lg-6 col-md-6">
-                <h4>Thông tin khách hàng</h4>
-                <p><strong>Tên khách hàng:</strong> <span th:text="${nguoiDung.tenNguoiDung}">Tên khách hàng</span></p>
-                <p><strong>Địa chỉ:</strong> <span th:text="${nguoiDung.diaChi}">Địa chỉ</span></p>
-                <p><strong>Số điện thoại:</strong> <span th:text="${nguoiDung.sdt}">Số điện thoại</span></p>
-                <p><strong>Email:</strong> <span th:text="${nguoiDung.email}">Email</span></p>
-            </div>
 
-            <!-- Phần 1: Hiển thị tổng tiền trong thông tin sản phẩm -->
-            <div class="col-lg-6 col-md-6">
-                <h4>Thông tin sản phẩm</h4>
-                <table class="table table-bordered">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Sản phẩm</th>
-                            <th>Số lượng và giá tiền</th>
-                            <th>Thành tiền</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cartTableBody">
-                        <!-- Sản phẩm sẽ được thêm vào đây bằng JavaScript -->
-                    </tbody>
-                </table>
-                <h5 class="text-end" id="totalPriceProduct">Tổng tiền: 0₫</h5>
-            </div>
-        </div>
-
-        <!-- Phần 3: Thanh toán -->
+        <!-- Phần 1: Thanh toán -->
         <div class="row mt-5" id="checkout_box">
             <div class="col-md-6 border text-center p-2">
                 <p class="fw-bold">Cách 1: Mở app ngân hàng và quét mã QR</p>
                 <div class="my-2">
-                    <img id="qrCodeImage" src="" class="img-fluid" alt="QR Code" style="max-width:500px; max-height:500px;">
+                    <img id="qrCodeImage" 
+                         th:src="'https://qr.sepay.vn/img?bank=MBBank&acc=0904708498&template=compact&amount=' + ${qrAmount} + '&des=' + ${hoaDon.maHoaDon}" 
+                         class="img-fluid" 
+                         alt="QR Code" 
+                         style="max-width:500px; max-height:500px;">
                     <br>
                     <span>Trạng thái: Chờ thanh toán...
                         <div class="spinner-border" role="status">
@@ -103,11 +79,11 @@
                         </tr>
                         <tr>
                             <td>Số tiền: </td>
-                            <td><b><span id="totalPriceTransfer"></span>đ</b></td>
+                            <td><b><span th:text="${qrAmount}"></span>đ</b></td>
                         </tr>
                         <tr>
                             <td>Nội dung CK: </td>
-                            <td><b><span id="orderContent">Chuyển khoản online</span></b></td>
+                            <td><b><span th:text="${hoaDon.maHoaDon}">Chuyển khoản online</span></b></td>
                         </tr>
                     </tbody>
                 </table>
@@ -205,7 +181,7 @@
 
             // Hiển thị mã QR thanh toán
             const qrCodeImageElement = document.getElementById('qrCodeImage');
-            qrCodeImageElement.src = `https://qr.sepay.vn/img?bank=MBBank&acc=0904708498&template=compact&amount=${qrAmount}&des=Chuyen%20khoan%20online`;
+            // qrCodeImageElement.src = `https://qr.sepay.vn/img?bank=MBBank&acc=0904708498&template=compact&amount=${qrAmount}&des=Chuyen%20khoan%20online`;
         });
     </script>
 </body>

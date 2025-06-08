@@ -1,5 +1,6 @@
 package com.example.gearshop.controller;
 
+import com.example.gearshop.model.HoaDon;
 import com.example.gearshop.model.KhachHang;
 import com.example.gearshop.model.NguoiDung;
 import com.example.gearshop.repository.KhachHangRepository;
@@ -26,41 +27,22 @@ public class ThanhToanController {
 
     @GetMapping("/checkout")
     public String showCheckoutPage(HttpSession session, Model model) {
-        // Lấy thông tin người dùng từ session
-        NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
-        model.addAttribute("nguoiDung", nguoiDung);
-
-        // Lấy thông tin khách hàng từ session
-        KhachHang khachHang = (KhachHang) session.getAttribute("khachHang");
-        if (khachHang == null) {
-            model.addAttribute("error", "Bạn cần đăng nhập với vai trò khách hàng để thanh toán.");
-            return "redirect:/dangnhap";
+        // Lấy hóa đơn từ session hoặc model
+        HoaDon hoaDon = (HoaDon) session.getAttribute("hoaDon");
+        if (hoaDon == null) {
+            model.addAttribute("error", "Không tìm thấy hóa đơn.");
+            return "redirect:/order";
         }
-        model.addAttribute("khachHang", khachHang);
 
-        // Lấy giỏ hàng từ session
-        List<Map<String, Object>> cart = (List<Map<String, Object>>) session.getAttribute("cart");
-        model.addAttribute("cart", cart);
+        // Tính tổng tiền từ hóa đơn
+        double totalPrice = hoaDon.getTongGia().doubleValue();
+        int qrAmount = (int)(totalPrice / 1000); // Giá trị QR dựa trên tổng tiền
 
-        // Tính tổng tiền từ giỏ hàng
-        double totalPrice = 0;
-        if (cart != null) {
-            for (Map<String, Object> item : cart) {
-                int quantity = (int) item.get("quantity");
-                double price = (double) item.get("price");
-                totalPrice += quantity * price;
-            }
-        }
-        model.addAttribute("totalPrice", totalPrice);
-
-        // Tạo mã hóa đơn mới với giá trị QR động là 5000
-        double qrAmount = 5000; // Giá trị cố định cho mã QR
-        String maHoaDon = "HD" + String.valueOf(System.currentTimeMillis()).substring(6);
-        // hoaDonService.createHoaDon(maHoaDon, khachHang, totalPrice);
-
-        // Truyền mã hóa đơn và giá trị QR vào giao diện
+        // Lưu qrAmount vào session
         model.addAttribute("qrAmount", qrAmount);
-        model.addAttribute("orderId", maHoaDon);
+
+        // Truyền hóa đơn vào giao diện
+        model.addAttribute("hoaDon", hoaDon);
 
         return "clientTemplate/thanhtoan";
     }

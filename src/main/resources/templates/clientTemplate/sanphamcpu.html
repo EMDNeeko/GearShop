@@ -21,7 +21,7 @@
 
             <div class="d-flex align-items-center">
                 <!-- Giỏ hàng dropdown -->
-                <div class="dropdown">
+                <div class="dropdown" th:if="${nguoiDung != null}">
                     <a href="#" class="btn btn-warning position-relative dropdown-toggle" id="cartDropdown"
                         aria-expanded="false">
                         <i class="bi bi-cart-fill"></i> <!-- Biểu tượng giỏ hàng -->

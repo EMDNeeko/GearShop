@@ -2,15 +2,25 @@ package com.example.gearshop.controller;
 
 import com.example.gearshop.model.*;
 import com.example.gearshop.service.SanPhamService;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/chitietsanpham")
@@ -97,5 +107,34 @@ public class ChiTietSanPhamController {
 
         // Trả về template chi tiết sản phẩm
         return "clientTemplate/chitietsanpham";
+    }
+
+    @PostMapping("/add-to-cart")
+    public ResponseEntity<Void> addToCart(@RequestBody Map<String, Object> product, HttpSession session) {
+        List<Map<String, Object>> cart = (List<Map<String, Object>>) session.getAttribute("cart");
+        if (cart == null) {
+            cart = new ArrayList<>();
+        }
+
+        // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
+        int sanPhamID = Integer.parseInt(product.get("sanPhamID").toString());
+        int quantity = Integer.parseInt(product.get("quantity").toString());
+
+        Optional<Map<String, Object>> existingProduct = cart.stream()
+            .filter(item -> Integer.parseInt(item.get("sanPhamID").toString()) == sanPhamID)
+            .findFirst();
+
+        if (existingProduct.isPresent()) {
+            existingProduct.get().put("quantity", Integer.parseInt(existingProduct.get().get("quantity").toString()) + quantity);
+        } else {
+            cart.add(product);
+        }
+
+        // Lưu giỏ hàng vào session
+        System.out.println("Cac san pham trong gio hang:");
+        cart.forEach(item -> System.out.println(item));
+        session.setAttribute("cart", cart);
+
+        return ResponseEntity.ok().build();
     }
 }

@@ -20,7 +20,7 @@
         <div th:if="${param.logout}" class="text-success">Đăng xuất thành công</div>
         <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
         <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
-        <form th:action="@{/dangnhap}" method="post">
+        <form id="loginForm" th:action="@{/dangnhap}" method="post">
             <div class="mb-3">
                 <label for="username" class="form-label">Tên đăng nhập</label>
                 <input type="text" id="username" name="tenDangNhap" class="form-control"
@@ -133,7 +133,7 @@
 </footer>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const loginForm = document.querySelector('form[th\\:action="@{/dangnhap}"]');
+        const loginForm = document.getElementById('loginForm');
 
         if (loginForm) {
             loginForm.addEventListener('submit', function () {

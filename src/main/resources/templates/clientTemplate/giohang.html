@@ -112,6 +112,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            // localStorage.removeItem('cart'); // Xóa giỏ hàng khỏi localStorage sau khi tải trang
             const cartTableBody = document.getElementById('cartTableBody');
             const selectAllCheckbox = document.getElementById('selectAll');
 
