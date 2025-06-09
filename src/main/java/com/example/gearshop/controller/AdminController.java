@@ -59,11 +59,6 @@ public class AdminController {
         return "adminTemplate/trangchuadmin";
     }
 
-    @GetMapping("/thongke")
-    public String thongKe() {
-        return "adminTemplate/thongke"; // nếu bạn cũng đặt các file khác ở adminTemplate
-    }
-
     @GetMapping("/nguoidung")
     public String danhSachNguoiDung(
             @RequestParam(name = "roleFilter", defaultValue = "all") String roleFilter,
@@ -176,11 +171,6 @@ public class AdminController {
             }
         }
         return "redirect:/admin/nguoidung/" + id;
-    }
-
-    @GetMapping("/hoadon")
-    public String hoaDon() {
-        return "adminTemplate/hoadon";
     }
 
 }
