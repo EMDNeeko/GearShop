@@ -18,6 +18,7 @@ public class YeuCauHoanTien {
     private String maYeuCauHoanTien;
     private LocalDateTime ngayYeuCau;
     private String trangThai;
+    private String loiNhan;
 
     @ManyToOne
     @JoinColumn(name = "hoaDonChiTietID")

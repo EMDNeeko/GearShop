@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "hoadon")
 public class HoaDon {
 
     @Id
@@ -18,8 +19,9 @@ public class HoaDon {
 
     private String maHoaDon;
 
-    // Lưu ID của thông tin nhận hàng thay vì ánh xạ đối tượng
-    private int thongTinNhanHangID;
+    @ManyToOne
+    @JoinColumn(name = "thongTinNhanHangID", nullable = false)
+    private ThongTinNhanHang thongTinNhanHang;
 
     private LocalDateTime ngayTao;
 

@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ThongTinNhanHangRepository extends JpaRepository<ThongTinNhanHang, Integer> {
     List<ThongTinNhanHang> findByKhachHangID(int khachHangID);
+
+    ThongTinNhanHang findById(int id);
 }

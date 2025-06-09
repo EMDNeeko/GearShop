@@ -178,11 +178,6 @@ public class AdminController {
         return "redirect:/admin/nguoidung/" + id;
     }
 
-    @GetMapping("/hoantien")
-    public String hoanTien() {
-        return "adminTemplate/hoantien";
-    }
-
     @GetMapping("/hoadon")
     public String hoaDon() {
         return "adminTemplate/hoadon";

@@ -11,4 +11,6 @@ import java.util.Optional;
 @Repository
 public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
     Optional<HoaDon> findTopByOrderByIdDesc();
+
+    List<HoaDon> findByThongTinNhanHang_KhachHangID(Integer khachHangID);
 }

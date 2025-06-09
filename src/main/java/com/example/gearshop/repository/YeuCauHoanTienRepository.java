@@ -1,6 +1,8 @@
 package com.example.gearshop.repository;
 
+import java.lang.foreign.Linker.Option;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -15,4 +17,5 @@ public interface YeuCauHoanTienRepository extends JpaRepository<YeuCauHoanTien, 
 
     List<YeuCauHoanTien> findAll();
 
+    Optional findById(Integer id);
 }

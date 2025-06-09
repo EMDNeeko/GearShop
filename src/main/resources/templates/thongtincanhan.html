@@ -37,8 +37,10 @@
                         thông tin cơ bản</a>
                     <a href="#doimatkhau" class="list-group-item list-group-item-action" data-bs-toggle="list">Đổi mật
                         khẩu</a>
-                    <a href="#lichsumuahang" class="list-group-item list-group-item-action" data-bs-toggle="list"
-                        th:if="${isKhachHang}">Lịch sử mua hàng</a>
+                    <a th:href="@{/lichsugiaodich}" class="list-group-item list-group-item-action"
+                        th:if="${isKhachHang}">
+                        Lịch sử mua hàng
+                    </a>
                 </div>
             </div>
 
