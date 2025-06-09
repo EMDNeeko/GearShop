@@ -183,9 +183,4 @@ public class AdminController {
         return "adminTemplate/hoadon";
     }
 
-    @GetMapping("/khuyenmai")
-    public String khuyenMai() {
-        return "adminTemplate/khuyenmai";
-    }
-
 }

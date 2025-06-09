@@ -67,7 +67,7 @@ public class NguoiDungService {
 
             // Tạo mới NhanVien
             NhanVien nv = new NhanVien();
-            nv.setMaNhanVien("NV" + nd.getId());
+            nv.setMaNhanVien(String.format("NV%04d", nd.getId()));
             nv.setNguoiDung(nd);
             nv.setGhiChu("Cấp quyền admin từ hệ thống");
             nhanVienRepository.save(nv);
@@ -84,7 +84,7 @@ public class NguoiDungService {
 
             // Có thể gán lại thành khách hàng nếu muốn
             KhachHang kh = new KhachHang();
-            kh.setMaKhachHang("KH" + nd.getId());
+            kh.setMaKhachHang(String.format("KH%04d", nd.getId()));
             kh.setNguoiDung(nd);
             kh.setGhiChu("Gỡ quyền admin");
             kh.setDoanhThu(0L);
