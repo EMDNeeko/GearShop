@@ -52,10 +52,9 @@ public class GiaoDichController {
             return "redirect:/dangnhap"; // Hoặc trả về lỗi 401
         }
         KhachHang khachHang = khachHangRepository.findByNguoiDung_Id(nguoiDung.getId()).get();
-
-        List<HoaDon> hoaDons = hoaDonService.getHoaDonsByKhachHangID(khachHang.getId(), sortBy, trangThai);
-
-        model.addAttribute("hoaDons", hoaDons);
+        KhachHang khachHangs = (KhachHang) session.getAttribute("khachHang");
+        List<HoaDon> hoaDoncuaKhachHang = hoaDonService.getHoaDonsByKhachHangID(khachHangs.getId(), sortBy, trangThai);
+        model.addAttribute("hoaDonKhachHang", hoaDoncuaKhachHang);
         model.addAttribute("selectedSort", sortBy);
         model.addAttribute("selectedTrangThai", trangThai);
 

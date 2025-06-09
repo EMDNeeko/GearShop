@@ -196,6 +196,7 @@ public class HomeController {
             boolean isNhanVien = nhanVienRepo.findByNguoiDung_Id(nguoiDung.getId()).isPresent();
             System.out.println("isKhachHang: " + isKhachHang);
             System.out.println("isNhanVien: " + isNhanVien);
+            System.out.println("Co nguoi dung: " + nguoiDung.getTenNguoiDung());
             model.addAttribute("isKhachHang", isKhachHang);
             model.addAttribute("isNhanVien", isNhanVien);
             return "/thongtincanhan";
