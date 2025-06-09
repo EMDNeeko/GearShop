@@ -19,6 +19,8 @@ import com.example.gearshop.repository.*;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -428,5 +430,20 @@ public class SanPhamService {
 
     public List<SanPham> timKiemSanPham(String keyword) {
         return sanPhamRepository.findByTenSanPhamContainingIgnoreCase(keyword);
+    }
+
+    public List<SanPham> getSanPhamTuongTu(SanPham sanPham) {
+        BigDecimal gia = sanPham.getGia();
+        BigDecimal khoangGia = gia.multiply(BigDecimal.valueOf(0.5)); // ±20%
+        BigDecimal minGia = gia.subtract(khoangGia);
+        BigDecimal maxGia = gia.add(khoangGia);
+
+        Pageable top6 = PageRequest.of(0, 6);
+        return sanPhamRepository.findSanPhamTuongTu(
+                sanPham.getLoaiSanPham().getId(),
+                sanPham.getId(),
+                minGia,
+                maxGia,
+                top6);
     }
 }

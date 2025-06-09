@@ -140,9 +140,28 @@
             </a>
         </div>
     </div>
-
-    <!-- Danh mục sản phẩm khuyến mãi -->
-    <h2 class="mb-4 border-bottom border-warning pb-2">Danh mục sản phẩm khuyến mãi</h2>
+    <!-- Danh mục sản phẩm khueyens nghị -->
+    <h2 class="mb-4 border-bottom border-warning pb-2">Danh mục sản phẩm dàn cho bạn</h2>
+    <div class="product-carousel">
+        <a th:each="sp : ${sanPhamGoiY}" th:href="@{/chitietsanpham/{id}(id=${sp.id})}" class="product-card">
+            <img th:src="@{/images/product/{img}(img=${sp.hinhAnh})}" alt="Ảnh sản phẩm" class="product-image">
+            <div class="product-name" th:text="${sp.tenSanPham}">Tên SP</div>
+            <div class="product-info" th:text="'Đã bán: ' + ${sp.daBan}">Đã bán</div>
+            <div class="product-price" th:text="${#numbers.formatDecimal(sp.gia, 0, 'COMMA', 0, 'POINT')} + '₫'">Giá
+            </div>
+        </a>
+    </div>
+    <!-- Danh mục sản phẩm vừa xem -->
+    <h2 class="mb-4 border-bottom border-warning pb-2">Danh mục sản phẩm vừa xem</h2>
+    <div class="product-carousel">
+        <a th:each="sp : ${danhSachSanPhamDaXem}" th:href="@{/chitietsanpham/{id}(id=${sp.id})}" class="product-card">
+            <img th:src="@{/images/product/{img}(img=${sp.hinhAnh})}" alt="Ảnh sản phẩm" class="product-image">
+            <div class="product-name" th:text="${sp.tenSanPham}">Tên SP</div>
+            <div class="product-info" th:text="'Đã bán: ' + ${sp.daBan}">Đã bán</div>
+            <div class="product-price" th:text="${#numbers.formatDecimal(sp.gia, 0, 'COMMA', 0, 'POINT')} + '₫'">Giá
+            </div>
+        </a>
+    </div>
     <!-- Danh mục sản phẩm theo loại -->
     <h2 class="mb-4 border-bottom border-warning pb-2">Linh kiện ngon bổ rẻ</h2>
     <section th:each="entry : ${sanPhamTheoLoai}">

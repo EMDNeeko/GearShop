@@ -25,6 +25,8 @@ import java.security.Principal;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
 
@@ -66,6 +68,29 @@ public class HomeController {
             model.addAttribute("nguoiDung", nguoiDung); // Thêm thông tin người dùng vào model
         }
 
+        List<Integer> sanPhamDaXem = (List<Integer>) session.getAttribute("sanPhamDaXem");
+
+        List<SanPham> danhSachSanPhamDaXem = new ArrayList<>();
+        if (sanPhamDaXem != null && !sanPhamDaXem.isEmpty()) {
+            List<Long> sanPhamDaXemLong = new ArrayList<>();
+            for (Integer id : sanPhamDaXem) {
+                sanPhamDaXemLong.add(id.longValue());
+            }
+            danhSachSanPhamDaXem = new ArrayList<>(sanPhamRepo.findAllById(sanPhamDaXemLong));
+            // Nếu cần giữ thứ tự như Session lưu (id mới nhất ở đầu)
+            danhSachSanPhamDaXem.sort(Comparator.comparingInt(sp -> sanPhamDaXem.indexOf(sp.getId().intValue())));
+        }
+
+        model.addAttribute("danhSachSanPhamDaXem", danhSachSanPhamDaXem);
+
+        SanPham sanPhamMoiXem = (SanPham) session.getAttribute("sanPhamMoiXem");
+        List<SanPham> sanPhamGoiY = new ArrayList<>();
+
+        if (sanPhamMoiXem != null) {
+            sanPhamGoiY = sanPhamService.getSanPhamTuongTu(sanPhamMoiXem);
+        }
+
+        model.addAttribute("sanPhamGoiY", sanPhamGoiY);
         // Thêm các sản phẩm bán chạy vào model
         model.addAttribute("sanPhamBanChay", sanPhamRepo.findTop10ByOrderByDaBanDesc());
 

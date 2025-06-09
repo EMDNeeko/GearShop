@@ -30,7 +30,7 @@ public class ChiTietSanPhamController {
     private SanPhamService sanPhamService;
 
     @GetMapping("/{id}")
-    public String chiTietSanPham(@PathVariable("id") Integer id, Model model) {
+    public String chiTietSanPham(@PathVariable("id") Integer id, Model model, HttpSession session) {
         // Lấy thông tin sản phẩm từ cơ sở dữ liệu dựa trên ID
         SanPham sanPham = sanPhamService.getSanPhamById(id);
 
@@ -105,6 +105,24 @@ public class ChiTietSanPhamController {
             model.addAttribute("motaList", motaList);
         }
 
+        List<Integer> sanPhamDaXem = (List<Integer>) session.getAttribute("sanPhamDaXem");
+        if (sanPhamDaXem == null) {
+            sanPhamDaXem = new ArrayList<>();
+        }
+
+        // Nếu chưa có trong danh sách thì thêm vào
+        if (!sanPhamDaXem.contains(sanPham.getId())) {
+            sanPhamDaXem.add(0, sanPham.getId()); // thêm vào đầu để hiển thị gần nhất trước
+            // Nếu chỉ muốn lưu 10 sản phẩm gần nhất:
+            if (sanPhamDaXem.size() > 10) {
+                sanPhamDaXem = sanPhamDaXem.subList(0, 10);
+            }
+        }
+        session.setAttribute("sanPhamDaXem", sanPhamDaXem);
+
+        // Lưu riêng sản phẩm mới xem nhất để gợi ý
+        session.setAttribute("sanPhamMoiXem", sanPham);
+
         // Trả về template chi tiết sản phẩm
         return "clientTemplate/chitietsanpham";
     }
@@ -121,11 +139,12 @@ public class ChiTietSanPhamController {
         int quantity = Integer.parseInt(product.get("quantity").toString());
 
         Optional<Map<String, Object>> existingProduct = cart.stream()
-            .filter(item -> Integer.parseInt(item.get("sanPhamID").toString()) == sanPhamID)
-            .findFirst();
+                .filter(item -> Integer.parseInt(item.get("sanPhamID").toString()) == sanPhamID)
+                .findFirst();
 
         if (existingProduct.isPresent()) {
-            existingProduct.get().put("quantity", Integer.parseInt(existingProduct.get().get("quantity").toString()) + quantity);
+            existingProduct.get().put("quantity",
+                    Integer.parseInt(existingProduct.get().get("quantity").toString()) + quantity);
         } else {
             cart.add(product);
         }
