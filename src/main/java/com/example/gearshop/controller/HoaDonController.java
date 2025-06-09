@@ -5,6 +5,8 @@ import com.example.gearshop.model.ThongTinNhanHang;
 import com.example.gearshop.model.KhachHang;
 import com.example.gearshop.service.HoaDonService;
 import com.example.gearshop.service.ThongTinNhanHangService;
+import com.example.gearshop.model.Voucher;
+import com.example.gearshop.service.VoucherService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,8 +26,11 @@ public class HoaDonController {
     @Autowired
     private HoaDonService hoaDonService;
 
+    @Autowired
+    private VoucherService voucherService;
+
     @PostMapping("/save-order")
-    public String saveOrder(HttpSession session, @RequestParam int thongTinNhanHangID, Model model) {
+    public String saveOrder(HttpSession session, @RequestParam int thongTinNhanHangID, @RequestParam(required = false) String voucherCode, Model model) {
         KhachHang khachHang = (KhachHang) session.getAttribute("khachHang");
         if (khachHang == null) {
             model.addAttribute("error", "Không tìm thấy thông tin khách hàng.");
@@ -38,27 +43,28 @@ public class HoaDonController {
             return "redirect:/order";
         }
 
-        System.out.println("Du lieu gio hang:");
-        cart.forEach(item -> System.out.println(item));
-
         double tongGia = 0;
         for (Map<String, Object> item : cart) {
-            Object quantityObj = item.get("quantity");
-            Object priceObj = item.get("price");
-
-            if (quantityObj == null || priceObj == null) {
-                model.addAttribute("error", "Dữ liệu giỏ hàng không hợp lệ.");
-                return "redirect:/order";
-            }
-
-            int quantity = Integer.parseInt(quantityObj.toString());
-            double price = Double.parseDouble(priceObj.toString().replace(",", "").replace("₫", "").trim());
+            int quantity = Integer.parseInt(item.get("quantity").toString());
+            double price = Double.parseDouble(item.get("price").toString().replace(",", "").replace("₫", "").trim());
             tongGia += quantity * price;
         }
 
-        // Lưu hóa đơn trước
-        HoaDon hoaDon = hoaDonService.createHoaDon("HD", thongTinNhanHangID, tongGia);
-        System.out.println("Da tao hoa don voi ID: " + hoaDon.getId());
+        // Áp dụng giảm giá từ voucher (nếu có)
+        double tongGiaSauGiam = tongGia;
+        if (voucherCode != null && !voucherCode.isEmpty()) {
+            Voucher voucher = voucherService.getVoucherByMaVoucher(voucherCode);
+            if (voucher != null) {
+                tongGiaSauGiam -= (tongGia * voucher.getGiamGiaTheoPhanTram() / 100);
+            }
+        }
+
+        tongGiaSauGiam = Math.max(tongGiaSauGiam, 0); // Đảm bảo tổng tiền không âm
+
+        // Lưu hóa đơn
+        HoaDon hoaDon = hoaDonService.createHoaDon("HD", thongTinNhanHangID, tongGiaSauGiam);
+        System.out.println("Đã tạo hóa đơn với ID: " + hoaDon.getId());
+        System.out.println("Tổng tiền sau giảm: " + hoaDon.getTongGia());
 
         // Lưu chi tiết hóa đơn
         for (Map<String, Object> item : cart) {
@@ -77,8 +83,10 @@ public class HoaDonController {
 
             hoaDonService.createHoaDonChiTiet("HDCT", hoaDon.getId(), sanPhamID, quantity, quantity * price);
         }
-        System.out.println("Da luu chi tiet hoa don voi ID: " + hoaDon.getId());
+        System.out.println("Đã lưu chi tiết hóa đơn với ID: " + hoaDon.getId());
+
         model.addAttribute("hoaDon", hoaDon);
-        return "clientTemplate/thanhtoan";
+        session.setAttribute("hoaDon", hoaDon);
+        return "redirect:/checkout";
     }
 }

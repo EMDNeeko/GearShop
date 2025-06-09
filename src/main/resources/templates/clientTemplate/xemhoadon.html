@@ -44,8 +44,8 @@
             đặt hàng</button>
         </div>
         <form id="orderForm" method="post" th:action="@{/save-order}">
-          <input type="hidden" id="thongTinNhanHangID" name="thongTinNhanHangID"
-            th:value="${matchedReceiver != null ? matchedReceiver.id : ''}" />
+          <input type="hidden" id="voucherCode" name="voucherCode" value="" />
+          <input type="hidden" id="thongTinNhanHangID" name="thongTinNhanHangID" th:value="${matchedReceiver != null ? matchedReceiver.id : ''}" />
           <div class="mb-3">
             <label for="tenNguoiNhan" class="form-label">Tên người nhận</label>
             <input type="text" id="tenNguoiNhan" name="tenNguoiNhan" class="form-control"
@@ -111,8 +111,7 @@
           Tổng tiền sau giảm: <span id="discountedTotal">0₫</span>
         </h4>
         <div class="text-center mt-4">
-          <button type="button" id="saveOrderButton" class="btn btn-success"
-            onclick="document.getElementById('orderForm').submit();">Lưu hóa đơn</button>
+            <button type="button" id="saveOrderButton" class="btn btn-success" onclick="submitOrderForm()">Lưu hóa đơn</button>
         </div>
       </div>
     </div>
@@ -387,6 +386,16 @@
         document.getElementById('discountedTotal').textContent = totalPriceElement.textContent;
       }
     });
+
+    function submitOrderForm() {
+      // Lấy giá trị của trường voucherCode
+      const voucherCode = document.getElementById('voucherSelect').value;
+      // Gán giá trị cho trường ẩn voucherCode trong form
+      document.getElementById('voucherCode').value = voucherCode;
+
+      // Gửi form
+      document.getElementById('orderForm').submit();
+    }
   </script>
 </body>
 
