@@ -41,6 +41,27 @@
     <!-- Nội dung thanh toán -->
     <div class="container my-5">
 
+        <!-- Box hiển thị khi thanh toán thành công (ẩn ban đầu) -->
+        <div id="success_pay_box" class="p-2 text-center pt-3 border border-2 mt-5" style="display:none">
+            <h2 class="text-success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-check-circle text-success" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
+                </svg>
+                Thanh toán thành công
+            </h2>
+            <p class="text-center text-success">
+                Chúng tôi đã nhận được thanh toán, đơn hàng sẽ được chuyển đến quý khách trong thời gian sớm nhất!
+            </p>
+            <button onclick="clearCartAndRedirect()" class="btn btn-primary mt-3">Về trang chủ</button>
+        </div>
+
+        <!-- Box thông báo lỗi/thông báo khác (ẩn ban đầu) -->
+        <div id="error_pay_box" class="alert alert-warning mt-4 text-center" style="display:none">
+            <!-- Nội dung lỗi sẽ được cập nhật bằng JavaScript -->
+            <button onclick="clearCartAndRedirect()" class="btn btn-primary mt-3">Về trang chủ</button>
+        </div>
+
         <!-- Phần 1: Thanh toán -->
         <div class="row mt-5" id="checkout_box">
             <div class="col-md-6 border text-center p-2">
@@ -79,22 +100,15 @@
                         </tr>
                         <tr>
                             <td>Số tiền: </td>
-                            <td><b><span th:text="${qrAmount}"></span>đ</b></td>
+                            <td><b><span id="transferAmount" th:text="${qrAmount * 1000}"></span>đ</b></td>
                         </tr>
                         <tr>
                             <td>Nội dung CK: </td>
-                            <td><b><span th:text="${hoaDon.maHoaDon}">Chuyển khoản online</span></b></td>
+                            <td><b><span id="invoiceDesc" th:text="${hoaDon.maHoaDon}">Chuyển khoản online</span></b></td>
                         </tr>
                     </tbody>
                 </table>
                 <p class="bg-light p-2">Lưu ý: Vui lòng giữ nguyên nội dung chuyển khoản để hệ thống tự động xác nhận thanh toán</p>
-            </div>
-        </div>
-
-        <!-- Nút Đặt hàng -->
-        <div class="row mt-4">
-            <div class="col-md-12 text-center">
-                <button class="btn btn-success btn-lg">Đặt hàng</button>
             </div>
         </div>
     </div>
@@ -136,121 +150,110 @@
 
     <!-- Bootstrap JS Bundle CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="@{/js/api.js}"></script>
-    <script src="@{/js/record.js}"></script>
+
+    <!-- API JS -->
+    <script src="/js/api.js"></script>
 
     <!-- Custom JS -->
     <script>
+        function clearCartAndRedirect() {
+            // Xóa session giỏ hàng trong localStorage
+            localStorage.removeItem('cart');
+            localStorage.removeItem('cartItemCount');
+
+            // Điều hướng về trang chủ
+            window.location.href = 'http://localhost:8181/';
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             const cartTableBody = document.getElementById('cartTableBody');
             const totalPriceProductElement = document.getElementById('totalPriceProduct');
             const totalPriceTransferElement = document.getElementById('totalPriceTransfer');
 
-            // Hàm hiển thị giỏ hàng
-            function renderCart() {
-                cartTableBody.innerHTML = '';
-                let totalPrice = 0;
+            var pay_status = 'unpaid';
 
-                cart.forEach((item) => {
-                    // Chuyển đổi giá trị price từ string (có dấu phẩy) sang number
-                    item.price = parseFloat(item.price.replace(/,/g, ''));
+            async function checkPaymentStatus() {
+                if (pay_status === 'unpaid') {
+                    try {
+                        const records = await checkPaidFromSheet(); // Hàm lấy dữ liệu từ Google Sheet
+                        const invoiceDesc = document.getElementById('invoiceDesc').textContent; // Lấy giá trị từ trường Nội dung CK
+                        console.log(`Mã hóa đơn: ${invoiceDesc}`);
 
-                    const row = document.createElement('tr');
-                    const itemTotal = item.quantity * item.price;
-                    totalPrice += itemTotal;
+                        // Trích xuất phần số từ mã hóa đơn (ví dụ: HD059 -> 59)
+                        const orderId = parseInt(invoiceDesc.match(/\d+/)[0]); // Sử dụng regex để lấy phần số
+                        console.log(`Order ID: ${orderId}`);
+                        console.log('Kiểu dữ liệu của orderId:', typeof orderId);
 
-                    row.innerHTML = `
-                        <td>${item.name}</td>
-                        <td>${item.quantity} x ${item.price.toLocaleString()}₫</td>
-                        <td>${itemTotal.toLocaleString()}₫</td>
-                    `;
-                    cartTableBody.appendChild(row);
-                });
+                        const transferAmountElement = document.getElementById('transferAmount');
+                        const qrAmount = parseFloat(transferAmountElement.textContent.replace(/,/g, '').replace('đ', '').trim()) / 1000; // Lấy giá trị và chia cho 1000
+                        console.log(`Số tiền trong QR: ${qrAmount}`);
 
-                // Gán giá trị tổng tiền vào cả hai phần tử
-                totalPriceProductElement.textContent = `Tổng tiền: ${totalPrice.toLocaleString()}₫`;
-                totalPriceTransferElement.textContent = totalPrice.toLocaleString();
-            }
+                        for (let record of records) {
+                            if (record.content.includes(invoiceDesc)) {
+                                const recordAmount = Math.abs(record.amount);
+                                console.log(`Kiểm tra thanh toán cho hóa đơn: ${invoiceDesc}, Số tiền: ${recordAmount}`);
 
-            // Hiển thị giỏ hàng khi tải trang
-            renderCart();
+                                // Nếu số tiền chính xác
+                                if (recordAmount === qrAmount) {
+                                    await fetch('/update-payment-status', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ orderId: orderId, amount: recordAmount })
+                                    });
+                                    document.getElementById('checkout_box').style.display = 'none';
+                                    document.getElementById('error_pay_box').style.display = 'none';
+                                    document.getElementById('success_pay_box').style.display = 'block';
+                                    pay_status = 'paid';
+                                    break;
+                                }
 
-            // Lấy giá trị tổng tiền từ DOM
-            const totalPrice = parseFloat(totalPriceProductElement.textContent.replace(/[^0-9]/g, '')); // Loại bỏ ký tự không phải số
-            const qrAmount = Math.floor(totalPrice / 1000); // Giảm giá trị xuống 1000 lần
+                                // Nếu chuyển khoản THỪA
+                                else if (recordAmount > qrAmount) {
+                                    const extra = recordAmount - qrAmount;
+                                    await fetch('/update-payment-status-extra-missing', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ orderId: orderId, type: 'extra', amount: recordAmount })
+                                    });
+                                    document.getElementById('checkout_box').style.display = 'none';
+                                    document.getElementById('success_pay_box').style.display = 'none';
+                                    document.getElementById('error_pay_box').innerHTML =
+                                        `<p>Số tiền chuyển khoản thừa: ${(extra * 1000).toLocaleString()}đ. Hệ thống sẽ hoàn lại phần dư cho bạn!</p>
+                                         <button onclick="clearCartAndRedirect()" class="btn btn-primary mt-3">Về trang chủ</button>`;
+                                    document.getElementById('error_pay_box').style.display = 'block';
+                                    pay_status = 'extra';
+                                    break;
+                                }
 
-            // Hiển thị mã QR thanh toán
-            const qrCodeImageElement = document.getElementById('qrCodeImage');
-            // qrCodeImageElement.src = `https://qr.sepay.vn/img?bank=MBBank&acc=0904708498&template=compact&amount=${qrAmount}&des=Chuyen%20khoan%20online`;
-        });
-
-        var pay_status = 'Unpaid';
-
-        async function checkPaymentStatus() {
-            if (pay_status === 'Unpaid') {
-                try {
-                    const records = await checkPaidFromSheet(); // Hàm giả định để lấy dữ liệu thanh toán
-                    const invoiceDesc = `HDPTITSHOP${orderId}`; // Mã đơn hàng cần kiểm tra
-
-                    for (let record of records) {
-                        if (record.content.includes(invoiceDesc)) {
-                            const recordAmount = Math.abs(record.amount);
-
-                            // Nếu số tiền chính xác
-                            if (recordAmount === totalAmount) {
-                                await fetch('/update-payment-status', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ orderId, amount: recordAmount })
-                                });
-                                document.getElementById('checkout_box').style.display = 'none';
-                                document.getElementById('error_pay_box').style.display = 'none';
-                                document.getElementById('success_pay_box').style.display = 'block';
-                                pay_status = 'Paid';
-                                break;
-                            }
-
-                            // Nếu chuyển khoản THỪA
-                            else if (recordAmount > totalAmount) {
-                                const extra = recordAmount - totalAmount;
-                                await fetch('/update-payment-status-extra-missing', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ orderId, type: 'extra', amount: recordAmount })
-                                });
-                                document.getElementById('checkout_box').style.display = 'none';
-                                document.getElementById('error_pay_box').style.display = 'none';
-                                document.getElementById('success_pay_box').innerHTML =
-                                    `Số tiền chuyển khoản thừa: ${extra.toLocaleString()}đ. Hệ thống sẽ hoàn lại phần dư cho bạn!`;
-                                pay_status = 'Extra';
-                                break;
-                            }
-
-                            // Nếu chuyển khoản THIẾU
-                            else if (recordAmount < totalAmount) {
-                                const missing = totalAmount - recordAmount;
-                                await fetch('/update-payment-status-extra-missing', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ orderId, type: 'missing', amount: recordAmount })
-                                });
-                                document.getElementById('checkout_box').style.display = 'none';
-                                document.getElementById('error_pay_box').innerHTML =
-                                    `Số tiền chuyển khoản thiếu: ${missing.toLocaleString()}đ. Bạn có thể trả phần còn lại khi nhận hàng.`;
-                                pay_status = 'Missing';
-                                break;
+                                // Nếu chuyển khoản THIẾU
+                                else if (recordAmount < qrAmount) {
+                                    const missing = qrAmount - recordAmount;
+                                    await fetch('/update-payment-status-extra-missing', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ orderId: orderId, type: 'missing', amount: recordAmount })
+                                    });
+                                    document.getElementById('checkout_box').style.display = 'none';
+                                    document.getElementById('success_pay_box').style.display = 'none';
+                                    document.getElementById('error_pay_box').innerHTML =
+                                        `<p>Số tiền chuyển khoản thiếu: ${(missing * 1000).toLocaleString()}đ. Bạn có thể trả phần còn lại khi nhận hàng!</p>
+                                         <button onclick="clearCartAndRedirect()" class="btn btn-primary mt-3">Về trang chủ</button>`;
+                                    document.getElementById('error_pay_box').style.display = 'block';
+                                    pay_status = 'missing';
+                                    break;
+                                }
                             }
                         }
+                    } catch (error) {
+                        console.error('Lỗi trong checkPaymentStatus:', error);
                     }
-                } catch (error) {
-                    console.error('Lỗi trong checkPaymentStatus:', error);
                 }
             }
-        }
 
-        // Gọi kiểm tra mỗi 10 giây
-        setInterval(checkPaymentStatus, 10000);
+            // Gọi kiểm tra mỗi 10 giây
+            setInterval(checkPaymentStatus, 10000);
+        });
     </script>
 </body>
 

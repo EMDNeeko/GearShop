@@ -40,7 +40,7 @@ public class HoaDonService {
         hoaDon.setThongTinNhanHang(thongTinNhanHangRepository.findById(thongTinNhanHangID));
         hoaDon.setNgayTao(java.time.LocalDateTime.now());
         hoaDon.setTongGia(BigDecimal.valueOf(tongGia));
-        hoaDon.setTrangThaiDonHang("Chưa thanh toán");
+        hoaDon.setTrangThaiDonHang("Unpaid");
 
         return hoaDonRepository.save(hoaDon); // Lưu vào cơ sở dữ liệu
     }
@@ -123,5 +123,22 @@ public class HoaDonService {
             result.add(new SanPhamTrongHoaDonDTO(chiTiet, sanPham));
         }
         return result;
+    }
+
+    public HoaDon save(HoaDon hoaDon) {
+        if (hoaDon == null || hoaDon.getId() == null) {
+            throw new IllegalArgumentException("HoaDon or HoaDon ID must not be null");
+        }
+
+        Optional<HoaDon> existingHoaDon = hoaDonRepository.findById(hoaDon.getId());
+        if (existingHoaDon.isPresent()) {
+            HoaDon updatedHoaDon = existingHoaDon.get();
+            updatedHoaDon.setTrangThaiDonHang(hoaDon.getTrangThaiDonHang()); // Cập nhật trạng thái đơn hàng
+            updatedHoaDon.setTongGia(hoaDon.getTongGia()); // Cập nhật tổng giá (nếu cần)
+            updatedHoaDon.setNgayTao(hoaDon.getNgayTao()); // Cập nhật ngày tạo (nếu cần)
+            return hoaDonRepository.save(updatedHoaDon); // Lưu vào cơ sở dữ liệu
+        } else {
+            throw new IllegalArgumentException("HoaDon with ID " + hoaDon.getId() + " does not exist");
+        }
     }
 }
