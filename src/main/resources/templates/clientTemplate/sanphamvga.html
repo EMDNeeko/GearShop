@@ -20,55 +20,6 @@
             </form>
 
             <div class="d-flex align-items-center">
-                <!-- Giỏ hàng dropdown -->
-                <div class="dropdown" th:if="${nguoiDung != null}">
-                    <a href="#" class="btn btn-warning position-relative dropdown-toggle" id="cartDropdown"
-                        aria-expanded="false">
-                        <i class="bi bi-cart-fill"></i> <!-- Biểu tượng giỏ hàng -->
-                        <span id="cartItemCount"
-                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            0 <!-- Số lượng mặt hàng -->
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="cartDropdown"
-                        style="min-width: 300px;">
-                        <li>
-                            <h6 class="dropdown-header">Giỏ hàng</h6>
-                        </li>
-                        <li>
-                            <div id="cartItems" class="mb-3">
-                                <p class="text-muted">Giỏ hàng của bạn đang trống.</p>
-                            </div>
-                        </li>
-                        <li class="d-flex justify-content-center">
-                            <a href="/cart" class="btn btn-primary btn-sm">Xem giỏ hàng</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- Thong bao-->
-                <div class="dropdown me-3" th:if="${nguoiDung != null}">
-                    <a href="#" class="btn btn-light position-relative dropdown-toggle" id="thongBaoDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-bell"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                            th:text="${soLuongThongBaoChuaDoc}">0</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="thongBaoDropdown"
-                        style="min-width: 300px;">
-                        <li>
-                            <h6 class="dropdown-header">Thông báo</h6>
-                        </li>
-                        <li th:if="${#lists.isEmpty(thongBaos)}">
-                            <p class="text-muted">Không có thông báo mới.</p>
-                        </li>
-                        <li th:each="tb : ${thongBaos}">
-                            <div class="dropdown-item">
-                                <div th:text="${tb.noiDung}"></div>
-                                <small th:text="${#temporals.format(tb.ngayThongBao, 'dd/MM/yyyy HH:mm')}"></small>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
                 <!-- Nếu đã đăng nhập -->
                 <div class="dropdown" th:if="${nguoiDung != null}">
                     <a class="custom-dropdown dropdown-toggle" href="#" role="button" id="userDropdown"

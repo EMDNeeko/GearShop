@@ -248,6 +248,7 @@
             const cartItemCount = document.getElementById('cartItemCount');
             // Kiểm tra cờ resetCart trong localStorage
             const resetCart = localStorage.getItem('resetCart');
+            console.log('Reset Cart:', resetCart);
 
             if (resetCart === 'true') {
                 // Reset giỏ hàng nếu vừa đăng nhập

@@ -25,45 +25,59 @@ public class HoaDonController {
     private HoaDonService hoaDonService;
 
     @PostMapping("/save-order")
-    public String saveOrder(HttpSession session, @RequestParam String tenNguoiNhan, @RequestParam String sdt, @RequestParam String email,
-                            @RequestParam String diachi, Model model) {
-        // Lấy thông tin khách hàng từ session
+    public String saveOrder(HttpSession session, @RequestParam int thongTinNhanHangID, Model model) {
         KhachHang khachHang = (KhachHang) session.getAttribute("khachHang");
         if (khachHang == null) {
             model.addAttribute("error", "Không tìm thấy thông tin khách hàng.");
             return "redirect:/order";
         }
 
-        // Lưu thông tin nhận hàng
-        ThongTinNhanHang thongTinNhanHang = thongTinNhanHangService.createThongTinNhanHang(khachHang.getId(), tenNguoiNhan, email, sdt, diachi);
-
-        // Lấy giỏ hàng từ session
         List<Map<String, Object>> cart = (List<Map<String, Object>>) session.getAttribute("selectedItems");
         if (cart == null || cart.isEmpty()) {
             model.addAttribute("error", "Giỏ hàng của bạn đang trống.");
             return "redirect:/order";
         }
 
-        // Tính tổng giá trị hóa đơn
+        System.out.println("Du lieu gio hang:");
+        cart.forEach(item -> System.out.println(item));
+
         double tongGia = 0;
         for (Map<String, Object> item : cart) {
-            int quantity = Integer.parseInt(item.get("quantity").toString());
-            double price = Double.parseDouble(item.get("price").toString().replace(",", "").replace("₫", "").trim());
+            Object quantityObj = item.get("quantity");
+            Object priceObj = item.get("price");
+
+            if (quantityObj == null || priceObj == null) {
+                model.addAttribute("error", "Dữ liệu giỏ hàng không hợp lệ.");
+                return "redirect:/order";
+            }
+
+            int quantity = Integer.parseInt(quantityObj.toString());
+            double price = Double.parseDouble(priceObj.toString().replace(",", "").replace("₫", "").trim());
             tongGia += quantity * price;
         }
 
-        // Lưu hóa đơn
-        HoaDon hoaDon = hoaDonService.createHoaDon("HD", thongTinNhanHang.getId(), tongGia);
+        // Lưu hóa đơn trước
+        HoaDon hoaDon = hoaDonService.createHoaDon("HD", thongTinNhanHangID, tongGia);
+        System.out.println("Da tao hoa don voi ID: " + hoaDon.getId());
 
         // Lưu chi tiết hóa đơn
         for (Map<String, Object> item : cart) {
-            int quantity = Integer.parseInt(item.get("quantity").toString());
-            double price = Double.parseDouble(item.get("price").toString().replace(",", "").replace("₫", "").trim());
-            int sanPhamID = Integer.parseInt(item.get("sanPhamID").toString());
+            Object quantityObj = item.get("quantity");
+            Object priceObj = item.get("priceNumeric");
+            Object sanPhamIDObj = item.get("sanPhamID");
+
+            if (quantityObj == null || priceObj == null || sanPhamIDObj == null) {
+                model.addAttribute("error", "Dữ liệu giỏ hàng không hợp lệ.");
+                return "redirect:/order";
+            }
+
+            int quantity = Integer.parseInt(quantityObj.toString());
+            double price = Double.parseDouble(priceObj.toString().replace(",", "").replace("₫", "").trim());
+            int sanPhamID = Integer.parseInt(sanPhamIDObj.toString());
+
             hoaDonService.createHoaDonChiTiet("HDCT", hoaDon.getId(), sanPhamID, quantity, quantity * price);
         }
-
-        // Chuyển hướng đến giao diện thanh toán
+        System.out.println("Da luu chi tiet hoa don voi ID: " + hoaDon.getId());
         model.addAttribute("hoaDon", hoaDon);
         return "clientTemplate/thanhtoan";
     }

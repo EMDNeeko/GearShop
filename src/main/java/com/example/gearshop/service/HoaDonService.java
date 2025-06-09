@@ -20,31 +20,34 @@ public class HoaDonService {
     private HoaDonChiTietRepository hoaDonChiTietRepository;
 
     public HoaDon createHoaDon(String maHoaDonPrefix, int thongTinNhanHangID, double tongGia) {
-        // Tự động tăng mã hóa đơn
-        String maHoaDon = generateMaHoaDon(maHoaDonPrefix);
+        String maHoaDon = generateMaHoaDon(maHoaDonPrefix); // Tạo mã hóa đơn tự động
 
         HoaDon hoaDon = new HoaDon();
         hoaDon.setMaHoaDon(maHoaDon);
-        hoaDon.setThongTinNhanHangID(thongTinNhanHangID); // Lưu ID thay vì đối tượng
+        hoaDon.setThongTinNhanHangID(thongTinNhanHangID);
         hoaDon.setNgayTao(java.time.LocalDateTime.now());
         hoaDon.setTongGia(BigDecimal.valueOf(tongGia));
         hoaDon.setTrangThaiDonHang("Chưa thanh toán");
 
-        return hoaDonRepository.save(hoaDon);
+        return hoaDonRepository.save(hoaDon); // Lưu vào cơ sở dữ liệu
     }
 
     public HoaDonChiTiet createHoaDonChiTiet(String maHoaDonChiTietPrefix, int hoaDonID, int sanPhamID, int soLuongSP, double thanhTien) {
-        // Tự động tăng mã hóa đơn chi tiết
-        String maHoaDonChiTiet = generateMaHoaDonChiTiet(maHoaDonChiTietPrefix);
+        System.out.println("Dang luu chi tiet hoa don...");
+        System.out.println("Ma hoa don chi tiet: " + maHoaDonChiTietPrefix);
+        System.out.println("Hoa don ID: " + hoaDonID);
+        System.out.println("San pham ID: " + sanPhamID);
+        System.out.println("So luong: " + soLuongSP);
+        System.out.println("Thanh tien: " + thanhTien);
 
         HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
-        hoaDonChiTiet.setMaHoaDonChiTiet(maHoaDonChiTiet);
+        hoaDonChiTiet.setMaHoaDonChiTiet(maHoaDonChiTietPrefix);
         hoaDonChiTiet.setHoaDonID(hoaDonID);
         hoaDonChiTiet.setSanPhamID(sanPhamID);
         hoaDonChiTiet.setSoLuongSP(soLuongSP);
         hoaDonChiTiet.setThanhTien(BigDecimal.valueOf(thanhTien));
 
-        return hoaDonChiTietRepository.save(hoaDonChiTiet);
+        return hoaDonChiTietRepository.save(hoaDonChiTiet); // Lưu vào cơ sở dữ liệu
     }
 
     private String generateMaHoaDon(String prefix) {
@@ -65,5 +68,9 @@ public class HoaDonService {
             return prefix + String.format("%03d", lastNumber + 1);
         }
         return prefix + "001";
+    }
+
+    public HoaDon findById(int id) {
+        return hoaDonRepository.findById(id).orElse(null);
     }
 }
