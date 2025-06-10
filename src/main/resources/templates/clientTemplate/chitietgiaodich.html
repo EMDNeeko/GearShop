@@ -134,8 +134,9 @@
                     <td th:text="${#numbers.formatDecimal(item.sanPham.gia, 0, 'COMMA', 0, 'POINT')}"></td>
                     <td th:text="${#numbers.formatDecimal(item.hoaDonChiTiet.thanhTien, 0, 'COMMA', 0, 'POINT')}"></td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                            th:attr="data-bs-target='#modalYeuCauHoanTien' + ${item.hoaDonChiTiet.id}">
+                        <button type="button" class="btn btn-sm btn-danger" th:attr="data-bs-toggle='modal', 
+                     data-bs-target='#modalYeuCauHoanTien' + ${item.hoaDonChiTiet.id}"
+                            th:disabled="${!(hoaDon.trangThaiDonHang == 'Paid' or hoaDon.trangThaiDonHang == 'Extra')}">
                             Yêu cầu hoàn tiền
                         </button>
                     </td>

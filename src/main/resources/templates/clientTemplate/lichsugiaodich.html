@@ -111,11 +111,14 @@
                 <label for="trangThai" class="form-label">Trạng thái:</label>
                 <select id="trangThai" name="trangThai" class="form-select">
                     <option th:selected="${selectedTrangThai == null}" value="">--Tất cả--</option>
-                    <option th:selected="${selectedTrangThai == 'Chua thanh toan'}" value="Chua thanh toan">Chưa thanh
+                    <option th:selected="${selectedTrangThai == 'Unpaid'}" value="Unpaid">Chưa thanh
                         toán</option>
-                    <option th:selected="${selectedTrangThai == 'Thanh toan thieu'}" value="Thanh toan thieu">Thanh toán
+                    <option th:selected="${selectedTrangThai == 'Missing'}" value="Missing">Thanh toán
                         thiếu</option>
-                    <option th:selected="${selectedTrangThai == 'Thanh toan du'}" value="Thanh toan du">Thanh toán đủ
+                    <option th:selected="${selectedTrangThai == 'Paid'}" value="Paid">Thanh toán đủ
+                    </option>
+                    <option th:selected="${selectedTrangThai == 'Extra'}" value="Extra">Thanh toán
+                        thừa
                     </option>
                 </select>
             </div>

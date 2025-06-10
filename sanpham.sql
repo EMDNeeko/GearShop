@@ -32,7 +32,6 @@ create table thongTinNhanHang(
     diachi nvarchar(200),
     foreign key (khachHangID) references khachHang(ID)
 );
--- drop table thongTinNhanHang;
 
 create table gioHang(
 	ID int primary key auto_increment not null,
@@ -40,7 +39,6 @@ create table gioHang(
 	thongTinNhanHangID int,
     foreign key (thongTinNhanHangID) references thongTinNhanHang(ID)
 );
--- drop table gioHang;
 
 create table thuongHieu(
 	ID int primary key auto_increment not null,
@@ -53,7 +51,6 @@ create table loaiSanPham(
     maLoaiSP nvarchar(10),
     tenLoaiSanPham nvarchar(20)
 );
-
 create table sanPham(
 	ID int primary key auto_increment not null,
     maSanPham nvarchar(10),
@@ -79,7 +76,6 @@ create table gioHangChiTiet(
     foreign key (gioHangID) references gioHang(ID),
     foreign key (sanPhamID) references sanPham(ID)
 );
--- drop table gioHangChiTiet;
 
 create table hoaDon(
 	ID int primary key auto_increment not null,
@@ -90,7 +86,6 @@ create table hoaDon(
     trangThaiDonHang nvarchar(20),
     foreign key (thongTinNhanHangID) references khachHang(ID)
 );
--- drop table HoaDon;
 
 create table hoaDonChiTiet(
 	ID int primary key auto_increment not null,
@@ -102,7 +97,6 @@ create table hoaDonChiTiet(
     foreign key (hoaDonID) references hoaDon(ID),
     foreign key (sanPhamID) references sanPham(ID)
 );
--- drop table hoaDonChiTiet;
 
 create table yeuCauHoanTien(
 	ID int primary key auto_increment not null,
@@ -112,7 +106,6 @@ create table yeuCauHoanTien(
     trangThai nvarchar(15),
     foreign key (hoaDonChiTietID) references hoaDonChiTiet(ID)
 );
--- drop table yeuCauHoanTien;
 
 create table voucher(
 	ID int primary key auto_increment not null,
@@ -270,6 +263,12 @@ create table phieuBaoHanh(
     foreign key (khachHangID) references khachhang(ID),
     foreign key (sanPhamID) references sanpham(ID)
 );
+
+
+
+
+
+ALTER TABLE hoaDonChiTiet ADD CONSTRAINT fk_hoaDon FOREIGN KEY (hoaDonID) REFERENCES HoaDon(ID);
 alter table nhanVien add column nguoiDungID int;
 alter table khachHang add column nguoiDungID int;
 alter table nhanVien add constraint nhanvien_ibfk_1 foreign key (nguoiDungID) references nguoiDung(ID);
@@ -289,14 +288,5 @@ alter table sanphamcase modify column mota nvarchar(500);
 alter table sanphammanhinh modify column mota nvarchar(500);
 alter table sanphamvga modify column chipGPU nvarchar(50);
 alter table sanphamocung modify column dungluong nvarchar(10);
-
-alter table sanpham add column daBan int default 0;
-alter table sanphammainboard drop column san_phamid;
-alter table sanphamcpu drop column san_phamid;
-alter table sanphamram drop column san_phamid;
-alter table sanphamvga drop column san_phamid;
-alter table sanphamcooler drop column san_phamid;
-alter table sanphampsu drop column san_phamid;
-alter table sanphamocung drop column san_phamid;
-alter table sanphammanhinh drop column san_phamid;
-alter table sanphamcase drop column san_phamid;
+alter table sanpham add column daBan int;
+alter table yeucauhoantien add column loiNhan nvarchar(500);

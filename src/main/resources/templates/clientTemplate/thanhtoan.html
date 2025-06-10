@@ -20,7 +20,8 @@
         <div class="container d-flex align-items-center justify-content-between">
             <div class="fs-3 fw-bold"><a class="no-underline" href="/">PGearShop</a></div>
             <form class="flex-grow-1 mx-3" role="search" action="/timkiem" method="get">
-                <input class="form-control" type="search" name="q" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
+                <input class="form-control" type="search" name="q" placeholder="Tìm kiếm sản phẩm..."
+                    aria-label="Search">
             </form>
             <div class="d-flex align-items-center">
                 <a href="/dangnhap" th:if="${nguoiDung == null}" class="btn btn-outline-light">Đăng nhập</a>
@@ -44,9 +45,11 @@
         <!-- Box hiển thị khi thanh toán thành công (ẩn ban đầu) -->
         <div id="success_pay_box" class="p-2 text-center pt-3 border border-2 mt-5" style="display:none">
             <h2 class="text-success">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-check-circle text-success" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor"
+                    class="bi bi-check-circle text-success" viewBox="0 0 16 16">
                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
+                    <path
+                        d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
                 </svg>
                 Thanh toán thành công
             </h2>
@@ -67,11 +70,9 @@
             <div class="col-md-6 border text-center p-2">
                 <p class="fw-bold">Cách 1: Mở app ngân hàng và quét mã QR</p>
                 <div class="my-2">
-                    <img id="qrCodeImage" 
-                         th:src="'https://qr.sepay.vn/img?bank=MBBank&acc=0904708498&template=compact&amount=' + ${qrAmount} + '&des=' + ${hoaDon.maHoaDon}" 
-                         class="img-fluid" 
-                         alt="QR Code" 
-                         style="max-width:500px; max-height:500px;">
+                    <img id="qrCodeImage"
+                        th:src="'https://qr.sepay.vn/img?bank=MBBank&acc=0815935068&template=compact&amount=' + ${qrAmount} + '&des=' + ${hoaDon.maHoaDon}"
+                        class="img-fluid" alt="QR Code" style="max-width:500px; max-height:500px;">
                     <br>
                     <span>Trạng thái: Chờ thanh toán...
                         <div class="spinner-border" role="status">
@@ -84,19 +85,19 @@
             <div class="col-md-6 border p-2">
                 <p class="fw-bold">Cách 2: Chuyển khoản thủ công theo thông tin</p>
                 <div class="text-center">
-                    <img src="https://qr.sepay.vn/assets/img/banklogo/MB.png" class="img-fluid"
-                        style="max-height:50px" alt="MB Bank">
+                    <img src="https://qr.sepay.vn/assets/img/banklogo/MB.png" class="img-fluid" style="max-height:50px"
+                        alt="MB Bank">
                     <p class="fw-bold">Ngân hàng MBBank</p>
                 </div>
                 <table class="table">
                     <tbody>
                         <tr>
                             <td>Chủ tài khoản: </td>
-                            <td><b>Ngọ Văn Trọng</b></td>
+                            <td><b>Cam Hải Đăng</b></td>
                         </tr>
                         <tr>
                             <td>Số TK: </td>
-                            <td><b>0904708498</b></td>
+                            <td><b>0815935068</b></td>
                         </tr>
                         <tr>
                             <td>Số tiền: </td>
@@ -104,11 +105,13 @@
                         </tr>
                         <tr>
                             <td>Nội dung CK: </td>
-                            <td><b><span id="invoiceDesc" th:text="${hoaDon.maHoaDon}">Chuyển khoản online</span></b></td>
+                            <td><b><span id="invoiceDesc" th:text="${hoaDon.maHoaDon}">Chuyển khoản online</span></b>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
-                <p class="bg-light p-2">Lưu ý: Vui lòng giữ nguyên nội dung chuyển khoản để hệ thống tự động xác nhận thanh toán</p>
+                <p class="bg-light p-2">Lưu ý: Vui lòng giữ nguyên nội dung chuyển khoản để hệ thống tự động xác nhận
+                    thanh toán</p>
             </div>
         </div>
     </div>
@@ -130,14 +133,16 @@
                 <!-- Chính sách đổi trả -->
                 <div class="col-md-4 mb-3">
                     <h5>Chính sách đổi trả</h5>
-                    <p>Hỗ trợ đổi trả trong vòng <strong>7 ngày</strong> nếu sản phẩm bị lỗi kỹ thuật hoặc không đúng mô tả.
+                    <p>Hỗ trợ đổi trả trong vòng <strong>7 ngày</strong> nếu sản phẩm bị lỗi kỹ thuật hoặc không đúng mô
+                        tả.
                     </p>
                 </div>
 
                 <!-- Chính sách bảo hành -->
                 <div class="col-md-4 mb-3">
                     <h5>Bảo hành chính hãng</h5>
-                    <p>Tất cả sản phẩm đều được bảo hành chính hãng từ <strong>6 đến 36 tháng</strong> tùy loại. Hỗ trợ bảo
+                    <p>Tất cả sản phẩm đều được bảo hành chính hãng từ <strong>6 đến 36 tháng</strong> tùy loại. Hỗ trợ
+                        bảo
                         hành nhanh tại cửa hàng.</p>
                 </div>
             </div>
