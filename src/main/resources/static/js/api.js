@@ -1,5 +1,5 @@
-const API_KEY = 'HIXMOYFJ2SYSLE7INWTBDVEQVGC0FMNKATJIUQTRD6ZKU1CPFNX3AM5R4V6X9RPW';
-const SHEET_ID = '1AD_51pU_72TuEDkgaezQGaNNglbPuxNhtFJsw-0LCDM';
+const API_KEY = 'AIzaSyDdtIn7vzOY3IoPv6lMnz1F3fVHcDQj8RY';
+const SHEET_ID = '1hVzE3BPQ9yb5ecYtprBNor8JuLYUbYiBRTTCvnP5zY8';
 const RANGE = 'Trang tính1!A2:H'; // Bắt đầu từ hàng 2, bỏ hàng tiêu đề
 
 async function checkPaidFromSheet() {
