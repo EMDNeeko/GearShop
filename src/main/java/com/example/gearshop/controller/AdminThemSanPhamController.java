@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.util.StringUtils;
 
 import com.example.gearshop.model.NguoiDung;
+import com.example.gearshop.model.NhanVien;
 import com.example.gearshop.model.SanPham;
 import com.example.gearshop.model.SanPhamCPU;
 import com.example.gearshop.model.SanPhamCase;
@@ -85,6 +86,7 @@ public class AdminThemSanPhamController {
             Model model) {
 
         NguoiDung nguoiDung = (NguoiDung) session.getAttribute("nguoiDung");
+        NhanVien nhanVien = (NhanVien) session.getAttribute("nhanVien");
         String fileName = StringUtils.cleanPath(hinhAnhFile.getOriginalFilename());
         if (!hinhAnhFile.isEmpty()) {
             try {
@@ -105,7 +107,7 @@ public class AdminThemSanPhamController {
         }
         SanPham sanPham = sanPhamService.themSanPhamChung(tenSanPham, sanPhamService.sinhMaSanPham(), fileName,
                 thuongHieuID, loaiSPID,
-                tonKho, giaBan, nguoiDung);
+                tonKho, giaBan, nhanVien.getNguoiDung());
 
         switch (loaiSPID) {
             case 1: // MainBoard
